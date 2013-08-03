@@ -1,0 +1,958 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     36617,        949]
+NotebookOptionsPosition[     35558,        910]
+NotebookOutlinePosition[     35992,        927]
+CellTagsIndexPosition[     35949,        924]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[StyleBox["B\[EAcute]zier Curves", "Title"]], "Section",
+ CellChangeTimes->{{3.577103988318655*^9, 3.5771040305504723`*^9}, {
+   3.57710410690022*^9, 3.5771041156351023`*^9}, {3.577104208849555*^9, 
+   3.577104306793725*^9}, {3.577104338293253*^9, 3.5771043871407633`*^9}, {
+   3.57710488423298*^9, 3.577105033306075*^9}, {3.577105091423009*^9, 
+   3.577105206238522*^9}, {3.5771054013909273`*^9, 3.577105447929204*^9}, {
+   3.577105581505411*^9, 3.577105597649827*^9}, {3.577105987419663*^9, 
+   3.577105989902701*^9}, {3.577106038747733*^9, 3.577106052502103*^9}, {
+   3.5771062316625233`*^9, 3.577106297410474*^9}, {3.577106350039898*^9, 
+   3.577106416216774*^9}, {3.577106492166287*^9, 3.577106609937608*^9}, {
+   3.577106770283598*^9, 3.5771068618630877`*^9}, {3.577106915090502*^9, 
+   3.5771069537122507`*^9}, {3.577106986619996*^9, 3.5771070521573143`*^9}, {
+   3.5771070946790648`*^9, 3.577107231124159*^9}, {3.5771073549815807`*^9, 
+   3.577107516532655*^9}, {3.5771077677718697`*^9, 3.5771078030708923`*^9}, {
+   3.577108352038233*^9, 3.577108421936071*^9}, {3.577108528479808*^9, 
+   3.577108534642935*^9}, {3.5818478436251993`*^9, 3.581847916894459*^9}, {
+   3.58435446500425*^9, 3.5843544945153103`*^9}, 3.584355020236141*^9}],
+
+Cell[TextData[{
+ StyleBox["This interactive notebook explores B", "Subsubtitle"],
+ "\[EAcute]",
+ StyleBox["zier curves.  These are parametric curves which have applications \
+in animation, font design, computer graphics, and other related fields.  In \
+general a B", "Subsubtitle"],
+ "\[EAcute]zier curve of order ",
+ StyleBox["n ",
+  FontSlant->"Italic"],
+ "is decribed by ",
+ StyleBox["n + 1",
+  FontSlant->"Italic"],
+ " control points, ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["P", "1"], TraditionalForm]]],
+ StyleBox[" ",
+  FontSlant->"Italic"],
+ "through ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["P", 
+     RowBox[{"n", " ", "+", " ", "1"}]], "."}], TraditionalForm]]],
+ "  The first and last control points are the endpoints of the curve; the \
+intermediate control points do not generally lie on the curve."
+}], "Text",
+ CellChangeTimes->{{3.5843546985334883`*^9, 3.5843547017874327`*^9}, {
+   3.584354842459642*^9, 3.5843548904240017`*^9}, {3.584354924423018*^9, 
+   3.584354949654529*^9}, 3.5843550242042503`*^9, {3.584355071438843*^9, 
+   3.584355088314749*^9}, {3.58435515296948*^9, 3.5843551908994417`*^9}, {
+   3.584355247230735*^9, 3.584355299325151*^9}, {3.584355372236373*^9, 
+   3.584355386187304*^9}, {3.584355439363875*^9, 3.584355452306451*^9}, {
+   3.584355495936248*^9, 3.584355581142331*^9}, {3.584355921305135*^9, 
+   3.5843559432391157`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Cubic B\[EAcute]zier Curves", "Section",
+ CellChangeTimes->{{3.584356272637302*^9, 3.584356303494952*^9}, {
+   3.584356372435131*^9, 3.5843563884988413`*^9}, 3.5843566241397*^9}],
+
+Cell["\<\
+This demonstrates the cubic B\[EAcute]zer curve.  The four control points may \
+be moved to alter the shape of the cuve.\
+\>", "Text",
+ CellChangeTimes->{{3.584356316375093*^9, 3.584356347207971*^9}, {
+  3.584356628889841*^9, 3.584356629393861*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"boundaries", " ", "and", " ", "starting", " ", "points"}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"xMin", " ", "=", " ", "0"}], ";"}], " ", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMax", " ", "=", " ", "2"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMin", " ", "=", " ", 
+     RowBox[{"-", "1"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMax", " ", "=", " ", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"startingPoints", " ", "=", " ", 
+     RowBox[{"{", " ", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.5", ",", " ", "0.5"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.5", ",", "0.75"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"2", ",", " ", "0.25"}], "}"}]}], " ", "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "general", " ", "formula", " ", "for", " ", "cubic", " ", "Bezier", " ", 
+      "with", " ", "4", " ", "guide", " ", "points"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"b", "[", "t_", "]"}], " ", ":=", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", " ", "-", " ", 
+           RowBox[{"t", "^", "3"}]}], ")"}], 
+         RowBox[{"pts", "[", 
+          RowBox[{"[", "1", "]"}], "]"}]}], " ", "+", " ", 
+        RowBox[{"3", " ", "t", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", " ", "-", " ", "t"}], ")"}], "^", "2"}], 
+         RowBox[{"pts", "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], " ", "+", " ", 
+        RowBox[{"3", 
+         RowBox[{"t", "^", "2"}], 
+         RowBox[{"(", 
+          RowBox[{"1", " ", "-", " ", "t"}], ")"}], 
+         RowBox[{"pts", "[", 
+          RowBox[{"[", "3", "]"}], "]"}]}], " ", "+", " ", 
+        RowBox[{
+         RowBox[{"t", "^", "3"}], " ", 
+         RowBox[{"pts", "[", 
+          RowBox[{"[", "4", "]"}], "]"}]}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "plot", " ", "parametric", " ", "cubic", " ", "Bezier", " ", "curve"}],
+        " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"ParametricPlot", "[", 
+       RowBox[{
+        RowBox[{"b", "[", "t", "]"}], ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"t", ",", " ", "0", ",", " ", "1"}], "}"}], ",", " ", 
+        RowBox[{"PlotRange", "\[Rule]", 
+         RowBox[{"{", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"xMin", ",", " ", "xMax"}], "}"}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"yMin", ",", " ", "yMax"}], " ", "}"}]}], " ", "}"}]}]}], 
+       "]"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{
+      "\"\<Cubic B\[EAcute]zier curve\>\"", ",", "Bold", ",", "Medium"}], 
+      "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"pts", ",", "startingPoints"}], "}"}], ",", "Locator"}], 
+      "}"}]}], "\[IndentingNewLine]", "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.5771052300472507`*^9, 3.577105235762151*^9}, {
+  3.577108290573162*^9, 3.57710829084628*^9}, {3.577117988833199*^9, 
+  3.577118005508051*^9}, {3.581847922321432*^9, 3.5818479517988873`*^9}, {
+  3.58435624483701*^9, 3.584356246984152*^9}, {3.584358351958427*^9, 
+  3.584358352267837*^9}, {3.584358580865294*^9, 3.5843585971677847`*^9}, {
+  3.584362314266266*^9, 3.584362407745928*^9}, {3.584362471500801*^9, 
+  3.584362476377461*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Cubic B\[EAcute]zier Curves: construction\
+\>", "Section",
+ CellChangeTimes->{{3.58435496941628*^9, 3.584354973029553*^9}, {
+   3.5843550534917593`*^9, 3.584355061682383*^9}, {3.5843556160077477`*^9, 
+   3.584355617947945*^9}, 3.584356267486166*^9, {3.58435637693267*^9, 
+   3.5843563836735*^9}}],
+
+Cell[TextData[{
+ "This demonstrates the framework used to construct the cubic B\[EAcute]zier \
+curve.  The endpoints of the curve are ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["P", "1"], TraditionalForm]]],
+ " and ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["P", "4"], TraditionalForm]]],
+ ", and the tangent lines to the curve at ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["P", "1"], TraditionalForm]]],
+ " and ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["P", "4"], " "}], TraditionalForm]]],
+ "pass through ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["P", "2"], TraditionalForm]]],
+ " and ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["P", "3"], TraditionalForm]]],
+ ", respectively.  The four control points may be moved, and the entire curve \
+is drawn as the paramater ",
+ StyleBox["t",
+  FontSlant->"Italic"],
+ " is varied from 0 to 1."
+}], "Text",
+ CellChangeTimes->{{3.58435559211982*^9, 3.584355622492899*^9}, {
+  3.5843556614449873`*^9, 3.584355662092013*^9}, {3.584355773420299*^9, 
+  3.584355820511201*^9}, {3.584355954037283*^9, 3.584356097796583*^9}, {
+  3.584356128296275*^9, 3.584356128624571*^9}, {3.5843561621610823`*^9, 
+  3.5843561924534397`*^9}, {3.584356637626052*^9, 3.584356644330954*^9}, {
+  3.584362447451664*^9, 3.5843624484720297`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"boundaries", " ", "and", " ", "starting", " ", "points"}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"xMin", " ", "=", " ", "0"}], ";"}], " ", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMax", " ", "=", " ", "2"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMin", " ", "=", " ", 
+     RowBox[{"-", "1"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMax", " ", "=", " ", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"startingPoints", " ", "=", " ", 
+     RowBox[{"{", " ", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.5", ",", " ", "0.5"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.5", ",", "0.75"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"2", ",", " ", "0.25"}], "}"}]}], " ", "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "general", " ", "formula", " ", "for", " ", "cubic", " ", "Bezier", " ", 
+      "with", " ", "4", " ", "guide", " ", "points"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"b", "[", "t_", "]"}], " ", ":=", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", " ", "-", " ", 
+           RowBox[{"t", "^", "3"}]}], ")"}], 
+         RowBox[{"pts", "[", 
+          RowBox[{"[", "1", "]"}], "]"}]}], " ", "+", " ", 
+        RowBox[{"3", " ", "t", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", " ", "-", " ", "t"}], ")"}], "^", "2"}], 
+         RowBox[{"pts", "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], " ", "+", " ", 
+        RowBox[{"3", 
+         RowBox[{"t", "^", "2"}], 
+         RowBox[{"(", 
+          RowBox[{"1", " ", "-", " ", "t"}], ")"}], 
+         RowBox[{"pts", "[", 
+          RowBox[{"[", "3", "]"}], "]"}]}], " ", "+", " ", 
+        RowBox[{
+         RowBox[{"t", "^", "3"}], " ", 
+         RowBox[{"pts", "[", 
+          RowBox[{"[", "4", "]"}], "]"}]}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "second", " ", "order", " ", "guide", " ", "points", " ", "located", 
+        " ", "between", " ", "initial", " ", "guide", " ", "points"}], " ", 
+       "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"secondPts", " ", "=", " ", 
+       RowBox[{"{", " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"pts", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "+", " ", 
+          RowBox[{"t", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"pts", "[", 
+              RowBox[{"[", "2", "]"}], "]"}], " ", "-", " ", 
+             RowBox[{"pts", "[", 
+              RowBox[{"[", "1", "]"}], "]"}]}], ")"}]}]}], ",", " ", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"pts", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], " ", "+", " ", 
+          RowBox[{"t", 
+           RowBox[{"(", " ", 
+            RowBox[{
+             RowBox[{"pts", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], " ", "-", " ", 
+             RowBox[{"pts", "[", 
+              RowBox[{"[", "2", "]"}], "]"}]}], ")"}]}]}], ",", " ", 
+         RowBox[{
+          RowBox[{"pts", "[", 
+           RowBox[{"[", "3", "]"}], "]"}], " ", "+", 
+          RowBox[{"t", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"pts", "[", 
+              RowBox[{"[", "4", "]"}], "]"}], " ", "-", " ", 
+             RowBox[{"pts", "[", 
+              RowBox[{"[", "3", "]"}], "]"}]}], ")"}]}]}]}], "}"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "third", " ", "order", " ", "guide", " ", "points", " ", "located", 
+        " ", "between", " ", "second", " ", "order", " ", "guide", " ", 
+        "points"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"thirdPts", " ", "=", " ", 
+       RowBox[{"{", " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"secondPts", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], " ", "+", " ", 
+          RowBox[{"t", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"secondPts", "[", 
+              RowBox[{"[", "2", "]"}], "]"}], " ", "-", " ", 
+             RowBox[{"secondPts", "[", 
+              RowBox[{"[", "1", "]"}], "]"}]}], ")"}]}]}], ",", " ", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"secondPts", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], " ", "+", " ", 
+          RowBox[{"t", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"secondPts", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], " ", "-", " ", 
+             RowBox[{"secondPts", "[", 
+              RowBox[{"[", "2", "]"}], "]"}]}], " ", ")"}]}]}]}], "}"}]}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "line", " ", "segments", " ", "connecting", " ", "guide", " ", 
+        "points"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"L1", " ", "=", " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"pts", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], ",", " ", 
+          RowBox[{"pts", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], ",", " ", 
+          RowBox[{"pts", "[", 
+           RowBox[{"[", "3", "]"}], "]"}], ",", " ", 
+          RowBox[{"pts", "[", 
+           RowBox[{"[", "4", "]"}], "]"}]}], " ", "}"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"L2", " ", "=", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"secondPts", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], ",", " ", 
+          RowBox[{"secondPts", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], ",", " ", 
+          RowBox[{"secondPts", "[", 
+           RowBox[{"[", "3", "]"}], "]"}]}], "}"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"L3", " ", "=", " ", 
+       RowBox[{"Line", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"thirdPts", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], ",", " ", 
+          RowBox[{"thirdPts", "[", 
+           RowBox[{"[", "2", "]"}], "]"}]}], "}"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "plot", " ", "intersections", " ", "of", " ", "line", " ", "segments", 
+        " ", "connecting", " ", "guide", " ", "points"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"pointsPlot1", " ", "=", " ", 
+       RowBox[{"ListPlot", "[", 
+        RowBox[{"secondPts", ",", " ", 
+         RowBox[{"PlotMarkers", "\[Rule]", "Automatic"}], ",", " ", 
+         RowBox[{"PlotStyle", "\[Rule]", "Blue"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"pointsPlot2", " ", "=", " ", 
+       RowBox[{"ListPlot", "[", 
+        RowBox[{"thirdPts", ",", " ", 
+         RowBox[{"PlotMarkers", "\[Rule]", "Automatic"}], ",", " ", 
+         RowBox[{"PlotStyle", "\[Rule]", "Purple"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"pointsPlot3", " ", "=", " ", 
+       RowBox[{"ListPlot", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"thirdPts", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], " ", "+", " ", 
+           RowBox[{"t", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"thirdPts", "[", 
+               RowBox[{"[", "2", "]"}], "]"}], " ", "-", " ", 
+              RowBox[{"thirdPts", "[", 
+               RowBox[{"[", "1", "]"}], "]"}]}], ")"}]}]}], "}"}], ",", " ", 
+         RowBox[{"PlotMarkers", "\[Rule]", "Automatic"}], ",", " ", 
+         RowBox[{"PlotStyle", "\[Rule]", "Red"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "plot", " ", "parametric", " ", "cubic", " ", "Bezier", " ", "curve"}],
+        " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"BezierPlot", " ", "=", " ", 
+       RowBox[{"ParametricPlot", "[", 
+        RowBox[{
+         RowBox[{"b", "[", "t", "]"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"t", ",", " ", "0", ",", " ", "1"}], "}"}], " ", ",", " ", 
+         RowBox[{"PlotStyle", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{"Black", ",", " ", "Thick"}], "}"}]}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Show", "[", 
+       RowBox[{
+        RowBox[{"Graphics", "[", 
+         RowBox[{"{", 
+          RowBox[{"Blue", ",", " ", "L1"}], "}"}], "]"}], ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"{", 
+          RowBox[{"Purple", ",", " ", "L2"}], "}"}], "]"}], ",", " ", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"{", 
+          RowBox[{"Red", ",", " ", "L3"}], "}"}], "]"}], ",", 
+        "\[IndentingNewLine]", "pointsPlot1", ",", "pointsPlot2", ",", 
+        "pointsPlot3", ",", "\[IndentingNewLine]", "BezierPlot", ",", " ", 
+        RowBox[{"PlotRange", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"xMin", ",", " ", "xMax"}], "}"}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"yMin", ",", " ", "yMax"}], "}"}]}], "}"}]}], " ", ",", 
+        " ", 
+        RowBox[{"Axes", "\[Rule]", "True"}]}], "]"}]}], ",", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{
+      "\"\<Cubic B\[EAcute]zier curve\>\"", ",", "Bold", ",", "Medium"}], 
+      "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"pts", ",", "startingPoints"}], "}"}], ",", "Locator"}], 
+      "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"t", ",", " ", "0.5", ",", " ", "\"\<parameter (t)\>\""}], 
+        "}"}], ",", " ", "0", ",", " ", "1"}], "}"}]}], "\[IndentingNewLine]",
+     "]"}]}]}]], "Input",
+ CellChangeTimes->{
+  3.584355585137081*^9, {3.584355659805748*^9, 3.5843556602459927`*^9}, {
+   3.5843561968463373`*^9, 3.5843562219137163`*^9}, 3.584356651530691*^9, {
+   3.5843583458382883`*^9, 3.584358346117186*^9}, {3.5843624177444057`*^9, 
+   3.58436244096065*^9}, {3.584362480626586*^9, 3.584362484875784*^9}, {
+   3.584363055656085*^9, 3.584363066976047*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Higher Order B\[EAcute]zier Curves", "Section",
+ CellChangeTimes->{{3.584357651044382*^9, 3.584357654448971*^9}, {
+  3.584358130614443*^9, 3.5843581343149548`*^9}}],
+
+Cell[TextData[{
+ "A general B\[EAcute]zier curve of order ",
+ StyleBox["n",
+  FontSlant->"Italic"],
+ " can be constructed from Bernstein polynomials as follows:\n\t",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"B", "(", "t", ")"}], " ", "=", " ", 
+    RowBox[{
+     UnderoverscriptBox["\[Sum]", 
+      RowBox[{"i", "=", "0"}], "n"], 
+     RowBox[{
+      SubscriptBox["\[Beta]", "i"], 
+      RowBox[{
+       SubscriptBox["b", 
+        RowBox[{"i", ",", " ", "n"}]], "(", "t", ")"}]}]}]}], 
+   TraditionalForm]],
+  FormatType->"TraditionalForm",
+  FontSize->16],
+ "\nWhere ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["b", 
+     RowBox[{"i", ",", " ", "n"}]], "(", "t", ")"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " is the Bernstein basis polynomial:\n\t",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SubscriptBox["b", 
+      RowBox[{"i", ",", " ", "n"}]], "(", "t", ")"}], " ", "=", " ", 
+    RowBox[{
+     RowBox[{"(", GridBox[{
+        {"n"},
+        {"i"}
+       }], ")"}], 
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{"1", " ", "-", " ", "t"}], ")"}], 
+      RowBox[{"n", " ", "-", " ", "i"}]], 
+     SuperscriptBox["t", "i"]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm",
+  FontSize->16],
+ "\nControl points may be moved, and Command-Click adds and removes control \
+points."
+}], "Text",
+ CellChangeTimes->{{3.584357691339295*^9, 3.584357753797937*^9}, {
+  3.5843578082798233`*^9, 3.5843578090208397`*^9}, {3.5843578747660847`*^9, 
+  3.584357877226466*^9}, {3.58435792903092*^9, 3.5843581100515623`*^9}, {
+  3.584359647062623*^9, 3.584359680096015*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"boundaries", " ", "and", " ", "starting", " ", "points"}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"xMin", " ", "=", " ", "0"}], ";"}], " ", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMax", " ", "=", " ", "2"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMin", " ", "=", " ", 
+     RowBox[{"-", "1"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMax", " ", "=", " ", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"startingPoints", " ", "=", " ", 
+     RowBox[{"{", " ", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.5", ",", " ", "0.5"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.2", ",", "0.75"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"1.5", ",", " ", "0.25"}], "}"}]}], " ", "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "function", " ", "defining", " ", "Bernstein", " ", "basis", " ", 
+     "polynomials"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Bernstein", "[", 
+      RowBox[{"i_", ",", " ", "n_", ",", " ", "t_"}], "]"}], " ", ":=", " ", 
+     RowBox[{
+      RowBox[{"Binomial", "[", 
+       RowBox[{"n", ",", " ", "i"}], "]"}], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", " ", "-", " ", "t"}], ")"}], "^", 
+        RowBox[{"(", 
+         RowBox[{"n", " ", "-", " ", "i"}], ")"}]}], " ", ")"}], 
+      RowBox[{"(", 
+       RowBox[{"t", "^", "i"}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "degree", " ", "is", " ", "one", " ", "less", " ", "than", " ", "the", 
+      " ", "number", " ", "of", " ", "points"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"n", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"Length", "[", "pts", "]"}], " ", "-", " ", "1"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{
+        "have", " ", "to", " ", "add", " ", "one", " ", "to", " ", "index", 
+         " ", "of", " ", "pts", " ", "since", " ", "arrays", " ", "in", " ", 
+         "Mathematica", " ", "are", " ", "1"}], "-", "based"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"b", "[", "t_", "]"}], " ", ":=", " ", 
+       RowBox[{"Sum", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"pts", "[", 
+           RowBox[{"[", 
+            RowBox[{"i", "+", "1"}], "]"}], "]"}], " ", 
+          RowBox[{"Bernstein", "[", 
+           RowBox[{"i", ",", " ", "n", ",", " ", "t"}], "]"}]}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", " ", "0", ",", "n"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"ParametricPlot", "[", 
+       RowBox[{
+        RowBox[{"b", "[", "t", "]"}], ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"t", ",", " ", "0", ",", " ", "1"}], "}"}], ",", " ", 
+        RowBox[{"PlotRange", "\[Rule]", 
+         RowBox[{"{", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"xMin", ",", " ", "xMax"}], "}"}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"yMin", ",", " ", "yMax"}], "}"}]}], " ", "}"}]}]}], " ", 
+       "]"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{"\"\<B\[EAcute]zier curve\>\"", ",", "Bold", ",", "Medium"}], 
+      "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"pts", ",", "startingPoints"}], "}"}], ",", "Locator", ",", 
+       " ", 
+       RowBox[{"LocatorAutoCreate", "\[Rule]", "True"}]}], "}"}]}], 
+    "\[IndentingNewLine]", "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.584358160630439*^9, 3.584358170934305*^9}, {
+   3.584358259588027*^9, 3.584358335973925*^9}, {3.5843583856222963`*^9, 
+   3.584358464529585*^9}, {3.58435853136891*^9, 3.5843585540048723`*^9}, {
+   3.584358744581295*^9, 3.584358749253824*^9}, {3.5843589040018787`*^9, 
+   3.5843589840618467`*^9}, {3.584359034851714*^9, 3.5843590673010693`*^9}, {
+   3.5843592628800697`*^9, 3.584359264950499*^9}, {3.584359556883905*^9, 
+   3.584359605307007*^9}, {3.584362465207664*^9, 3.584362495039917*^9}, {
+   3.584362525591052*^9, 3.584362553818202*^9}, 3.584363124190789*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Higher Order B\[EAcute]zier Curves: construction\
+\>", "Section",
+ CellChangeTimes->{{3.5843597070234537`*^9, 3.584359721203212*^9}, 
+   3.58436290300159*^9}],
+
+Cell["\<\
+This demonstrates the framework used to construct B\[EAcute]zier curves of \
+arbitary order.  As above, control points may be moved, and Command-Click \
+adds and removes control points\
+\>", "Text",
+ CellChangeTimes->{{3.5843629597581778`*^9, 3.584362997806044*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"boundaries", " ", "and", " ", "starting", " ", "points"}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"xMin", " ", "=", " ", "0"}], ";"}], " ", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMax", " ", "=", " ", "2"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMin", " ", "=", " ", 
+     RowBox[{"-", "1"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMax", " ", "=", " ", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"startingPoints", " ", "=", " ", 
+     RowBox[{"{", " ", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.5", ",", " ", "0.5"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.2", ",", "0.75"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"1.5", ",", " ", "0.25"}], "}"}]}], " ", "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "function", " ", "defining", " ", "Bernstein", " ", "basis", " ", 
+     "polynomials"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Bernstein", "[", 
+      RowBox[{"i_", ",", " ", "n_", ",", " ", "t_"}], "]"}], " ", ":=", " ", 
+     RowBox[{
+      RowBox[{"Binomial", "[", 
+       RowBox[{"n", ",", " ", "i"}], "]"}], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", " ", "-", " ", "t"}], ")"}], "^", 
+        RowBox[{"(", 
+         RowBox[{"n", " ", "-", " ", "i"}], ")"}]}], " ", ")"}], 
+      RowBox[{"(", 
+       RowBox[{"t", "^", "i"}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+      "function", " ", "returns", " ", "a", " ", "list", " ", "of", " ", 
+       "intermediate", " ", "points", " ", "between", " ", "a", " ", "set", 
+       " ", "of", " ", "guide", " ", "points"}], ";", " ", 
+      RowBox[{
+      "each", " ", "point", " ", "is", " ", "a", " ", "distance", " ", "t", 
+       " ", "between", " ", "two", " ", "adjacent", " ", "guide", " ", 
+       "points"}]}], ",", " ", 
+     RowBox[{
+     "where", " ", "t", " ", "varies", " ", "from", " ", "0", " ", "to", " ", 
+      "1"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"IntermediatePts", "[", 
+      RowBox[{"pts_", ",", " ", "t_"}], "]"}], " ", ":=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"pts", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], " ", "+", " ", 
+        RowBox[{"t", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"pts", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", "+", "1"}], "]"}], "]"}], " ", "-", " ", 
+           RowBox[{"pts", "[", 
+            RowBox[{"[", "i", "]"}], "]"}]}], ")"}]}]}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", " ", "1", ",", " ", 
+         RowBox[{
+          RowBox[{"Length", "[", "pts", "]"}], " ", "-", " ", "1"}]}], 
+        "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "degree", " ", "is", " ", "one", " ", "less", " ", "than", " ", "the", 
+      " ", "number", " ", "of", " ", "points"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"n", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"Length", "[", "pts", "]"}], " ", "-", " ", "1"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{
+        "have", " ", "to", " ", "add", " ", "one", " ", "to", " ", "index", 
+         " ", "of", " ", "pts", " ", "since", " ", "arrays", " ", "in", " ", 
+         "Mathematica", " ", "are", " ", "1"}], "-", "based"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"b", "[", "t_", "]"}], " ", ":=", " ", 
+       RowBox[{"Sum", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"pts", "[", 
+           RowBox[{"[", 
+            RowBox[{"i", "+", "1"}], "]"}], "]"}], " ", 
+          RowBox[{"Bernstein", "[", 
+           RowBox[{"i", ",", " ", "n", ",", " ", "t"}], "]"}]}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", " ", "0", ",", "n"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "list", " ", "to", " ", "contain", " ", "all", " ", "the", " ", 
+        "framework", " ", "points", " ", "to", " ", "plot"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"pointList", " ", "=", " ", 
+       RowBox[{"{", "pts", "}"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "list", " ", "to", " ", "contain", " ", "all", " ", "the", " ", 
+        "framework", " ", "lines"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"lineList", " ", "=", " ", 
+       RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{"contruct", " ", "the", " ", "framework", " ", "iteratively"}],
+        " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"For", "[", 
+       RowBox[{
+        RowBox[{"i", " ", "=", " ", "1"}], ",", " ", 
+        RowBox[{"i", " ", "<=", "n"}], ",", 
+        RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"pointList", " ", "=", 
+          RowBox[{"Append", "[", 
+           RowBox[{"pointList", ",", " ", 
+            RowBox[{"IntermediatePts", "[", 
+             RowBox[{
+              RowBox[{"pointList", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], ",", " ", "t"}], " ", "]"}]}], 
+           " ", "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"lineList", " ", "=", " ", 
+          RowBox[{"Append", "[", 
+           RowBox[{"lineList", ",", " ", 
+            RowBox[{"Line", "[", 
+             RowBox[{"pointList", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], " ", "]"}]}], " ", "]"}]}], 
+         ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "plot", " ", "of", " ", "the", " ", "B\[EAcute]zier", " ", "curve"}], 
+       " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"bezierPlot", " ", "=", " ", 
+       RowBox[{"ParametricPlot", "[", 
+        RowBox[{
+         RowBox[{"b", "[", "t", "]"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"t", ",", " ", "0", ",", " ", "1"}], "}"}], ",", " ", 
+         RowBox[{"PlotRange", "\[Rule]", 
+          RowBox[{"{", " ", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"xMin", ",", " ", "xMax"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"yMin", ",", " ", "yMax"}], "}"}]}], " ", "}"}]}], ",", 
+         " ", 
+         RowBox[{"PlotStyle", "\[Rule]", "Thick"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{"plot", " ", "of", " ", "the", " ", "points"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"pointsPlot", " ", "=", " ", 
+       RowBox[{"ListPlot", "[", 
+        RowBox[{"pointList", ",", " ", 
+         RowBox[{"PlotMarkers", "\[Rule]", "\"\<\[FilledCircle]\>\""}]}], 
+        "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Show", "[", 
+       RowBox[{"bezierPlot", ",", " ", "pointsPlot", ",", " ", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"{", 
+          RowBox[{"Red", ",", "lineList"}], "}"}], "]"}]}], " ", "]"}]}], ",",
+      "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{"\"\<B\[EAcute]zier curve\>\"", ",", "Bold", ",", "Medium"}], 
+      "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"pts", ",", "startingPoints"}], "}"}], ",", "Locator", ",", 
+       " ", 
+       RowBox[{"LocatorAutoCreate", "\[Rule]", "True"}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"t", ",", " ", "0.5", ",", " ", "\"\<parameter (t)\>\""}], 
+        "}"}], ",", " ", "0", ",", " ", "1"}], "}"}]}], "\[IndentingNewLine]",
+     "]"}]}]}]], "Input",
+ CellChangeTimes->{
+  3.584359729134472*^9, {3.5843597833051653`*^9, 3.5843598908581953`*^9}, {
+   3.584359929244864*^9, 3.5843599937792463`*^9}, {3.58436046837426*^9, 
+   3.584360592994796*^9}, {3.5843607668631287`*^9, 3.5843607697623997`*^9}, {
+   3.584360932639843*^9, 3.5843611361519938`*^9}, {3.584361170686675*^9, 
+   3.5843611708940268`*^9}, {3.584361232805781*^9, 3.5843612910340347`*^9}, {
+   3.584361406523013*^9, 3.5843614463235607`*^9}, {3.584361477385923*^9, 
+   3.584361484860133*^9}, {3.584361544879101*^9, 3.584361553583048*^9}, {
+   3.5843616762110777`*^9, 3.584361711664908*^9}, {3.5843618119048157`*^9, 
+   3.584361818390617*^9}, {3.584361850970435*^9, 3.584361855539029*^9}, {
+   3.584361890343183*^9, 3.584361894588875*^9}, {3.584361940103208*^9, 
+   3.584362049124921*^9}, {3.584362517575807*^9, 3.584362519855194*^9}, {
+   3.584362561479746*^9, 3.5843626447551117`*^9}, {3.5843626928606043`*^9, 
+   3.584362707821809*^9}, {3.584362773045051*^9, 3.584362777510614*^9}, {
+   3.584362817672312*^9, 3.584362825126154*^9}, {3.584362857022409*^9, 
+   3.5843628573706017`*^9}, 3.584362903003941*^9}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.584438754976327*^9, 3.5844387758138857`*^9}}]
+}, Open  ]]
+},
+WindowSize->{865, 660},
+WindowMargins->{{53, Automatic}, {Automatic, 8}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 1254, 16, 99, "Section"],
+Cell[1836, 40, 1388, 34, 95, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3261, 79, 184, 2, 80, "Section"],
+Cell[3448, 83, 259, 5, 30, "Text"],
+Cell[3710, 90, 3702, 93, 267, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7449, 188, 306, 6, 80, "Section"],
+Cell[7758, 196, 1284, 38, 72, "Text"],
+Cell[9045, 236, 10323, 259, 607, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19405, 500, 170, 2, 80, "Section"],
+Cell[19578, 504, 1628, 52, 138, "Text"],
+Cell[21209, 558, 4489, 110, 335, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[25735, 673, 168, 4, 80, "Section"],
+Cell[25906, 679, 276, 5, 49, "Text"],
+Cell[26185, 686, 9260, 218, 675, "Input"],
+Cell[35448, 906, 94, 1, 28, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

@@ -1,0 +1,696 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     30244,        687]
+NotebookOptionsPosition[     29715,        665]
+NotebookOutlinePosition[     30150,        682]
+CellTagsIndexPosition[     30107,        679]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+Piecewise Polynomial Interpolation\
+\>", "Title",
+ CellChangeTimes->{{3.577034923735073*^9, 3.5770350444203453`*^9}, {
+   3.577035086105422*^9, 3.5770350983904343`*^9}, {3.577035148376897*^9, 
+   3.5770351585637407`*^9}, {3.57703522325111*^9, 3.5770352604262333`*^9}, {
+   3.5770352993192577`*^9, 3.577035300688196*^9}, {3.5770353348085318`*^9, 
+   3.577035437896846*^9}, {3.57703547821764*^9, 3.5770354817523327`*^9}, {
+   3.577035568239213*^9, 3.577035587774933*^9}, {3.577036196724074*^9, 
+   3.577036334030686*^9}, {3.577036376899796*^9, 3.577036548783312*^9}, {
+   3.5770365834999247`*^9, 3.577036619360194*^9}, {3.577036784213366*^9, 
+   3.577036840337435*^9}, {3.577040789526672*^9, 3.577040853258239*^9}, {
+   3.577042176136612*^9, 3.577042300140349*^9}, {3.5770423868104067`*^9, 
+   3.577042400294126*^9}, {3.577042623850706*^9, 3.577042641985347*^9}, {
+   3.5770426953562202`*^9, 3.577042695937501*^9}, {3.577042750560523*^9, 
+   3.5770429543780203`*^9}, {3.57704301837142*^9, 3.577043018593266*^9}, {
+   3.581847664169182*^9, 3.581847694244536*^9}, {3.584472531508955*^9, 
+   3.584472656804997*^9}, {3.584472758827567*^9, 3.5844728564712543`*^9}, {
+   3.5844729053492928`*^9, 3.584473032545166*^9}, {3.5844730859214077`*^9, 
+   3.584473089942655*^9}, {3.584473161412403*^9, 3.58447316659832*^9}, {
+   3.584473773897388*^9, 3.584473803847727*^9}, {3.5844738430957537`*^9, 
+   3.584473846977446*^9}, {3.584474022077333*^9, 3.584474053923977*^9}, {
+   3.5844741036541023`*^9, 3.5844741361245823`*^9}, {3.58447429629381*^9, 
+   3.584474297781201*^9}, {3.584474583551313*^9, 3.584474589107613*^9}, 
+   3.584474638814682*^9, {3.584474840937875*^9, 3.584474843352047*^9}, {
+   3.5844762122680492`*^9, 3.584476270892728*^9}, {3.584476498005197*^9, 
+   3.584476539178605*^9}, {3.584476626929202*^9, 3.584477181549095*^9}, {
+   3.584477218684167*^9, 3.584477220891802*^9}, {3.584477675037714*^9, 
+   3.58447769413039*^9}}],
+
+Cell["\<\
+This interactive notebook explores piecewise polynomial interpolation.  The \
+number of intervals may be varies, as well as the degree of polynomial used \
+to interpolate on each interval.  The intervals and interpolation points are \
+all evenly spaced.  In addition, the mean norm error can be calculated for \
+the interpolation; it is measured between the two red lines (left and right \
+error bounds), which may be adjusted by sliders.\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.5844777046765327`*^9, 3.584477768920377*^9}, {
+  3.584477825106996*^9, 3.584477869847082*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Function", " ", "to", " ", "be", " ", "used", " ", "for", " ", 
+    "demonstration"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"f", "[", "x_", "]"}], " ", ":=", " ", 
+     RowBox[{"1", " ", "/", " ", 
+      RowBox[{"(", 
+       RowBox[{"1", " ", "+", " ", 
+        RowBox[{"x", "^", "2"}]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"f", "[", "x_", "]"}], " ", ":=", " ", 
+     RowBox[{
+      RowBox[{"1", "/", 
+       RowBox[{"Cosh", "[", 
+        RowBox[{"x", " ", "-", " ", "1"}], "]"}]}], " ", "+", " ", 
+      RowBox[{"1", "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"x", "^", "2"}], " ", "+", " ", "1"}], ")"}]}]}]}], " ", 
+    "*)"}], " ", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Interval", " ", "to", " ", "be", " ", "used", " ", "for", " ", 
+     "approximation"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMin", " ", "=", " ", 
+     RowBox[{"-", "4"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMax", " ", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"width", " ", "=", " ", 
+     RowBox[{"xMax", " ", "-", " ", "xMin"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Min", " ", "and", " ", "max", " ", "y", " ", "values", " ", "for", " ", 
+     "graph"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMin", " ", "=", " ", 
+     RowBox[{"-", "2"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMax", " ", "=", " ", "2"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Mean", " ", "norm", " ", "error", " ", 
+      RowBox[{"function", ":", " ", 
+       RowBox[{
+        StyleBox["real",
+         FontSlant->"Italic"], " ", "is", " ", "the", " ", "original", " ", 
+        "function"}]}]}], ",", " ", 
+     RowBox[{"and", " ", 
+      StyleBox["approx",
+       FontSlant->"Italic"], 
+      StyleBox[" ",
+       FontSlant->"Italic"], "is", " ", "the", " ", "interpolation"}]}], " ", 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"meanNormError", "[", 
+      RowBox[{
+      "real_", ",", " ", "approx_", ",", " ", "var_", ",", "L_", ",", " ", 
+       "R_"}], "]"}], " ", ":=", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "/", 
+        RowBox[{"(", 
+         RowBox[{"R", "-", "L"}], ")"}]}], ")"}], 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"NIntegrate", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"real", " ", "-", " ", "approx"}], ")"}], "^", "2"}], ",",
+           " ", 
+          RowBox[{"{", 
+           RowBox[{"var", ",", " ", "L", ",", " ", "R"}], "}"}]}], "]"}], 
+        ")"}], "^", 
+       RowBox[{"(", 
+        RowBox[{"1", "/", "2"}], ")"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "These", " ", "functions", " ", "make", " ", "the", " ", "Vandermonde", 
+     " ", 
+     RowBox[{"matrix", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"VandermondeElement", " ", "returns", " ", "the", " ", 
+     RowBox[{"(", 
+      RowBox[{"row", ",", " ", "col"}], ")"}], " ", "elemtent", " ", "of", 
+     " ", "the", " ", "Vandermonde", " ", "matrix"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"VandermondeElement", "[", 
+      RowBox[{"row_", ",", " ", "col_", ",", " ", "xVals_"}], "]"}], " ", ":=",
+      " ", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"col", " ", "\[Equal]", " ", "1"}], ",", " ", "1", ",", " ", 
+       RowBox[{
+        RowBox[{"xVals", "[", 
+         RowBox[{"[", "row", "]"}], "]"}], "^", 
+        RowBox[{"(", 
+         RowBox[{"col", " ", "-", " ", "1"}], ")"}]}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MakeVandermonde", "[", "xVals_", "]"}], " ", ":=", " ", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"VandermondeElement", "[", 
+       RowBox[{"i", ",", " ", "j", ",", " ", "xVals"}], "]"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", " ", "1", ",", 
+        RowBox[{"Length", "[", "xVals", "]"}]}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"j", ",", " ", "1", ",", " ", 
+        RowBox[{"Length", "[", "xVals", "]"}]}], "}"}]}], " ", "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{" ", 
+      RowBox[{"Pulse", " ", 
+       RowBox[{"function", ":", " ", 
+        RowBox[{
+        "evaluates", " ", "to", " ", "1", " ", "on", " ", "half", " ", "open",
+          " ", 
+         RowBox[{"interval", " ", "[", 
+          RowBox[{"L", ",", " ", "R"}]}]}]}]}], ")"}], ",", " ", 
+     RowBox[{"0", " ", "elsewhere"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Pulse", "[", 
+      RowBox[{"L_", ",", " ", "R_", ",", " ", "x_"}], "]"}], " ", ":=", " ", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"x", " ", "\[GreaterEqual]", " ", "L"}], " ", "&&", " ", 
+        RowBox[{"x", " ", "<", " ", "R"}]}], ",", " ", "1", ",", " ", "0"}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Maximum", " ", "number", " ", "of", " ", "polynomials", " ", "for", " ", 
+     "the", " ", "piecewise", " ", "interpolation"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxIntervals", " ", "=", " ", "20"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Maximum", " ", "degree", " ", "of", " ", "the", " ", "polynomials", " ", 
+     "for", " ", "the", " ", "interpolation"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxDegree", " ", "=", " ", "5"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Intervals", " ", "for", " ", "the", " ", "polynomials", " ", "are", " ",
+       "evenly", " ", "spaced"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"intervalSize", " ", "=", " ", 
+       RowBox[{"width", "/", "numIntervals"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "These", " ", "are", " ", "the", " ", "x", " ", "values", " ", "at", 
+        " ", "the", " ", "endpoints", " ", "of", " ", "each", " ", 
+        "interval"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"xVals", " ", "=", " ", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"N", "[", 
+          RowBox[{"xMin", "+", "  ", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"i", " ", "*", " ", "width"}], ")"}], "/", 
+            "numIntervals"}]}], "]"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", " ", "0", ",", "numIntervals"}], "}"}]}], "]"}]}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{"These", " ", "are", " ", "the", " ", "points", " ", 
+        RowBox[{"(", 
+         RowBox[{"x", ",", " ", "y"}], ")"}], " ", "which", " ", "bound", " ",
+         "each", " ", 
+        RowBox[{"interval", ".", "  ", "They"}], " ", "are", " ", "only", " ",
+         "used", " ", "for", " ", "the", " ", "plot", " ", "so", " ", "we", 
+        " ", "can", " ", "see", " ", "the", " ", "boundaries", " ", "of", " ",
+         "the", " ", "intervals"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"boundaryPoints", " ", "=", " ", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"xVals", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+           RowBox[{"f", "[", " ", 
+            RowBox[{"xVals", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], " ", "]"}]}], "}"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", " ", "1", ",", " ", 
+           RowBox[{"numIntervals", "  ", "+", " ", "1"}]}], "}"}]}], "]"}]}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{
+        "List", " ", "to", " ", "contain", " ", "the", " ", "polynomials"}], 
+        ",", " ", 
+        RowBox[{"one", " ", "for", " ", "each", " ", "interval"}]}], " ", 
+       "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"myPolynomials", " ", "=", " ", 
+       RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"For", "[", 
+       RowBox[{
+        RowBox[{"i", " ", "=", " ", "1"}], ",", " ", 
+        RowBox[{"i", " ", "\[LessEqual]", " ", "numIntervals"}], ",", " ", 
+        RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{
+          "Create", " ", "table", " ", "of", " ", "x", " ", "and", " ", "y", 
+           " ", "values", " ", "for", " ", "interpolation", " ", "on", " ", 
+           "each", " ", 
+           RowBox[{"interval", ".", "  ", "Again"}]}], ",", " ", 
+          RowBox[{
+          "the", " ", "points", " ", "are", " ", "evenly", " ", "spaced", " ",
+            "on", " ", "each", " ", "interval"}]}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"intervalxVals", " ", "=", " ", 
+          RowBox[{"Table", "[", " ", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"xVals", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], " ", "+", " ", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"j", " ", "-", " ", "1"}], ")"}], " ", "/", 
+                "degree"}], ")"}], 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"xVals", "[", 
+                 RowBox[{"[", 
+                  RowBox[{"i", "+", "1"}], "]"}], "]"}], " ", "-", " ", 
+                RowBox[{"xVals", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}]}], ")"}]}]}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"j", ",", " ", "1", ",", " ", 
+              RowBox[{"degree", " ", "+", " ", "1"}]}], "}"}]}], "]"}]}], ";",
+          "\[IndentingNewLine]", 
+         RowBox[{"intervalyVals", " ", "=", " ", 
+          RowBox[{"Table", "[", " ", 
+           RowBox[{
+            RowBox[{"f", "[", 
+             RowBox[{"intervalxVals", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], " ", "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", " ", "1", ",", " ", 
+              RowBox[{"degree", " ", "+", " ", "1"}]}], "}"}]}], "]"}]}], ";",
+          "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+          "Construct", " ", "polynomial", " ", "interpolation", " ", "of", 
+           " ", "appropriate", " ", "degree", " ", "using", " ", 
+           "Vandermonde", " ", "matrix"}], " ", "*)"}], "\[IndentingNewLine]", 
+         RowBox[{"vandermonde", "=", " ", 
+          RowBox[{"MakeVandermonde", "[", "intervalxVals", "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"coeffs", " ", "=", " ", 
+          RowBox[{"LinearSolve", "[", 
+           RowBox[{"vandermonde", ",", " ", "intervalyVals"}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"p", "[", "x_", "]"}], " ", ":=", " ", 
+          RowBox[{"Sum", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"coeffs", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "  ", 
+             RowBox[{"x", "^", 
+              RowBox[{"(", 
+               RowBox[{"i", " ", "-", " ", "1"}], ")"}]}]}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", " ", "1", ",", " ", 
+              RowBox[{"degree", " ", "+", " ", "1"}]}], "}"}]}], "]"}]}], ";",
+          "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+          "add", " ", "new", " ", "polynomial", " ", "to", " ", "list"}], " ",
+           "*)"}], "\[IndentingNewLine]", 
+         RowBox[{"myPolynomials", " ", "=", " ", 
+          RowBox[{"Append", "[", 
+           RowBox[{"myPolynomials", ",", 
+            RowBox[{"p", "[", "x", "]"}]}], "]"}]}], ";"}]}], 
+       "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "To", " ", "make", " ", "the", " ", "piecewise", " ", "interpolation", 
+        " ", "we", " ", "multiply", " ", "each", " ", "polynomial", " ", "by",
+         " ", "the", " ", "appropriate", " ", "pulse", " ", "function", " ", 
+        "so", " ", "we", " ", "only", " ", "get", " ", "one", " ", 
+        "polynomial", " ", "evaluating", " ", "on", " ", "each", " ", 
+        RowBox[{"interval", ".", "  ", "Pulse"}], " ", "function", " ", 
+        "allows", " ", "us", " ", "to", " ", "intergrate", " ", "the", " ", 
+        "piecewise", " ", "polynomial", " ", "so", " ", "we", " ", "can", " ",
+         "find", " ", "the", " ", "mean", " ", "norm", " ", "error"}], " ", 
+       "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"pwInterp", "[", "t_", "]"}], " ", ":=", 
+       RowBox[{"Sum", "[", " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"myPolynomials", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "//.", 
+            RowBox[{"x", "\[Rule]", "t"}]}], ")"}], 
+          RowBox[{"Pulse", "[", 
+           RowBox[{
+            RowBox[{"xMin", "+", " ", 
+             RowBox[{"intervalSize", 
+              RowBox[{"(", 
+               RowBox[{"i", " ", "-", " ", "1"}], ")"}]}]}], ",", " ", 
+            RowBox[{"xMin", " ", "+", " ", 
+             RowBox[{"intervalSize", 
+              RowBox[{"(", "i", ")"}]}]}], ",", " ", "t"}], "]"}]}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", " ", "1", ",", " ", "numIntervals"}], "}"}]}], 
+        "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "functionPlot", " ", "plots", " ", "the", " ", "approximation", " ", 
+        "along", " ", "with", " ", "the", " ", "function", " ", "being", " ", 
+        "approximated"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"functionPlot", " ", "=", " ", 
+       RowBox[{"Plot", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"f", "[", "x", "]"}], ",", " ", 
+           RowBox[{"pwInterp", "[", "x", "]"}]}], "}"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"x", ",", " ", "xMin", ",", " ", "xMax"}], "}"}]}], " ", 
+        "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "Plot", " ", "plots", " ", "the", " ", "boundary", " ", "points", " ", 
+        "for", " ", "the", " ", "intervals"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"pointsPlot", " ", "=", " ", 
+       RowBox[{"ListPlot", "[", 
+        RowBox[{"boundaryPoints", ",", " ", 
+         RowBox[{"PlotMarkers", "\[Rule]", "Automatic"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"show", " ", "both", " ", "plots", " ", "superimposed"}], ",",
+         " ", 
+        RowBox[{
+        "with", " ", "plot", " ", "title", " ", "giving", " ", "the", " ", 
+         "mean", " ", "norm", " ", "error"}]}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "the", " ", "plot", " ", "gridlines", " ", "show", " ", "the", " ", 
+        "bounds", " ", "within", " ", "which", " ", "the", " ", "mean", " ", 
+        "norm", " ", "error", " ", "is", " ", "computed"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"Show", "[", 
+       RowBox[{
+       "functionPlot", ",", " ", "pointsPlot", ",", "\[IndentingNewLine]", 
+        RowBox[{"PlotRange", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"xMin", ",", " ", "xMax"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"yMin", ",", " ", "yMax"}], "}"}]}], " ", "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PlotLabel", "\[Rule]", " ", 
+         RowBox[{"StringJoin", "[", 
+          RowBox[{"\"\<Mean norm error: \>\"", ",", " ", 
+           RowBox[{"ToString", "[", 
+            RowBox[{"meanNormError", "[", 
+             RowBox[{
+              RowBox[{"f", "[", "x", "]"}], ",", " ", 
+              RowBox[{"pwInterp", "[", "x", "]"}], ",", "x", ",", " ", "L", 
+              ",", " ", "R"}], "]"}], "]"}]}], "]"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"GridLines", "\[Rule]", 
+         RowBox[{"{", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", " ", 
+              RowBox[{"L", ",", " ", "Red"}], "}"}], ",", " ", 
+             RowBox[{"{", 
+              RowBox[{"R", ",", " ", "Red"}], "}"}]}], " ", "}"}], ",", " ", 
+           RowBox[{"{", "}"}]}], " ", "}"}]}]}], "\[IndentingNewLine]", 
+       "]"}]}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{"sliders", " ", "and", " ", "dividers"}], " ", "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{
+      "\"\<Piecewise polynomial interpolation\>\"", ",", "Bold", ",", 
+       "Medium"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "numIntervals", ",", " ", "1", ",", " ", 
+         "\"\<number of intervals\>\""}], "}"}], ",", " ", "1", ",", " ", 
+       "maxIntervals", ",", " ", "1"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"degree", ",", " ", "2", ",", " ", "\"\<degree\>\""}], "}"}], 
+       ",", " ", "1", ",", "maxDegree", ",", " ", "1"}], "}"}], ",", 
+     "\[IndentingNewLine]", "Delimiter", ",", "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{
+      "\"\<Bounds for mean norm error\>\"", ",", "Bold", ",", "Medium"}], 
+      "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"L", ",", " ", "xMin", ",", " ", "\"\<Left error bound\>\""}],
+         "}"}], ",", " ", "xMin", ",", " ", "xMax"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "R", ",", " ", "xMax", ",", " ", "\"\<Right error bound\>\""}], "}"}],
+        ",", " ", "xMin", ",", " ", "xMax"}], "}"}]}], "\[IndentingNewLine]", 
+    "]"}], " "}]}]], "Input",
+ CellChangeTimes->{{3.577034923735073*^9, 3.5770350444203453`*^9}, {
+   3.577035086105422*^9, 3.5770350983904343`*^9}, {3.577035148376897*^9, 
+   3.5770351585637407`*^9}, {3.57703522325111*^9, 3.5770352604262333`*^9}, {
+   3.5770352993192577`*^9, 3.577035300688196*^9}, {3.5770353348085318`*^9, 
+   3.577035437896846*^9}, {3.57703547821764*^9, 3.5770354817523327`*^9}, {
+   3.577035568239213*^9, 3.577035587774933*^9}, {3.577036196724074*^9, 
+   3.577036334030686*^9}, {3.577036376899796*^9, 3.577036548783312*^9}, {
+   3.5770365834999247`*^9, 3.577036619360194*^9}, {3.577036784213366*^9, 
+   3.577036840337435*^9}, {3.577040789526672*^9, 3.577040853258239*^9}, {
+   3.577042176136612*^9, 3.577042300140349*^9}, {3.5770423868104067`*^9, 
+   3.577042400294126*^9}, {3.577042623850706*^9, 3.577042641985347*^9}, {
+   3.5770426953562202`*^9, 3.577042695937501*^9}, {3.577042750560523*^9, 
+   3.5770429543780203`*^9}, {3.57704301837142*^9, 3.577043018593266*^9}, {
+   3.581847664169182*^9, 3.581847694244536*^9}, {3.584472531508955*^9, 
+   3.584472656804997*^9}, {3.584472758827567*^9, 3.5844728564712543`*^9}, {
+   3.5844729053492928`*^9, 3.584473032545166*^9}, {3.5844730859214077`*^9, 
+   3.584473089942655*^9}, {3.584473161412403*^9, 3.58447316659832*^9}, {
+   3.584473773897388*^9, 3.584473803847727*^9}, {3.5844738430957537`*^9, 
+   3.584473846977446*^9}, {3.584474022077333*^9, 3.584474053923977*^9}, {
+   3.5844741036541023`*^9, 3.5844741361245823`*^9}, {3.58447429629381*^9, 
+   3.584474297781201*^9}, {3.584474583551313*^9, 3.584474589107613*^9}, 
+   3.584474638814682*^9, {3.584474840937875*^9, 3.584474843352047*^9}, {
+   3.5844762122680492`*^9, 3.584476270892728*^9}, {3.584476498005197*^9, 
+   3.584476539178605*^9}, {3.584476626929202*^9, 3.584477181549095*^9}, {
+   3.584477218684167*^9, 3.584477220891802*^9}, {3.584477675037714*^9, 
+   3.584477682101679*^9}, {3.584477738410871*^9, 3.584477739373514*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`degree$$ = 
+    2, $CellContext`L$$ = -4, $CellContext`numIntervals$$ = 
+    1, $CellContext`R$$ = 4, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[
+       Style["Piecewise polynomial interpolation", Bold, Medium]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numIntervals$$], 1, "number of intervals"}, 1, 20, 
+      1}, {{
+       Hold[$CellContext`degree$$], 2, "degree"}, 1, 5, 1}, {
+      Hold[
+       Style["Bounds for mean norm error", Bold, Medium]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`L$$], -4, "Left error bound"}, -4, 4}, {{
+       Hold[$CellContext`R$$], 4, "Right error bound"}, -4, 4}}, 
+    Typeset`size$$ = {360., {116., 120.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    True, $CellContext`numIntervals$3865113$$ = 
+    0, $CellContext`degree$3865114$$ = 0, $CellContext`L$3865115$$ = 
+    0, $CellContext`R$3865116$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`degree$$ = 
+        2, $CellContext`L$$ = -4, $CellContext`numIntervals$$ = 
+        1, $CellContext`R$$ = 4}, "ControllerVariables" :> {
+        Hold[$CellContext`numIntervals$$, $CellContext`numIntervals$3865113$$,
+          0], 
+        Hold[$CellContext`degree$$, $CellContext`degree$3865114$$, 0], 
+        Hold[$CellContext`L$$, $CellContext`L$3865115$$, 0], 
+        Hold[$CellContext`R$$, $CellContext`R$3865116$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> ($CellContext`intervalSize = \
+$CellContext`width/$CellContext`numIntervals$$; $CellContext`xVals = Table[
+          
+          N[$CellContext`xMin + ($CellContext`i \
+$CellContext`width)/$CellContext`numIntervals$$], {$CellContext`i, 
+           0, $CellContext`numIntervals$$}]; $CellContext`boundaryPoints = 
+        Table[{
+           Part[$CellContext`xVals, $CellContext`i], 
+           $CellContext`f[
+            Part[$CellContext`xVals, $CellContext`i]]}, {$CellContext`i, 
+           1, $CellContext`numIntervals$$ + 
+           1}]; $CellContext`myPolynomials = {}; 
+       For[$CellContext`i = 1, $CellContext`i <= $CellContext`numIntervals$$, 
+         
+         Increment[$CellContext`i], $CellContext`intervalxVals = 
+          Table[Part[$CellContext`xVals, $CellContext`i] + (($CellContext`j - 
+               1)/$CellContext`degree$$) (
+              Part[$CellContext`xVals, $CellContext`i + 1] - 
+              Part[$CellContext`xVals, $CellContext`i]), {$CellContext`j, 
+             1, $CellContext`degree$$ + 1}]; $CellContext`intervalyVals = 
+          Table[
+            $CellContext`f[
+             
+             Part[$CellContext`intervalxVals, $CellContext`i]], \
+{$CellContext`i, 1, $CellContext`degree$$ + 
+             1}]; $CellContext`vandermonde = \
+$CellContext`MakeVandermonde[$CellContext`intervalxVals]; $CellContext`coeffs = 
+          LinearSolve[$CellContext`vandermonde, $CellContext`intervalyVals]; \
+$CellContext`p[
+            Pattern[$CellContext`x$, 
+             Blank[]]] := 
+          Sum[Part[$CellContext`coeffs, $CellContext`i] \
+$CellContext`x$^($CellContext`i - 1), {$CellContext`i, 
+             1, $CellContext`degree$$ + 1}]; $CellContext`myPolynomials = 
+          Append[$CellContext`myPolynomials, 
+            $CellContext`p[$CellContext`x]]; Null]; $CellContext`pwInterp[
+          Pattern[$CellContext`t$, 
+           Blank[]]] := Sum[ReplaceRepeated[
+            
+            Part[$CellContext`myPolynomials, $CellContext`i], $CellContext`x -> \
+$CellContext`t$] $CellContext`Pulse[$CellContext`xMin + \
+$CellContext`intervalSize ($CellContext`i - 
+              1), $CellContext`xMin + $CellContext`intervalSize \
+$CellContext`i, $CellContext`t$], {$CellContext`i, 
+           1, $CellContext`numIntervals$$}]; $CellContext`functionPlot = Plot[{
+           $CellContext`f[$CellContext`x], 
+           $CellContext`pwInterp[$CellContext`x]}, {$CellContext`x, \
+$CellContext`xMin, $CellContext`xMax}]; $CellContext`pointsPlot = 
+        ListPlot[$CellContext`boundaryPoints, PlotMarkers -> Automatic]; 
+       Show[$CellContext`functionPlot, $CellContext`pointsPlot, 
+         PlotRange -> {{$CellContext`xMin, $CellContext`xMax}, \
+{$CellContext`yMin, $CellContext`yMax}}, PlotLabel -> 
+         StringJoin["Mean norm error: ", 
+           ToString[
+            $CellContext`meanNormError[
+             $CellContext`f[$CellContext`x], 
+             $CellContext`pwInterp[$CellContext`x], $CellContext`x, \
+$CellContext`L$$, $CellContext`R$$]]], 
+         GridLines -> {{{$CellContext`L$$, Red}, {$CellContext`R$$, 
+             Red}}, {}}]), "Specifications" :> {
+        Style[
+        "Piecewise polynomial interpolation", Bold, 
+         Medium], {{$CellContext`numIntervals$$, 1, "number of intervals"}, 1,
+          20, 1}, {{$CellContext`degree$$, 2, "degree"}, 1, 5, 1}, Delimiter, 
+        
+        Style[
+        "Bounds for mean norm error", Bold, 
+         Medium], {{$CellContext`L$$, -4, "Left error bound"}, -4, 
+         4}, {{$CellContext`R$$, 4, "Right error bound"}, -4, 4}}, 
+      "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{405., {224., 229.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.584477225883472*^9, 3.584477740058844*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1015, 731},
+WindowMargins->{{-3, Automatic}, {Automatic, 0}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 1933, 28, 92, "Title"],
+Cell[2515, 52, 586, 9, 69, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[3126, 65, 20533, 474, 1406, "Input"],
+Cell[23662, 541, 6025, 120, 470, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

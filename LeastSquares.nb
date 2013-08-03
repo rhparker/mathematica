@@ -1,0 +1,357 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     14488,        348]
+NotebookOptionsPosition[     13964,        326]
+NotebookOutlinePosition[     14398,        343]
+CellTagsIndexPosition[     14355,        340]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Least Squares Fitting", "Title",
+ CellChangeTimes->{{3.577118763134377*^9, 3.5771188983751583`*^9}, {
+   3.577118959973343*^9, 3.5771189853775473`*^9}, {3.577119205512116*^9, 
+   3.577119219499899*^9}, {3.577119273377166*^9, 3.577119280004274*^9}, {
+   3.577119402288136*^9, 3.577119613490279*^9}, {3.577119661445764*^9, 
+   3.577119746410974*^9}, {3.57711982511585*^9, 3.5771199270459023`*^9}, {
+   3.577136412693363*^9, 3.577136442941598*^9}, {3.5771364736581097`*^9, 
+   3.577136687709622*^9}, {3.577136793006283*^9, 3.577136793302712*^9}, {
+   3.577138277688843*^9, 3.577138278007711*^9}, {3.577138463362371*^9, 
+   3.577138470470148*^9}, 3.584437363689158*^9, {3.584437417061967*^9, 
+   3.5844374227509604`*^9}, {3.5844379016715117`*^9, 3.584437911117285*^9}}],
+
+Cell["\<\
+This interactive notebook explores least squares curve fitting.  Points may \
+be added and removed using Command-Click.  The degree of the least squares \
+fitting may be adjusted with the slider, with the maximum degree being one \
+less than the number of points.  (The maximum degree is a polynomial \
+interpolation of the points.)\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.5844379626765003`*^9, 3.5844380190975647`*^9}, {
+  3.58443824088375*^9, 3.584438315223741*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"boundaries", " ", "and", " ", "starting", " ", "points"}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"xMin", " ", "=", " ", 
+     RowBox[{"-", "10"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMax", " ", "=", " ", "10"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMin", " ", "=", " ", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMax", " ", "=", " ", "7"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"startingPoints", " ", "=", 
+     RowBox[{"{", " ", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "6"}], ",", " ", "2.5"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "5."}], ",", " ", "3"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "4"}], ",", "2"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "2"}], ",", " ", "4"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "2.5"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"3", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"5", ",", "4"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"6", ",", " ", "5"}], "}"}]}], "  ", "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "these", " ", "functions", " ", "create", " ", "the", " ", "least", " ", 
+     "squares", " ", 
+     RowBox[{"matrix", ".", "  ", "MatrixElement"}], " ", "returns", " ", 
+     "the", " ", 
+     RowBox[{"(", 
+      RowBox[{"row", ",", " ", "col"}], ")"}], " ", "entry", " ", "of", " ", 
+     "the", " ", "matrix", " ", "and", " ", "makeMatrix", " ", "returns", " ",
+      "the", " ", "appropiately", " ", "sized", " ", "least", " ", "squares", 
+     " ", "matrix"}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "MatrixElement", " ", "retuns", " ", "a", " ", "1", " ", "if", " ", "we",
+       " ", "are", " ", "in", " ", "the", " ", "bottom", " ", 
+      RowBox[{"(", 
+       RowBox[{"degree", " ", "+", " ", "1"}], ")"}], " ", "row", " ", "of", 
+      " ", "the", " ", 
+      RowBox[{"matrix", ".", " ", 
+       RowBox[{"(", 
+        RowBox[{
+        "We", " ", "cannot", " ", "just", " ", "use", " ", "the", " ", "0", 
+         " ", "power", " ", "since", " ", 
+         RowBox[{"0", "^", "0"}], " ", "is", " ", 
+         RowBox[{"undefined", "."}]}], ")"}]}], "  ", "Otherwise", " ", "the",
+       " ", "top", " ", "row", " ", "is", " ", "the", " ", "x", " ", "values",
+       " ", "raised", " ", "to", " ", "the", " ", "degree", " ", 
+      RowBox[{"power", ".", " ", "The"}], " ", "second", " ", "row", " ", 
+      "is", " ", "the", " ", "x", " ", "values", " ", "raised", " ", "to", 
+      " ", "the", " ", 
+      RowBox[{"(", 
+       RowBox[{"degree", " ", "-", " ", "1"}], ")"}], " ", "power"}], ",", 
+     " ", 
+     RowBox[{"etc", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MatrixElement", "[", 
+     RowBox[{
+     "pts_", ",", " ", "degree_", ",", " ", "row_", ",", " ", "col_"}], "]"}],
+     " ", ":=", " ", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"row", " ", "\[Equal]", " ", 
+       RowBox[{"(", 
+        RowBox[{"degree", " ", "+", "1"}], ")"}]}], ",", " ", "1", ",", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"pts", "[", 
+         RowBox[{"[", "col", "]"}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "^", 
+       RowBox[{"(", 
+        RowBox[{"degree", " ", "-", " ", "row", " ", "+", "1"}], ")"}]}]}], 
+     " ", "]"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MakeMatrix", "[", 
+     RowBox[{"pts_", ",", " ", "degree_"}], "]"}], " ", ":=", " ", 
+    RowBox[{"Array", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"MatrixElement", "[", 
+        RowBox[{"pts", ",", " ", "degree", ",", "#1", ",", " ", "#2"}], "]"}],
+        "&"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"degree", " ", "+", " ", "1"}], ",", " ", 
+        RowBox[{"Length", "[", "pts", "]"}]}], " ", "}"}]}], "]"}]}], " ", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "make", " ", "the", " ", "least", " ", "squares", " ", "matrix"}], " ", 
+     "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"A", " ", "=", " ", 
+       RowBox[{"MakeMatrix", "[", 
+        RowBox[{"pts", ",", " ", "degree"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{"make", " ", "vector", " ", "for", " ", "y", " ", "values"}], 
+       " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"y", "=", " ", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"pts", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], "[", 
+          RowBox[{"[", "2", "]"}], "]"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", " ", "1", ",", " ", 
+           RowBox[{"Length", "[", "pts", "]"}]}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{
+        "use", " ", "LinearSolve", " ", "to", " ", "solve", " ", "A", " ", 
+         "At"}], " ", "=", " ", "Ay"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"LSq", " ", "=", " ", 
+       RowBox[{"LinearSolve", "[", 
+        RowBox[{
+         RowBox[{"A", ".", 
+          RowBox[{"Transpose", "[", "A", "]"}]}], ",", " ", 
+         RowBox[{"A", ".", "y"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "use", " ", "data", " ", "from", " ", "LinearSolve", " ", "for", " ", 
+        "equation", " ", "of", " ", "best", " ", "fit", " ", "line"}], " ", 
+       "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"f", "[", "x_", "]"}], " ", ":=", " ", 
+       RowBox[{"Sum", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"LSq", "[", 
+           RowBox[{"[", 
+            RowBox[{"i", "+", "1"}], "]"}], "]"}], 
+          RowBox[{"x", "^", 
+           RowBox[{"(", 
+            RowBox[{"degree", " ", "-", " ", "i"}], ")"}]}]}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", " ", "0", ",", " ", "degree"}], "}"}]}], "]"}]}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"Plot", "[", 
+       RowBox[{
+        RowBox[{"f", "[", "x", "]"}], ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", " ", "xMin", ",", " ", "xMax"}], "}"}], ",", 
+        RowBox[{"PlotRange", "\[Rule]", 
+         RowBox[{"{", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"xMin", ",", " ", "xMax"}], "}"}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"yMin", ",", " ", "yMax"}], "}"}]}], "}"}]}]}], "]"}]}], 
+     ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{"\"\<Least Squares fitting\>\"", ",", "Bold", ",", "Medium"}], 
+      "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"pts", ",", "startingPoints"}], "}"}], ",", "Locator", ",", 
+       " ", 
+       RowBox[{"LocatorAutoCreate", "\[Rule]", "True"}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"degree", ",", " ", "1", ",", 
+       RowBox[{
+        RowBox[{"Length", "[", "pts", "]"}], " ", "-", " ", "1"}], ",", " ", 
+       "1"}], "}"}]}], "\[IndentingNewLine]", "]"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.577118763134377*^9, 3.5771188983751583`*^9}, {
+   3.577118959973343*^9, 3.5771189853775473`*^9}, {3.577119205512116*^9, 
+   3.577119219499899*^9}, {3.577119273377166*^9, 3.577119280004274*^9}, {
+   3.577119402288136*^9, 3.577119613490279*^9}, {3.577119661445764*^9, 
+   3.577119746410974*^9}, {3.57711982511585*^9, 3.5771199270459023`*^9}, {
+   3.577136412693363*^9, 3.577136442941598*^9}, {3.5771364736581097`*^9, 
+   3.577136687709622*^9}, {3.577136793006283*^9, 3.577136793302712*^9}, {
+   3.577138277688843*^9, 3.577138278007711*^9}, {3.577138463362371*^9, 
+   3.577138470470148*^9}, 3.584437363689158*^9, {3.584437417061967*^9, 
+   3.5844374227509604`*^9}, 3.5844379016715117`*^9, {3.58443804037624*^9, 
+   3.584438077602189*^9}, {3.58443831743964*^9, 3.584438431644433*^9}, {
+   3.584439207632945*^9, 3.584439368001809*^9}, {3.5844394095977793`*^9, 
+   3.584439448191945*^9}, {3.584439543972246*^9, 3.584439751638678*^9}, {
+   3.584440185136338*^9, 3.5844401873217*^9}, {3.584440351092021*^9, 
+   3.584440425341077*^9}, {3.584440522017975*^9, 3.5844406176919317`*^9}, {
+   3.584440656204842*^9, 3.5844406616568413`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`degree$$ = 
+    1, $CellContext`pts$$ = {{-6, 2.5}, {-5., 3}, {-4, 2}, {-2, 4}, {0, 2}, {
+     1, 2.5}, {2.5600000000000005`, 5.46}, {5, 4}, {6, 5}}, Typeset`show$$ = 
+    True, Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[
+       Style["Least Squares fitting", Bold, Medium]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`pts$$], {{-6, 2.5}, {-5., 3}, {-4, 2}, {-2, 4}, {0, 
+        2}, {1, 2.5}, {3, 3}, {5, 4}, {6, 5}}}, Automatic}, {
+      Hold[$CellContext`degree$$], 1, 
+      Dynamic[Length[$CellContext`pts$$] - 1], 1}}, Typeset`size$$ = {
+    360., {114., 119.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`degree$1853930$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`degree$$ = 
+        1, $CellContext`pts$$ = {{-6, 2.5}, {-5., 3}, {-4, 2}, {-2, 4}, {0, 
+          2}, {1, 2.5}, {3, 3}, {5, 4}, {6, 5}}}, "ControllerVariables" :> {
+        Hold[$CellContext`degree$$, $CellContext`degree$1853930$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> ($CellContext`A = $CellContext`MakeMatrix[$CellContext`pts$$, \
+$CellContext`degree$$]; $CellContext`y = Table[
+          Part[
+           Part[$CellContext`pts$$, $CellContext`i], 2], {$CellContext`i, 1, 
+           Length[$CellContext`pts$$]}]; $CellContext`LSq = LinearSolve[
+          Dot[$CellContext`A, 
+           Transpose[$CellContext`A]], 
+          Dot[$CellContext`A, $CellContext`y]]; $CellContext`f[
+          Pattern[$CellContext`x$, 
+           Blank[]]] := 
+        Sum[Part[$CellContext`LSq, $CellContext`i + 
+            1] $CellContext`x$^($CellContext`degree$$ - $CellContext`i), \
+{$CellContext`i, 0, $CellContext`degree$$}]; Plot[
+         $CellContext`f[$CellContext`x], {$CellContext`x, $CellContext`xMin, \
+$CellContext`xMax}, 
+         PlotRange -> {{$CellContext`xMin, $CellContext`xMax}, \
+{$CellContext`yMin, $CellContext`yMax}}]), "Specifications" :> {
+        Style[
+        "Least Squares fitting", Bold, 
+         Medium], {{$CellContext`pts$$, {{-6, 2.5}, {-5., 3}, {-4, 2}, {-2, 
+           4}, {0, 2}, {1, 2.5}, {3, 3}, {5, 4}, {6, 5}}}, Automatic, 
+         ControlType -> Locator, LocatorAutoCreate -> 
+         True}, {$CellContext`degree$$, 1, 
+         Dynamic[Length[$CellContext`pts$$] - 1], 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{411., {183., 188.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.584440594420583*^9, 3.584440618166155*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{959, 705},
+WindowMargins->{{12, Automatic}, {Automatic, 0}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 771, 10, 92, "Title"],
+Cell[1353, 34, 481, 8, 69, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[1859, 46, 8806, 210, 590, "Input"],
+Cell[10668, 258, 3268, 64, 388, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
