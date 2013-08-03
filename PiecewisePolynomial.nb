@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     30244,        687]
-NotebookOptionsPosition[     29715,        665]
-NotebookOutlinePosition[     30150,        682]
-CellTagsIndexPosition[     30107,        679]
+NotebookDataLength[     28540,        645]
+NotebookOptionsPosition[     28011,        623]
+NotebookOutlinePosition[     28446,        640]
+CellTagsIndexPosition[     28403,        637]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -107,10 +107,9 @@ Cell[BoxData[
     "Min", " ", "and", " ", "max", " ", "y", " ", "values", " ", "for", " ", 
      "graph"}], " ", "*)"}], "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"yMin", " ", "=", " ", 
-     RowBox[{"-", "2"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{"yMin", " ", "=", " ", "0"}], ";"}], "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"yMax", " ", "=", " ", "2"}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{"yMax", " ", "=", " ", "1.5"}], ";"}], "\[IndentingNewLine]", 
    "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
     RowBox[{
@@ -237,44 +236,18 @@ Cell[BoxData[
        RowBox[{"width", "/", "numIntervals"}]}], ";", "\[IndentingNewLine]", 
       RowBox[{"(*", " ", 
        RowBox[{
-       "These", " ", "are", " ", "the", " ", "x", " ", "values", " ", "at", 
-        " ", "the", " ", "endpoints", " ", "of", " ", "each", " ", 
-        "interval"}], " ", "*)"}], "\[IndentingNewLine]", 
-      RowBox[{"xVals", " ", "=", " ", 
-       RowBox[{"Table", "[", 
         RowBox[{
-         RowBox[{"N", "[", 
-          RowBox[{"xMin", "+", "  ", 
-           RowBox[{
-            RowBox[{"(", 
-             RowBox[{"i", " ", "*", " ", "width"}], ")"}], "/", 
-            "numIntervals"}]}], "]"}], ",", " ", 
-         RowBox[{"{", 
-          RowBox[{"i", ",", " ", "0", ",", "numIntervals"}], "}"}]}], "]"}]}],
-       ";", "\[IndentingNewLine]", 
-      RowBox[{"(*", " ", 
-       RowBox[{"These", " ", "are", " ", "the", " ", "points", " ", 
-        RowBox[{"(", 
-         RowBox[{"x", ",", " ", "y"}], ")"}], " ", "which", " ", "bound", " ",
-         "each", " ", 
-        RowBox[{"interval", ".", "  ", "They"}], " ", "are", " ", "only", " ",
-         "used", " ", "for", " ", "the", " ", "plot", " ", "so", " ", "we", 
-        " ", "can", " ", "see", " ", "the", " ", "boundaries", " ", "of", " ",
-         "the", " ", "intervals"}], " ", "*)"}], "\[IndentingNewLine]", 
-      RowBox[{"boundaryPoints", " ", "=", " ", 
-       RowBox[{"Table", "[", 
+        "These", " ", "are", " ", "the", " ", "x", " ", "values", " ", "at", 
+         " ", "the", " ", "endpoints", " ", "of", " ", "each", " ", 
+         "interval"}], ";", " ", 
         RowBox[{
-         RowBox[{"{", 
-          RowBox[{
-           RowBox[{"xVals", "[", 
-            RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
-           RowBox[{"f", "[", " ", 
-            RowBox[{"xVals", "[", 
-             RowBox[{"[", "i", "]"}], "]"}], " ", "]"}]}], "}"}], ",", " ", 
-         RowBox[{"{", 
-          RowBox[{"i", ",", " ", "1", ",", " ", 
-           RowBox[{"numIntervals", "  ", "+", " ", "1"}]}], "}"}]}], "]"}]}], 
-      ";", "\[IndentingNewLine]", 
+        "use", " ", "N", " ", "to", " ", "compute", " ", "everything", " ", 
+         "numerically"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"boundaryxVals", " ", "=", " ", 
+       RowBox[{"Range", "[", 
+        RowBox[{
+         RowBox[{"N", "[", "xMin", "]"}], ",", " ", "xMax", ",", " ", 
+         "intervalSize"}], "]"}]}], ";", "\[IndentingNewLine]", 
       RowBox[{"(*", " ", 
        RowBox[{
         RowBox[{
@@ -282,7 +255,7 @@ Cell[BoxData[
         ",", " ", 
         RowBox[{"one", " ", "for", " ", "each", " ", "interval"}]}], " ", 
        "*)"}], "\[IndentingNewLine]", 
-      RowBox[{"myPolynomials", " ", "=", " ", 
+      RowBox[{"polynomialList", " ", "=", " ", 
        RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
       RowBox[{"For", "[", 
        RowBox[{
@@ -301,50 +274,29 @@ Cell[BoxData[
             "on", " ", "each", " ", "interval"}]}], " ", "*)"}], 
         "\[IndentingNewLine]", 
         RowBox[{
-         RowBox[{"intervalxVals", " ", "=", " ", 
-          RowBox[{"Table", "[", " ", 
+         RowBox[{"xVals", " ", "=", 
+          RowBox[{"Range", "[", 
            RowBox[{
-            RowBox[{
-             RowBox[{"xVals", "[", 
-              RowBox[{"[", "i", "]"}], "]"}], " ", "+", " ", 
-             RowBox[{
-              RowBox[{"(", 
-               RowBox[{
-                RowBox[{"(", 
-                 RowBox[{"j", " ", "-", " ", "1"}], ")"}], " ", "/", 
-                "degree"}], ")"}], 
-              RowBox[{"(", 
-               RowBox[{
-                RowBox[{"xVals", "[", 
-                 RowBox[{"[", 
-                  RowBox[{"i", "+", "1"}], "]"}], "]"}], " ", "-", " ", 
-                RowBox[{"xVals", "[", 
-                 RowBox[{"[", "i", "]"}], "]"}]}], ")"}]}]}], ",", " ", 
-            RowBox[{"{", 
-             RowBox[{"j", ",", " ", "1", ",", " ", 
-              RowBox[{"degree", " ", "+", " ", "1"}]}], "}"}]}], "]"}]}], ";",
-          "\[IndentingNewLine]", 
-         RowBox[{"intervalyVals", " ", "=", " ", 
-          RowBox[{"Table", "[", " ", 
-           RowBox[{
-            RowBox[{"f", "[", 
-             RowBox[{"intervalxVals", "[", 
-              RowBox[{"[", "i", "]"}], "]"}], " ", "]"}], ",", 
-            RowBox[{"{", 
-             RowBox[{"i", ",", " ", "1", ",", " ", 
-              RowBox[{"degree", " ", "+", " ", "1"}]}], "}"}]}], "]"}]}], ";",
-          "\[IndentingNewLine]", 
+            RowBox[{"boundaryxVals", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+            RowBox[{"boundaryxVals", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", "+", "1"}], "]"}], "]"}], ",", " ", 
+            RowBox[{"intervalSize", "/", "degree"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"yVals", " ", "=", " ", 
+          RowBox[{"f", "[", "xVals", "]"}]}], ";", "\[IndentingNewLine]", 
          RowBox[{"(*", " ", 
           RowBox[{
           "Construct", " ", "polynomial", " ", "interpolation", " ", "of", 
            " ", "appropriate", " ", "degree", " ", "using", " ", 
            "Vandermonde", " ", "matrix"}], " ", "*)"}], "\[IndentingNewLine]", 
          RowBox[{"vandermonde", "=", " ", 
-          RowBox[{"MakeVandermonde", "[", "intervalxVals", "]"}]}], ";", 
+          RowBox[{"MakeVandermonde", "[", "xVals", "]"}]}], ";", 
          "\[IndentingNewLine]", 
          RowBox[{"coeffs", " ", "=", " ", 
           RowBox[{"LinearSolve", "[", 
-           RowBox[{"vandermonde", ",", " ", "intervalyVals"}], "]"}]}], ";", 
+           RowBox[{"vandermonde", ",", " ", "yVals"}], "]"}]}], ";", 
          "\[IndentingNewLine]", 
          RowBox[{
           RowBox[{"p", "[", "x_", "]"}], " ", ":=", " ", 
@@ -364,9 +316,9 @@ Cell[BoxData[
           RowBox[{
           "add", " ", "new", " ", "polynomial", " ", "to", " ", "list"}], " ",
            "*)"}], "\[IndentingNewLine]", 
-         RowBox[{"myPolynomials", " ", "=", " ", 
+         RowBox[{"polynomialList", " ", "=", " ", 
           RowBox[{"Append", "[", 
-           RowBox[{"myPolynomials", ",", 
+           RowBox[{"polynomialList", ",", 
             RowBox[{"p", "[", "x", "]"}]}], "]"}]}], ";"}]}], 
        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
       "\[IndentingNewLine]", 
@@ -389,7 +341,7 @@ Cell[BoxData[
          RowBox[{
           RowBox[{"(", 
            RowBox[{
-            RowBox[{"myPolynomials", "[", 
+            RowBox[{"polynomialList", "[", 
              RowBox[{"[", "i", "]"}], "]"}], "//.", 
             RowBox[{"x", "\[Rule]", "t"}]}], ")"}], 
           RowBox[{"Pulse", "[", 
@@ -425,8 +377,13 @@ Cell[BoxData[
         "for", " ", "the", " ", "intervals"}], " ", "*)"}], 
       "\[IndentingNewLine]", 
       RowBox[{"pointsPlot", " ", "=", " ", 
-       RowBox[{"ListPlot", "[", 
-        RowBox[{"boundaryPoints", ",", " ", 
+       RowBox[{"ListPlot", "[", " ", 
+        RowBox[{
+         RowBox[{"Transpose", "[", 
+          RowBox[{"{", 
+           RowBox[{"boundaryxVals", ",", " ", 
+            RowBox[{"f", "[", "boundaryxVals", "]"}]}], "}"}], "]"}], ",", 
+         " ", 
          RowBox[{"PlotMarkers", "\[Rule]", "Automatic"}]}], "]"}]}], ";", 
       "\[IndentingNewLine]", "\[IndentingNewLine]", 
       RowBox[{"(*", " ", 
@@ -445,7 +402,7 @@ Cell[BoxData[
       "\[IndentingNewLine]", 
       RowBox[{"Show", "[", 
        RowBox[{
-       "functionPlot", ",", " ", "pointsPlot", ",", "\[IndentingNewLine]", 
+       "functionPlot", ",", "pointsPlot", ",", "\[IndentingNewLine]", 
         RowBox[{"PlotRange", "\[Rule]", 
          RowBox[{"{", 
           RowBox[{
@@ -537,14 +494,20 @@ Cell[BoxData[
    3.5844762122680492`*^9, 3.584476270892728*^9}, {3.584476498005197*^9, 
    3.584476539178605*^9}, {3.584476626929202*^9, 3.584477181549095*^9}, {
    3.584477218684167*^9, 3.584477220891802*^9}, {3.584477675037714*^9, 
-   3.584477682101679*^9}, {3.584477738410871*^9, 3.584477739373514*^9}}],
+   3.584477682101679*^9}, {3.584477738410871*^9, 3.584477739373514*^9}, {
+   3.584541611809143*^9, 3.584541620827819*^9}, {3.58454169489826*^9, 
+   3.5845417073336763`*^9}, {3.584542788538308*^9, 3.5845428394916973`*^9}, {
+   3.5845428753685226`*^9, 3.58454287552255*^9}, {3.584542939766799*^9, 
+   3.584543044078767*^9}, {3.584543102216674*^9, 3.584543178531144*^9}, {
+   3.58454342174482*^9, 3.5845434917614717`*^9}, {3.584543546354279*^9, 
+   3.5845435820456877`*^9}, {3.5845436612424517`*^9, 3.58454369768466*^9}}],
 
 Cell[BoxData[
  TagBox[
   StyleBox[
    DynamicModuleBox[{$CellContext`degree$$ = 
     2, $CellContext`L$$ = -4, $CellContext`numIntervals$$ = 
-    1, $CellContext`R$$ = 4, Typeset`show$$ = True, 
+    9, $CellContext`R$$ = 4, Typeset`show$$ = True, 
     Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
     Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
     "\"untitled\"", Typeset`specs$$ = {{
@@ -559,66 +522,55 @@ Cell[BoxData[
       Manipulate`Dump`ThisIsNotAControl}, {{
        Hold[$CellContext`L$$], -4, "Left error bound"}, -4, 4}, {{
        Hold[$CellContext`R$$], 4, "Right error bound"}, -4, 4}}, 
-    Typeset`size$$ = {360., {116., 120.}}, Typeset`update$$ = 0, 
+    Typeset`size$$ = {360., {119., 124.}}, Typeset`update$$ = 0, 
     Typeset`initDone$$, Typeset`skipInitDone$$ = 
-    True, $CellContext`numIntervals$3865113$$ = 
-    0, $CellContext`degree$3865114$$ = 0, $CellContext`L$3865115$$ = 
-    0, $CellContext`R$3865116$$ = 0}, 
+    True, $CellContext`numIntervals$345950$$ = 
+    0, $CellContext`degree$345951$$ = 0, $CellContext`L$345952$$ = 
+    0, $CellContext`R$345953$$ = 0}, 
     DynamicBox[Manipulate`ManipulateBoxes[
      1, StandardForm, 
       "Variables" :> {$CellContext`degree$$ = 
         2, $CellContext`L$$ = -4, $CellContext`numIntervals$$ = 
         1, $CellContext`R$$ = 4}, "ControllerVariables" :> {
-        Hold[$CellContext`numIntervals$$, $CellContext`numIntervals$3865113$$,
-          0], 
-        Hold[$CellContext`degree$$, $CellContext`degree$3865114$$, 0], 
-        Hold[$CellContext`L$$, $CellContext`L$3865115$$, 0], 
-        Hold[$CellContext`R$$, $CellContext`R$3865116$$, 0]}, 
+        Hold[$CellContext`numIntervals$$, $CellContext`numIntervals$345950$$, 
+         0], 
+        Hold[$CellContext`degree$$, $CellContext`degree$345951$$, 0], 
+        Hold[$CellContext`L$$, $CellContext`L$345952$$, 0], 
+        Hold[$CellContext`R$$, $CellContext`R$345953$$, 0]}, 
       "OtherVariables" :> {
        Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
         Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
         Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
          Typeset`skipInitDone$$}, 
       "Body" :> ($CellContext`intervalSize = \
-$CellContext`width/$CellContext`numIntervals$$; $CellContext`xVals = Table[
+$CellContext`width/$CellContext`numIntervals$$; $CellContext`boundaryxVals = 
+        Range[
           
-          N[$CellContext`xMin + ($CellContext`i \
-$CellContext`width)/$CellContext`numIntervals$$], {$CellContext`i, 
-           0, $CellContext`numIntervals$$}]; $CellContext`boundaryPoints = 
-        Table[{
-           Part[$CellContext`xVals, $CellContext`i], 
-           $CellContext`f[
-            Part[$CellContext`xVals, $CellContext`i]]}, {$CellContext`i, 
-           1, $CellContext`numIntervals$$ + 
-           1}]; $CellContext`myPolynomials = {}; 
+          N[$CellContext`xMin], $CellContext`xMax, $CellContext`intervalSize]; \
+$CellContext`polynomialList = {}; 
        For[$CellContext`i = 1, $CellContext`i <= $CellContext`numIntervals$$, 
          
-         Increment[$CellContext`i], $CellContext`intervalxVals = 
-          Table[Part[$CellContext`xVals, $CellContext`i] + (($CellContext`j - 
-               1)/$CellContext`degree$$) (
-              Part[$CellContext`xVals, $CellContext`i + 1] - 
-              Part[$CellContext`xVals, $CellContext`i]), {$CellContext`j, 
-             1, $CellContext`degree$$ + 1}]; $CellContext`intervalyVals = 
-          Table[
-            $CellContext`f[
-             
-             Part[$CellContext`intervalxVals, $CellContext`i]], \
-{$CellContext`i, 1, $CellContext`degree$$ + 
-             1}]; $CellContext`vandermonde = \
-$CellContext`MakeVandermonde[$CellContext`intervalxVals]; $CellContext`coeffs = 
-          LinearSolve[$CellContext`vandermonde, $CellContext`intervalyVals]; \
+         Increment[$CellContext`i], $CellContext`xVals = Range[
+            Part[$CellContext`boundaryxVals, $CellContext`i], 
+            
+            Part[$CellContext`boundaryxVals, $CellContext`i + 
+             1], $CellContext`intervalSize/$CellContext`degree$$]; \
+$CellContext`yVals = $CellContext`f[$CellContext`xVals]; \
+$CellContext`vandermonde = $CellContext`MakeVandermonde[$CellContext`xVals]; \
+$CellContext`coeffs = 
+          LinearSolve[$CellContext`vandermonde, $CellContext`yVals]; \
 $CellContext`p[
             Pattern[$CellContext`x$, 
              Blank[]]] := 
           Sum[Part[$CellContext`coeffs, $CellContext`i] \
 $CellContext`x$^($CellContext`i - 1), {$CellContext`i, 
-             1, $CellContext`degree$$ + 1}]; $CellContext`myPolynomials = 
-          Append[$CellContext`myPolynomials, 
+             1, $CellContext`degree$$ + 1}]; $CellContext`polynomialList = 
+          Append[$CellContext`polynomialList, 
             $CellContext`p[$CellContext`x]]; Null]; $CellContext`pwInterp[
           Pattern[$CellContext`t$, 
            Blank[]]] := Sum[ReplaceRepeated[
             
-            Part[$CellContext`myPolynomials, $CellContext`i], $CellContext`x -> \
+            Part[$CellContext`polynomialList, $CellContext`i], $CellContext`x -> \
 $CellContext`t$] $CellContext`Pulse[$CellContext`xMin + \
 $CellContext`intervalSize ($CellContext`i - 
               1), $CellContext`xMin + $CellContext`intervalSize \
@@ -626,8 +578,10 @@ $CellContext`i, $CellContext`t$], {$CellContext`i,
            1, $CellContext`numIntervals$$}]; $CellContext`functionPlot = Plot[{
            $CellContext`f[$CellContext`x], 
            $CellContext`pwInterp[$CellContext`x]}, {$CellContext`x, \
-$CellContext`xMin, $CellContext`xMax}]; $CellContext`pointsPlot = 
-        ListPlot[$CellContext`boundaryPoints, PlotMarkers -> Automatic]; 
+$CellContext`xMin, $CellContext`xMax}]; $CellContext`pointsPlot = ListPlot[
+          Transpose[{$CellContext`boundaryxVals, 
+            $CellContext`f[$CellContext`boundaryxVals]}], PlotMarkers -> 
+          Automatic]; 
        Show[$CellContext`functionPlot, $CellContext`pointsPlot, 
          PlotRange -> {{$CellContext`xMin, $CellContext`xMax}, \
 {$CellContext`yMin, $CellContext`yMax}}, PlotLabel -> 
@@ -649,7 +603,7 @@ $CellContext`L$$, $CellContext`R$$]]],
          Medium], {{$CellContext`L$$, -4, "Left error bound"}, -4, 
          4}, {{$CellContext`R$$, 4, "Right error bound"}, -4, 4}}, 
       "Options" :> {}, "DefaultOptions" :> {}],
-     ImageSizeCache->{405., {224., 229.}},
+     ImageSizeCache->{405., {241., 246.}},
      SingleEvaluation->True],
     Deinitialization:>None,
     DynamicModuleValues:>{},
@@ -659,12 +613,16 @@ $CellContext`L$$, $CellContext`R$$]]],
    Deployed->True,
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{3.584477225883472*^9, 3.584477740058844*^9}]
+ CellChangeTimes->{
+  3.584541635044333*^9, 3.584541708448071*^9, 3.584542841270265*^9, 
+   3.584543048218453*^9, 3.584543140230123*^9, 3.58454317915984*^9, 
+   3.584543436565711*^9, 3.584543495463112*^9, 3.584543549197299*^9, {
+   3.5845436620690727`*^9, 3.5845436981085997`*^9}}]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{1015, 731},
-WindowMargins->{{-3, Automatic}, {Automatic, 0}},
+WindowMargins->{{42, Automatic}, {Automatic, 0}},
 PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
 FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
 2012)",
@@ -685,8 +643,8 @@ Cell[CellGroupData[{
 Cell[579, 22, 1933, 28, 92, "Title"],
 Cell[2515, 52, 586, 9, 69, "Subsubtitle"],
 Cell[CellGroupData[{
-Cell[3126, 65, 20533, 474, 1406, "Input"],
-Cell[23662, 541, 6025, 120, 470, "Output"]
+Cell[3126, 65, 19134, 437, 1355, "Input"],
+Cell[22263, 504, 5720, 115, 538, "Output"]
 }, Open  ]]
 }, Open  ]]
 }
