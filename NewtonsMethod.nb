@@ -10,136 +10,239 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     10549,        255]
-NotebookOptionsPosition[     10176,        239]
-NotebookOutlinePosition[     10611,        256]
-CellTagsIndexPosition[     10568,        253]
+NotebookDataLength[     19067,        424]
+NotebookOptionsPosition[     18157,        391]
+NotebookOutlinePosition[     18591,        408]
+CellTagsIndexPosition[     18548,        405]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+
+Cell[CellGroupData[{
+Cell["Newton\[CloseCurlyQuote]s Method", "Title",
+ CellChangeTimes->{{3.5817857507962637`*^9, 3.581785760410137*^9}, {
+   3.58178581116859*^9, 3.5817863094853477`*^9}, {3.5817864025992393`*^9, 
+   3.581786402986127*^9}, {3.581786438337803*^9, 3.581786511328068*^9}, {
+   3.5817865455585413`*^9, 3.5817865755803137`*^9}, {3.581786705210936*^9, 
+   3.581786728637258*^9}, {3.5817868289596367`*^9, 3.581786997170251*^9}, {
+   3.5817871672052517`*^9, 3.581787178064452*^9}, {3.581787291181264*^9, 
+   3.5817873134687033`*^9}, {3.581787368942812*^9, 3.581787585327241*^9}, {
+   3.581787629213456*^9, 3.581787646411099*^9}, 3.5817876975999613`*^9, {
+   3.581787859111032*^9, 3.5817879826730824`*^9}, {3.581788062400729*^9, 
+   3.581788065950245*^9}, {3.5817881681386337`*^9, 3.581788177033062*^9}, {
+   3.581788217427001*^9, 3.5817883046534557`*^9}, {3.581788613561707*^9, 
+   3.5817886541528187`*^9}, {3.581788737395968*^9, 3.581788738077094*^9}, {
+   3.581788785373858*^9, 3.5817888101758947`*^9}, {3.581788904916252*^9, 
+   3.581788940874865*^9}, {3.5817902232748938`*^9, 3.5817903421092787`*^9}, {
+   3.584485010239324*^9, 3.584485060343891*^9}, {3.58448530983601*^9, 
+   3.584485324761265*^9}, {3.584485386264162*^9, 3.584485432822077*^9}, {
+   3.584570722545425*^9, 3.584570784313424*^9}, {3.584610169316411*^9, 
+   3.584610359232181*^9}, {3.584610478082623*^9, 3.58461050143674*^9}, {
+   3.584610534931624*^9, 3.584610546051043*^9}, {3.584610586236823*^9, 
+   3.58461058867161*^9}, {3.5846106906933107`*^9, 3.584610803813943*^9}, {
+   3.584610839261879*^9, 3.584610877835292*^9}, {3.584610930395131*^9, 
+   3.5846110864409313`*^9}, {3.5846111440162163`*^9, 3.584611174550661*^9}, {
+   3.5846112161866627`*^9, 3.584611227099251*^9}}],
+
+Cell["\<\
+This interactive notebook illustrates Newton\[CloseCurlyQuote]s method for \
+root finding.  Here, the Manipulate command is wrapped inside a function, \
+NewtonsMethodDemo, which takes as its argument the starting value for Newton\
+\[CloseCurlyQuote]s Method.  This allows us to experiment easily with \
+different starting values, which illustrates both the rapid convergence and \
+limitations of Newton\[CloseCurlyQuote]s method.  Both the starting point and \
+the number of iterations can be adjusted using sliders.  The red dot shows \
+the current best estimate for the root.  The red line is the tangent line to \
+the curve at that x value.  The black vertical line is located at the next \
+estimate for the root.
+
+Run the section first to define the functions used for the demonstrations.  \
+Then run the examples below.\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.5846112341272182`*^9, 3.5846112496057873`*^9}, {
+  3.584611430491734*^9, 3.5846115165509663`*^9}, {3.5846115493044567`*^9, 
+  3.584611581509307*^9}, {3.58461194732493*^9, 3.584612021040401*^9}, {
+  3.5846120696152143`*^9, 3.58461212054318*^9}, {3.584612206580634*^9, 
+  3.58461220673315*^9}, {3.584615544223833*^9, 3.584615545075809*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Code for Newton\[CloseCurlyQuote]s method demonstration\
+\>", "Section",
+ CellChangeTimes->{{3.5817857507962637`*^9, 3.581785760410137*^9}, {
+   3.58178581116859*^9, 3.5817863094853477`*^9}, {3.5817864025992393`*^9, 
+   3.581786402986127*^9}, {3.581786438337803*^9, 3.581786511328068*^9}, {
+   3.5817865455585413`*^9, 3.5817865755803137`*^9}, {3.581786705210936*^9, 
+   3.581786728637258*^9}, {3.5817868289596367`*^9, 3.581786997170251*^9}, {
+   3.5817871672052517`*^9, 3.581787178064452*^9}, {3.581787291181264*^9, 
+   3.5817873134687033`*^9}, {3.581787368942812*^9, 3.581787585327241*^9}, {
+   3.581787629213456*^9, 3.581787646411099*^9}, 3.5817876975999613`*^9, {
+   3.581787859111032*^9, 3.5817879826730824`*^9}, {3.581788062400729*^9, 
+   3.581788065950245*^9}, {3.5817881681386337`*^9, 3.581788177033062*^9}, {
+   3.581788217427001*^9, 3.5817883046534557`*^9}, {3.581788613561707*^9, 
+   3.5817886541528187`*^9}, {3.581788737395968*^9, 3.581788738077094*^9}, {
+   3.581788785373858*^9, 3.5817888101758947`*^9}, {3.581788904916252*^9, 
+   3.581788940874865*^9}, {3.5817902232748938`*^9, 3.5817903421092787`*^9}, {
+   3.584485010239324*^9, 3.584485060343891*^9}, {3.58448530983601*^9, 
+   3.584485324761265*^9}, {3.584485386264162*^9, 3.584485432822077*^9}, {
+   3.584570722545425*^9, 3.584570784313424*^9}, {3.584610169316411*^9, 
+   3.584610359232181*^9}, {3.584610478082623*^9, 3.58461050143674*^9}, {
+   3.584610534931624*^9, 3.584610546051043*^9}, {3.584610586236823*^9, 
+   3.58461058867161*^9}, {3.5846106906933107`*^9, 3.584610803813943*^9}, {
+   3.584610839261879*^9, 3.584610877835292*^9}, {3.584610930395131*^9, 
+   3.5846110864409313`*^9}, {3.5846111440162163`*^9, 3.584611174550661*^9}, 
+   3.5846112161866627`*^9, {3.584611259412222*^9, 3.584611286527576*^9}, {
+   3.5846113255613813`*^9, 3.584611328105341*^9}, {3.5846117616791353`*^9, 
+   3.584611833249237*^9}, {3.584611869305202*^9, 3.584611931989951*^9}, {
+   3.584612190097554*^9, 3.584612215156739*^9}}],
+
 Cell[BoxData[
  RowBox[{
   RowBox[{"(*", " ", 
    RowBox[{
-   "This", " ", "series", " ", "of", " ", "Mathematica", " ", "notebooks", 
-    " ", "uses", " ", "the", " ", "Manipulate", " ", "command", " ", "to", 
-    " ", "provide", " ", "visulization", " ", "of", " ", "root", " ", 
-    "finding", " ", "techniques"}], " ", "*)"}], "\[IndentingNewLine]", 
-  "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
-   RowBox[{
-    RowBox[{"Newton", "'"}], "s", " ", "Method"}], " ", "*)"}], 
-  "\[IndentingNewLine]", "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
-   RowBox[{
-   "min", " ", "and", " ", "max", " ", "x", " ", "values", " ", "for", " ", 
-    "plot"}], " ", "*)"}], "\[IndentingNewLine]", 
+   "function", " ", "to", " ", "use", " ", "for", " ", "root", " ", 
+    "finding"}], " ", "*)"}], "\[IndentingNewLine]", 
   RowBox[{
-   RowBox[{
-    RowBox[{"xMin", " ", "=", " ", "0"}], ";"}], "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"xMax", " ", "=", " ", "8"}], ";"}], "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", 
-   RowBox[{"(*", " ", 
-    RowBox[{"maximum", " ", "number", " ", "of", " ", "iterations"}], " ", 
-    "*)"}], "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"maxIterations", " ", "=", "10"}], ";"}], "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", 
-   RowBox[{"(*", " ", 
-    RowBox[{
-    "cutoff", " ", "threshold", " ", "for", " ", "root", " ", "finding"}], 
-    " ", "*)"}], "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"threshold", " ", "=", " ", 
-     RowBox[{"10", "^", 
-      RowBox[{"-", "5"}]}]}], ";"}], "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", 
-   RowBox[{"(*", " ", 
-    RowBox[{
-    "function", " ", "to", " ", "use", " ", "for", " ", "root", " ", 
-     "finding"}], " ", "*)"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{
      RowBox[{"f", "[", "x_", "]"}], " ", ":=", " ", 
      RowBox[{"x", " ", 
       RowBox[{"Cos", "[", "x", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "min", " ", "and", " ", "max", " ", "x", " ", "values", " ", "for", " ", 
+     "plot"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMin", " ", "=", " ", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMax", " ", "=", " ", "10"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "maximum", " ", "number", " ", "of", " ", "iterations", " ", "to", " ", 
+     "be", " ", "allowed", " ", "by", " ", "Manipulate"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxIterations", " ", "=", "10"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"plot", " ", "of", " ", "the", " ", "function", " ", 
+     RowBox[{"f", "[", "x", "]"}], " ", "to", " ", "be", " ", "displayed"}], 
+    " ", "*)"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"functionPlot", " ", "=", " ", 
      RowBox[{"Plot", "[", 
       RowBox[{
        RowBox[{"f", "[", "x", "]"}], ",", " ", 
        RowBox[{"{", 
-        RowBox[{"x", ",", " ", "xMin", ",", " ", "xMax"}], "}"}]}], "]"}]}], 
-    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"x", ",", " ", "xMin", ",", " ", "xMax"}], "}"}], ",", " ", 
+       RowBox[{"PlotStyle", "\[Rule]", "Blue"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"this", " ", "recursive", " ", "function", " ", "does", " ", 
+     StyleBox["num",
+      FontSlant->"Italic"], " ", "iterations", " ", "of", " ", 
+     RowBox[{"Newton", "'"}], "s", " ", "Method", " ", "starting", " ", "at", 
+     " ", 
+     StyleBox["x",
+      FontSlant->"Italic"]}], 
+    StyleBox[" ",
+     FontSlant->"Italic"], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"NewtonsMethod", "[", 
+      RowBox[{"x_", ",", "num_"}], "]"}], " ", ":=", " ", 
+     RowBox[{"If", "[", " ", 
+      RowBox[{
+       RowBox[{"num", " ", "\[Equal]", " ", "0"}], ",", " ", "x", ",", " ", 
+       RowBox[{"NewtonsMethod", "[", 
+        RowBox[{
+         RowBox[{"x", " ", "-", " ", 
+          RowBox[{
+           RowBox[{"f", "[", "x", "]"}], "/", 
+           RowBox[{
+            RowBox[{"f", "'"}], "[", "x", "]"}]}]}], ",", " ", 
+         RowBox[{"num", " ", "-", " ", "1"}]}], "]"}]}], " ", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "this", " ", "function", " ", "returns", " ", "equation", " ", "of", " ", 
+     "tangent", " ", "line", " ", "to", " ", "a", " ", "function", " ", "g", 
+     " ", "at", " ", "value", " ", 
+     StyleBox["t",
+      FontSlant->"Italic"]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TangentEquation", "[", 
+      RowBox[{"g_", ",", " ", "t_"}], "]"}], " ", ":=", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"m", " ", "=", 
+         RowBox[{
+          RowBox[{"g", "'"}], "[", "t", "]"}]}], ")"}], " ", "x"}], " ", "+", 
+      " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"g", "[", "t", "]"}], " ", "-", " ", 
+        RowBox[{"m", " ", "t"}]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{
      RowBox[{"NewtonsMethodDemo", "[", "initialValue_", "]"}], " ", ":=", " ", 
      RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
       RowBox[{"(*", " ", 
        RowBox[{
-       "set", " ", "starting", " ", "L", " ", "and", " ", "R", " ", 
-        "endpoints", " ", "using", " ", "values", " ", "from", " ", 
-        "Manipulate"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"do", " ", 
+         StyleBox["numIterations",
+          FontSlant->"Italic"], " ", "interations", " ", "of", " ", 
+         RowBox[{"Newton", "'"}], "s", " ", "Method"}], ",", " ", 
+        RowBox[{"starting", " ", "at", " ", 
+         StyleBox["start",
+          FontSlant->"Italic"]}]}], " ", "*)"}], "\[IndentingNewLine]", 
       RowBox[{
        RowBox[{
-        RowBox[{"x1", " ", "=", " ", "start"}], ";", "\[IndentingNewLine]", 
-        "\[IndentingNewLine]", 
+        RowBox[{"x1", " ", "=", " ", 
+         RowBox[{"NewtonsMethod", "[", 
+          RowBox[{
+           RowBox[{"N", "[", "start", "]"}], ",", " ", "numIterations"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
         RowBox[{"(*", " ", 
          RowBox[{
-          RowBox[{"do", " ", 
-           RowBox[{"Newton", "'"}], "s", " ", "method", " ", "numIterations", 
-           " ", "times"}], ",", " ", 
-          RowBox[{"stop", " ", "when", " ", "threshold", " ", "reached"}]}], 
-         " ", "*)"}], "\[IndentingNewLine]", 
-        RowBox[{"count", " ", "=", " ", "0"}], ";", "\[IndentingNewLine]", 
-        RowBox[{"While", "[", " ", 
-         RowBox[{
           RowBox[{
+          "plot", " ", "equation", " ", "of", " ", "tangent", " ", "line"}], 
+          ",", " ", 
+          RowBox[{"starting", " ", "x", " ", "point"}], ",", " ", 
+          RowBox[{
+          "line", " ", "up", " ", "to", " ", "tangent", " ", "line"}]}], " ", 
+         "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"pointsPlot", " ", "=", " ", 
+         RowBox[{"ListPlot", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"{", 
+             RowBox[{"x1", ",", " ", "0"}], "}"}], "}"}], ",", " ", 
+           RowBox[{"PlotStyle", "\[Rule]", " ", "Red"}], ",", " ", 
+           RowBox[{"PlotMarkers", "\[Rule]", "Automatic"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"lineToTangent", " ", "=", " ", 
+         RowBox[{"Line", "[", 
+          RowBox[{"{", 
            RowBox[{
-            RowBox[{"Abs", "[", 
-             RowBox[{"f", "[", "x1", "]"}], "]"}], " ", ">", " ", 
-            "threshold"}], " ", "&&", " ", 
-           RowBox[{"count", " ", "<", " ", "numIterations"}]}], ",", 
-          "\[IndentingNewLine]", "\t", 
-          RowBox[{
-           RowBox[{"x1", " ", "=", " ", 
-            RowBox[{"x1", " ", "-", " ", 
-             RowBox[{
-              RowBox[{"f", "[", "x1", "]"}], "/", 
-              RowBox[{
-               RowBox[{"f", "'"}], "[", "x1", "]"}]}]}]}], ";", 
-           "\[IndentingNewLine]", "\t", 
-           RowBox[{"count", " ", "+=", " ", "1"}], ";"}]}], 
-         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"x1", ",", " ", "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"x1", ",", " ", 
+              RowBox[{"f", "[", "x1", "]"}]}], "}"}]}], "}"}], "]"}]}], ";", 
         "\[IndentingNewLine]", 
-        RowBox[{"(*", " ", 
-         RowBox[{
-         "equation", " ", "and", " ", "plot", " ", "of", " ", "tangent", " ", 
-          "line", " ", "for", " ", 
-          RowBox[{"Newton", "'"}], "s", " ", "method"}], " ", "*)"}], 
-        "\[IndentingNewLine]", 
-        RowBox[{"newtonSlope", " ", "=", " ", 
-         RowBox[{
-          RowBox[{"f", "'"}], "[", "x1", "]"}]}], ";", "\[IndentingNewLine]", 
-        
-        RowBox[{"newtonIntercept", " ", "=", " ", 
-         RowBox[{
-          RowBox[{"f", "[", "x1", "]"}], " ", "-", " ", 
-          RowBox[{
-           RowBox[{
-            RowBox[{"f", "'"}], "[", "x1", "]"}], "x1"}]}]}], ";", 
-        "\[IndentingNewLine]", 
-        RowBox[{
-         RowBox[{"tangentLine", "[", "x_", "]"}], " ", ":=", " ", 
-         RowBox[{
-          RowBox[{"newtonSlope", " ", "x"}], " ", "+", " ", 
-          "newtonIntercept"}]}], ";", "\[IndentingNewLine]", 
         RowBox[{"tangentPlot", " ", "=", " ", 
          RowBox[{"Plot", "[", 
           RowBox[{
-           RowBox[{"tangentLine", "[", "x", "]"}], ",", " ", 
+           RowBox[{"TangentEquation", "[", 
+            RowBox[{"f", ",", " ", "x1"}], "]"}], ",", " ", 
            RowBox[{"{", 
             RowBox[{"x", ",", " ", "xMin", ",", " ", "xMax"}], "}"}], ",", 
            " ", 
@@ -147,45 +250,27 @@ Cell[BoxData[
         "\[IndentingNewLine]", "\[IndentingNewLine]", 
         RowBox[{"(*", " ", 
          RowBox[{
-         "plot", " ", "the", " ", "point", " ", "of", " ", "tangency"}], " ", 
-         "*)"}], "\[IndentingNewLine]", 
-        RowBox[{"pointsPlot", " ", "=", " ", 
-         RowBox[{"ListPlot", "[", 
-          RowBox[{
-           RowBox[{"{", 
-            RowBox[{"{", 
-             RowBox[{"x1", ",", " ", 
-              RowBox[{"f", "[", "x1", "]"}]}], "}"}], "}"}], ",", " ", 
-           RowBox[{"PlotStyle", "\[Rule]", " ", "Red"}], ",", " ", 
-           RowBox[{"PlotMarkers", "\[Rule]", "Automatic"}]}], "]"}]}], ";", 
-        "\[IndentingNewLine]", "\[IndentingNewLine]", 
-        RowBox[{"nextX", " ", "=", "  ", 
-         RowBox[{"x1", " ", "-", " ", 
-          RowBox[{
-           RowBox[{"f", "[", "x1", "]"}], "/", 
-           RowBox[{
-            RowBox[{"f", "'"}], "[", "x1", "]"}]}]}]}], ";", 
-        "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-        RowBox[{"(*", " ", 
-         RowBox[{
-          RowBox[{
-          "plot", " ", "function", " ", "with", " ", "tangent", " ", "line", 
-           " ", "at", " ", "current", " ", "test", " ", "root"}], ",", " ", 
+          RowBox[{"show", " ", "all", " ", "plots"}], ";", " ", 
           RowBox[{
           "vertical", " ", "line", " ", "shows", " ", "where", " ", "next", 
-           " ", "test", " ", "point", " ", "will", " ", "be"}]}], " ", "*)"}],
-         "\[IndentingNewLine]", 
+           " ", "x", " ", "value", " ", "will", " ", "be"}]}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
         RowBox[{"Show", "[", 
          RowBox[{
          "functionPlot", ",", "tangentPlot", ",", " ", "pointsPlot", ",", 
+          RowBox[{"Graphics", "[", 
+           RowBox[{"{", 
+            RowBox[{"Black", ",", " ", "lineToTangent"}], "}"}], "]"}], ",", 
           "\[IndentingNewLine]", 
           RowBox[{"GridLines", "\[Rule]", 
            RowBox[{"{", " ", 
             RowBox[{
              RowBox[{"{", 
               RowBox[{"{", " ", 
-               RowBox[{"nextX", ",", " ", "Black"}], "}"}], " ", "}"}], ",", 
-             " ", 
+               RowBox[{
+                RowBox[{"NewtonsMethod", "[", 
+                 RowBox[{"x1", ",", " ", "1"}], "]"}], ",", " ", "Black"}], 
+               "}"}], " ", "}"}], ",", " ", 
              RowBox[{"{", "}"}]}], " ", "}"}]}], ",", "\[IndentingNewLine]", 
           RowBox[{"PlotLabel", "\[Rule]", " ", 
            RowBox[{"StringJoin", "[", 
@@ -195,8 +280,8 @@ Cell[BoxData[
          "\[IndentingNewLine]", "]"}]}], ",", "\[IndentingNewLine]", 
        "\[IndentingNewLine]", 
        RowBox[{"(*", " ", 
-        RowBox[{"manipulate", " ", "parameters"}], " ", "*)"}], 
-       "\[IndentingNewLine]", 
+        RowBox[{"manipulate", " ", "parameters", " ", "and", " ", "sliders"}],
+         " ", "*)"}], "\[IndentingNewLine]", 
        RowBox[{"Style", "[", 
         RowBox[{"\"\<Newton's Method\>\"", ",", "Bold", ",", "Medium"}], 
         "]"}], ",", "\[IndentingNewLine]", 
@@ -230,15 +315,82 @@ Cell[BoxData[
    3.581788785373858*^9, 3.5817888101758947`*^9}, {3.581788904916252*^9, 
    3.581788940874865*^9}, {3.5817902232748938`*^9, 3.5817903421092787`*^9}, {
    3.584485010239324*^9, 3.584485060343891*^9}, {3.58448530983601*^9, 
-   3.584485324761265*^9}, {3.584485386264162*^9, 3.584485432822077*^9}}],
+   3.584485324761265*^9}, {3.584485386264162*^9, 3.584485432822077*^9}, {
+   3.584570722545425*^9, 3.584570784313424*^9}, {3.584610169316411*^9, 
+   3.584610359232181*^9}, {3.584610478082623*^9, 3.58461050143674*^9}, {
+   3.584610534931624*^9, 3.584610546051043*^9}, {3.584610586236823*^9, 
+   3.58461058867161*^9}, {3.5846106906933107`*^9, 3.584610803813943*^9}, {
+   3.584610839261879*^9, 3.584610877835292*^9}, {3.584610930395131*^9, 
+   3.5846110864409313`*^9}, {3.5846111440162163`*^9, 3.584611174550661*^9}, 
+   3.5846112161866627`*^9, {3.584611259412222*^9, 3.584611286527576*^9}, {
+   3.5846113255613813`*^9, 3.584611328105341*^9}, {3.5846117616791353`*^9, 
+   3.584611833249237*^9}, {3.584611869305202*^9, 3.584611931989951*^9}, 
+   3.584612190097554*^9, {3.5846138191230164`*^9, 3.584613860643169*^9}, {
+   3.5846138968408937`*^9, 3.58461392883776*^9}, {3.584614005267006*^9, 
+   3.584614013374692*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Interactive examples", "Section",
+ CellChangeTimes->{{3.584485070746895*^9, 3.584485073174539*^9}, {
+  3.5844851107534018`*^9, 3.5844851113572893`*^9}, {3.5846113462552*^9, 
+  3.5846113748900137`*^9}, {3.5846115426639433`*^9, 3.5846115427817097`*^9}, {
+  3.584612052110922*^9, 3.5846120644962606`*^9}, {3.58461214470785*^9, 
+  3.584612179397222*^9}, {3.584612218711392*^9, 3.584612219467149*^9}}],
+
+Cell["\<\
+This uses Newton\[CloseCurlyQuote]s method to locate the root near x = 1.5.\
+\>", "Text",
+ CellChangeTimes->{{3.584612325643928*^9, 3.584612339249136*^9}, {
+  3.584612519502246*^9, 3.5846125319957457`*^9}}],
 
 Cell[BoxData[
- RowBox[{"NewtonsMethodDemo", "[", "0.8", "]"}]], "Input",
+ RowBox[{"NewtonsMethodDemo", "[", "1.0", "]"}]], "Input",
  CellChangeTimes->{{3.584485070746895*^9, 3.584485073174539*^9}, {
-  3.5844851107534018`*^9, 3.5844851113572893`*^9}}]
+   3.5844851107534018`*^9, 3.5844851113572893`*^9}, {3.5846113462552*^9, 
+   3.5846113748900137`*^9}, {3.5846115426639433`*^9, 3.5846115427817097`*^9}, 
+   3.584612052110922*^9, {3.584612279061364*^9, 3.584612284235703*^9}}],
+
+Cell["\<\
+This illustatrates one problem with Newton\[CloseCurlyQuote]s method.  \
+Although we start at x = 0.9, which is relatively close to the root near x = \
+1.5, the tangent line is practically vertical at that point, and we \
+\[OpenCurlyDoubleQuote]jump\[CloseCurlyDoubleQuote] to the root near x = 8.\
+\>", "Text",
+ CellChangeTimes->{{3.584612343739056*^9, 3.58461235449667*^9}, {
+  3.584612405645419*^9, 3.584612465173864*^9}, {3.5846125046713552`*^9, 
+  3.584612505357067*^9}}],
+
+Cell[BoxData[
+ RowBox[{"NewtonsMethodDemo", "[", "0.9", "]"}]], "Input",
+ CellChangeTimes->{{3.584612360901352*^9, 3.584612369576737*^9}}],
+
+Cell["\<\
+Here we \[OpenCurlyDoubleQuote]jump\[CloseCurlyDoubleQuote] to the root near \
+4.75.\
+\>", "Text",
+ CellChangeTimes->{{3.584612476496058*^9, 3.584612480988058*^9}, {
+  3.584612516541478*^9, 3.584612517228229*^9}}],
+
+Cell[BoxData[
+ RowBox[{"NewtonsMethodDemo", "[", "0.95", "]"}]], "Input",
+ CellChangeTimes->{{3.584612484920185*^9, 3.584612491398271*^9}}],
+
+Cell["\<\
+Here we start at a point with a horizontal tangent, and the method fails \
+completely.\
+\>", "Text",
+ CellChangeTimes->{{3.584612681252528*^9, 3.5846127056314907`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"NewtonsMethodDemo", "[", "0.860334", "]"}]], "Input",
+ CellChangeTimes->{{3.584612557937776*^9, 3.5846126255471163`*^9}}]
+}, Open  ]]
+}, Open  ]]
 },
-WindowSize->{745, 714},
-WindowMargins->{{155, Automatic}, {Automatic, 0}},
+WindowSize->{862, 732},
+WindowMargins->{{60, Automatic}, {Automatic, 0}},
 PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
 FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
 2012)",
@@ -255,8 +407,25 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[557, 20, 9421, 212, 947, "Input"],
-Cell[9981, 234, 191, 3, 28, "Input"]
+Cell[CellGroupData[{
+Cell[579, 22, 1733, 23, 92, "Title"],
+Cell[2315, 47, 1216, 19, 169, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[3556, 70, 1988, 28, 80, "Section"],
+Cell[5547, 100, 10230, 229, 675, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15814, 334, 402, 5, 80, "Section"],
+Cell[16219, 341, 216, 4, 30, "Text"],
+Cell[16438, 347, 364, 5, 28, "Input"],
+Cell[16805, 354, 486, 8, 49, "Text"],
+Cell[17294, 364, 138, 2, 28, "Input"],
+Cell[17435, 368, 223, 5, 30, "Text"],
+Cell[17661, 375, 139, 2, 28, "Input"],
+Cell[17803, 379, 178, 4, 30, "Text"],
+Cell[17984, 385, 145, 2, 28, "Input"]
+}, Open  ]]
+}, Open  ]]
 }
 ]
 *)

@@ -1,0 +1,300 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     12111,        291]
+NotebookOptionsPosition[     11662,        272]
+NotebookOutlinePosition[     12098,        289]
+CellTagsIndexPosition[     12055,        286]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Taylor Polynomials", "Title",
+ CellChangeTimes->{{3.58455163328946*^9, 3.5845516368531103`*^9}}],
+
+Cell["\<\
+This interactive notebook explores approximation of functions using Taylor \
+polynomials.  The degree of the Taylor polynomial and the center of the \
+series expansion can be varied using the sliders.  The mean norm error can be \
+calculated for the interpolation; it is measured between the two red lines \
+(left and right error bounds), which may be adjusted by sliders.\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.58455164603153*^9, 3.584551658596767*^9}, {
+  3.5845517098631477`*^9, 3.584551745420455*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "function", " ", "to", " ", "be", " ", "used", " ", "for", " ", 
+    "demonstration"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"f", "[", "x_", "]"}], " ", ":=", " ", 
+     RowBox[{"1", " ", "/", " ", 
+      RowBox[{"(", 
+       RowBox[{"1", " ", "+", " ", 
+        RowBox[{"x", "^", "2"}]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"f", "[", "x_", "]"}], " ", ":=", " ", 
+     RowBox[{
+      RowBox[{"1", "/", 
+       RowBox[{"Cosh", "[", 
+        RowBox[{"x", " ", "-", " ", "1"}], "]"}]}], " ", "+", " ", 
+      RowBox[{"1", "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"x", "^", "2"}], " ", "+", " ", "1"}], ")"}]}]}]}], " ", 
+    "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "interval", " ", "to", " ", "be", " ", "used", " ", "for", " ", 
+     "approximation"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMin", " ", "=", " ", 
+     RowBox[{"-", "4"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMax", " ", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "min", " ", "and", " ", "max", " ", "y", " ", "values", " ", "for", " ", 
+     "graph"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMin", " ", "=", " ", 
+     RowBox[{"-", "2"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yMax", "=", " ", "2"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"mean", " ", "norm", " ", "error", " ", "function"}], " ", "*)"}],
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"meanNormError", "[", 
+      RowBox[{
+      "real_", ",", " ", "approx_", ",", " ", "var_", ",", "L_", ",", " ", 
+       "R_"}], "]"}], " ", ":=", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "/", 
+        RowBox[{"(", 
+         RowBox[{"R", "-", "L"}], ")"}]}], ")"}], 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"NIntegrate", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"real", " ", "-", " ", "approx"}], ")"}], "^", "2"}], ",",
+           " ", 
+          RowBox[{"{", 
+           RowBox[{"var", ",", " ", "L", ",", " ", "R"}], "}"}]}], "]"}], 
+        ")"}], "^", 
+       RowBox[{"(", 
+        RowBox[{"1", "/", "2"}], ")"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"taylor", "[", "x_", "]"}], " ", ":=", " ", 
+       RowBox[{
+        RowBox[{"Normal", "[", 
+         RowBox[{"Series", "[", 
+          RowBox[{
+           RowBox[{"f", "[", "t", "]"}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"t", ",", " ", "center", ",", " ", "degree"}], "}"}]}], 
+          "]"}], "]"}], "/.", 
+        RowBox[{"t", "\[Rule]", "x"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "plot", " ", "the", " ", "approximation", " ", "along", " ", "with", 
+        " ", "the", " ", "function", " ", "being", " ", "approximated"}], " ",
+        "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"functionPlot", " ", "=", " ", 
+       RowBox[{"Plot", "[", " ", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"f", "[", "x", "]"}], ",", " ", 
+           RowBox[{"taylor", "[", "x", "]"}]}], "}"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"x", ",", " ", "xMin", ",", " ", "xMax"}], "}"}]}], "]"}]}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "put", " ", "a", " ", "dot", " ", "at", " ", "the", " ", "center", " ",
+         "of", " ", "the", " ", "Taylor", " ", "expansion"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"pointsPlot", " ", "=", " ", 
+       RowBox[{"ListPlot", "[", " ", 
+        RowBox[{
+         RowBox[{"{", " ", 
+          RowBox[{"{", 
+           RowBox[{"center", ",", " ", 
+            RowBox[{"f", "[", "center", "]"}]}], "}"}], " ", "}"}], ",", " ", 
+         
+         RowBox[{"PlotMarkers", "\[Rule]", "Automatic"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"show", " ", "both", " ", "plots", " ", "superimposed"}], ",",
+         " ", 
+        RowBox[{
+        "with", " ", "plot", " ", "title", " ", "giving", " ", "the", " ", 
+         "mean", " ", "norm", " ", "error"}]}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "the", " ", "plot", " ", "gridlines", " ", "show", " ", "the", " ", 
+        "bounds", " ", "within", " ", "which", " ", "the", " ", "mean", " ", 
+        "norm", " ", "error", " ", "is", " ", "computed"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"Show", "[", 
+       RowBox[{
+       "functionPlot", ",", " ", "pointsPlot", ",", "\[IndentingNewLine]", 
+        RowBox[{"PlotRange", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"leftEndpt", ",", " ", "rightEndpt"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"yMin", ",", " ", "yMax"}], "}"}]}], " ", "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PlotLabel", "\[Rule]", " ", 
+         RowBox[{"StringJoin", "[", 
+          RowBox[{"\"\<Mean norm error: \>\"", ",", " ", 
+           RowBox[{"ToString", "[", 
+            RowBox[{"meanNormError", "[", 
+             RowBox[{
+              RowBox[{"f", "[", "x", "]"}], ",", " ", 
+              RowBox[{"taylor", "[", "x", "]"}], ",", "x", ",", " ", "L", ",",
+               " ", "R"}], "]"}], "]"}]}], "]"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"GridLines", "\[Rule]", 
+         RowBox[{"{", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", " ", 
+              RowBox[{"L", ",", " ", "Red"}], "}"}], ",", " ", 
+             RowBox[{"{", 
+              RowBox[{"R", ",", " ", "Red"}], "}"}]}], " ", "}"}], ",", " ", 
+           RowBox[{"{", "}"}]}], " ", "}"}]}]}], "\[IndentingNewLine]", 
+       "]"}]}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{"sliders", " ", "and", " ", "dividers"}], " ", "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{"\"\<Taylor polynomials\>\"", ",", "Bold", ",", "Medium"}], 
+      "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"degree", ",", " ", "2", ",", " ", "20", ",", " ", "1"}], "}"}],
+      ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"center", ",", "0"}], "}"}], ",", " ", 
+       RowBox[{"-", "3"}], ",", " ", "3"}], "}"}], ",", "\[IndentingNewLine]",
+      "Delimiter", ",", "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{
+      "\"\<Bounds for mean norm error\>\"", ",", "Bold", ",", "Medium"}], 
+      "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "L", ",", " ", "leftEndpt", ",", " ", "\"\<Left error bound\>\""}], 
+        "}"}], ",", " ", "leftEndpt", ",", " ", "rightEndpt"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "R", ",", " ", "rightEndpt", ",", " ", "\"\<Right error bound\>\""}], 
+        "}"}], ",", " ", "leftEndpt", ",", " ", "rightEndpt"}], "}"}]}], 
+    "\[IndentingNewLine]", "]"}], " "}]}]], "Input",
+ CellChangeTimes->{{3.577021376352972*^9, 3.5770214402172203`*^9}, {
+   3.577021482896723*^9, 3.577021530164753*^9}, {3.577021608099647*^9, 
+   3.577021711575509*^9}, {3.5770217692156563`*^9, 3.577021781707787*^9}, {
+   3.577021832530588*^9, 3.577021870454081*^9}, {3.577021933034132*^9, 
+   3.577022179244894*^9}, {3.577022297089373*^9, 3.577022355019538*^9}, {
+   3.577023009602147*^9, 3.577023084355988*^9}, {3.577023121245489*^9, 
+   3.5770231296742887`*^9}, {3.577023170984334*^9, 3.5770231832072563`*^9}, {
+   3.5770235064592533`*^9, 3.577023506757821*^9}, {3.577023570561536*^9, 
+   3.5770235770128393`*^9}, {3.5770236422419233`*^9, 
+   3.5770236520383263`*^9}, {3.577023773588477*^9, 3.577023826178084*^9}, {
+   3.57702411404633*^9, 3.5770241792343903`*^9}, {3.5770242358097343`*^9, 
+   3.577024380169685*^9}, {3.577024805242743*^9, 3.577024846098181*^9}, {
+   3.577024916609186*^9, 3.577025006782744*^9}, {3.5770250523686733`*^9, 
+   3.577025064045485*^9}, {3.5770251224360313`*^9, 3.57702512888628*^9}, {
+   3.577025193380314*^9, 3.57702522239324*^9}, {3.577025442842037*^9, 
+   3.5770254433845167`*^9}, {3.577025548962976*^9, 3.5770255517239923`*^9}, {
+   3.577025712579217*^9, 3.5770258114879627`*^9}, {3.577025881327237*^9, 
+   3.5770259685431643`*^9}, {3.577026084020874*^9, 3.5770260871886597`*^9}, {
+   3.5770261174071903`*^9, 3.5770261518536367`*^9}, {3.577026211648238*^9, 
+   3.577026214752787*^9}, {3.57702631966578*^9, 3.5770263613702793`*^9}, {
+   3.577026537490296*^9, 3.577026599636559*^9}, {3.577026632622468*^9, 
+   3.577026681122943*^9}, {3.577026717133847*^9, 3.5770267197534723`*^9}, {
+   3.577026797427754*^9, 3.577026828771995*^9}, {3.577027521516679*^9, 
+   3.577027664346498*^9}, {3.577027710729125*^9, 3.5770277205443563`*^9}, {
+   3.577028463407606*^9, 3.577028476434167*^9}, {3.577028680860392*^9, 
+   3.5770287087024612`*^9}, {3.5770287752614613`*^9, 3.577028799464426*^9}, {
+   3.577029064725181*^9, 3.5770291001574574`*^9}, {3.5770291430899467`*^9, 
+   3.5770292025207987`*^9}, {3.5770293767389*^9, 3.5770294052606688`*^9}, {
+   3.577029671593041*^9, 3.577029780947219*^9}, 3.577029882262856*^9, {
+   3.577030079991047*^9, 3.577030141577976*^9}, {3.57703025718855*^9, 
+   3.577030265963189*^9}, {3.5770303509780703`*^9, 3.5770303533413677`*^9}, 
+   3.5770312120346317`*^9, {3.577031274927782*^9, 3.577031326681522*^9}, {
+   3.577031359104439*^9, 3.577031414697444*^9}, {3.577031474549013*^9, 
+   3.577031495033599*^9}, {3.5770348324415417`*^9, 3.577034840815736*^9}, 
+   3.577035126191854*^9, {3.581847211713456*^9, 3.581847218440674*^9}, {
+   3.584551532325145*^9, 3.584551542980482*^9}, {3.584551596092123*^9, 
+   3.5845516021450453`*^9}, {3.584551693281454*^9, 3.584551702542591*^9}, {
+   3.584551755116054*^9, 3.584551814722249*^9}}]
+}, Open  ]]
+},
+WindowSize->{1023, 676},
+WindowMargins->{{100, Automatic}, {Automatic, 0}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 102, 1, 92, "Title"],
+Cell[684, 25, 519, 8, 69, "Subsubtitle"],
+Cell[1206, 35, 10440, 234, 675, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

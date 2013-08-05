@@ -1,0 +1,434 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     17412,        425]
+NotebookOptionsPosition[     16886,        403]
+NotebookOutlinePosition[     17321,        420]
+CellTagsIndexPosition[     17278,        417]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Secant Method", "Title",
+ CellChangeTimes->CompressedData["
+1:eJwdyVsoQwEAh/ElKck8IGS5TVqRIqmFXBKa3JWRWOO0YgwPsqkRkzF0RnlQ
+linFSQ2ZS1MYrSymhkLkEtIKESNxOP/z8PV7+CKlilLCg8PhRDNBWnXmXDG5
+Mk/DfY9hEEGcw69+U/AqjCuLhlUjtax5h3YB1Ha5EuDoVUIyfNa/CeHvZowI
+NtYHFECx2VAJl9pmmqFc/9ALab+sPujaJ8ag4S9+HGpiwybhrKFkCvJ4GT+Q
+slCstuwV2RpjbfMjq7PuSAWfL146of03pw+6t9w66CN4JaG2tWcS0tmEkf3e
+y9PwVNI5B21efBPkR/0ErTPWHLREwOvu4e9jxnKxmXXXIcwNNbsy1b16EaTl
+t4Ww0jpbCrmfJzVw8DxdCsv8Axtgx06cCgqeKA2s9wzph3ukWgflxZYhKDn4
+IOGIcHEcVt9sG6EHlbwAJ7RWG3Q7NHbY3kSeQSr3+wZadOQD5BvT3qHTfOfJ
+Y5RxFWFwQTJfAJUfiUXQrRyogN2pSVVwcStUCq2X4azqlPsmuCESKGDwslgJ
+89/pLvgPXRRAEA==
+  "]],
+
+Cell["\<\
+This interactive notebook illustrates the secant method for root finding.  \
+The two starting points and the number of iterations can be adjusted using \
+sliders.  The red dot shows the current best estimate for the root, while the \
+blue dot shows the other endpoint.  The red line is the secant line \
+connecting the two endpoints.  The black vertical line is located at the next \
+estimate for the root.
+\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.584615466429446*^9, 3.584615539852672*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "function", " ", "to", " ", "use", " ", "for", " ", "root", " ", 
+    "finding"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"f", "[", "x_", "]"}], " ", ":=", " ", 
+     RowBox[{"x", " ", 
+      RowBox[{"Cos", "[", "x", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "min", " ", "and", " ", "max", " ", "x", " ", "values", " ", "for", " ", 
+     "plot"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMin", " ", "=", " ", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMax", " ", "=", " ", "5"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"maximum", " ", "number", " ", "of", " ", "iterations"}], " ", 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxIterations", " ", "=", "20"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"plot", " ", "of", " ", "the", " ", "function", " ", 
+     RowBox[{"f", "[", "x", "]"}], " ", "to", " ", "be", " ", "displayed"}], 
+    " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"functionPlot", " ", "=", " ", 
+     RowBox[{"Plot", "[", 
+      RowBox[{
+       RowBox[{"f", "[", "x", "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", " ", "xMin", ",", " ", "xMax"}], "}"}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"This", " ", "recursive", " ", "function", " ", "does", " ", 
+     StyleBox["num",
+      FontSlant->"Italic"], " ", "iterations", " ", "of", " ", "the", " ", 
+     "secant", " ", "method", " ", "with", " ", "starting", " ", "points", 
+     " ", "x1", " ", "and", " ", 
+     RowBox[{"x2", ".", " ", "Note"}], " ", "that", " ", "the", " ", "order", 
+     " ", "of", " ", "the", " ", "points", " ", "x1", " ", "and", " ", "x2", 
+     " ", "does", " ", "not", " ", "matter", " ", "for", " ", "the", " ", 
+     "secant", " ", 
+     RowBox[{"method", ".", "  ", "x1"}], " ", "always", " ", "contains", " ",
+      "our", " ", "new", " ", "best", " ", "estimate", " ", "which", " ", 
+     "is", " ", "the", " ", "most", " ", "recently", " ", "updated", " ", 
+     "point"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"SecantMethod", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"x1_", ",", " ", "x2_"}], "}"}], ",", "num_"}], "]"}], " ", ":=",
+      " ", 
+     RowBox[{"If", "[", " ", 
+      RowBox[{
+       RowBox[{"num", " ", "\[Equal]", " ", "0"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"x1", ",", " ", "x2"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"f", "[", "x1", "]"}], 
+           RowBox[{"f", "[", 
+            RowBox[{"testRoot", " ", "=", " ", 
+             RowBox[{"x1", " ", "-", " ", 
+              RowBox[{
+               RowBox[{"f", "[", "x1", "]"}], " ", 
+               RowBox[{"(", " ", 
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{"x2", " ", "-", " ", "x1"}], ")"}], " ", "/", " ", 
+                 RowBox[{"(", " ", 
+                  RowBox[{
+                   RowBox[{"f", "[", "x2", "]"}], " ", "-", " ", 
+                   RowBox[{"f", "[", "x1", "]"}]}], " ", ")"}]}], " ", 
+                ")"}]}]}]}], "]"}]}], " ", ">", " ", "0"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"SecantMethod", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"testRoot", ",", " ", "x2"}], "}"}], ",", " ", 
+           RowBox[{"num", " ", "-", "1"}]}], "]"}], ",", " ", 
+         RowBox[{"SecantMethod", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"testRoot", ",", " ", "x1"}], "}"}], ",", " ", 
+           RowBox[{"num", " ", "-", " ", "1"}]}], "]"}]}], 
+        "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}]}], ";"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "this", " ", "function", " ", "returns", " ", "equation", " ", "of", " ", 
+     "secant", " ", "line", " ", "of", " ", "function", " ", 
+     StyleBox["g",
+      FontSlant->"Italic"], " ", "between", " ", "values", " ", 
+     StyleBox["t1",
+      FontSlant->"Italic"], " ", "and", " ", 
+     StyleBox["t2",
+      FontSlant->"Italic"]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"SecantEquation", "[", 
+      RowBox[{"g_", ",", " ", "t1_", ",", " ", "t2_"}], "]"}], " ", ":=", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"m", " ", "=", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"g", "[", "t2", "]"}], "  ", "-", " ", 
+             RowBox[{"g", "[", "t1", "]"}]}], ")"}], "/", 
+           RowBox[{"(", 
+            RowBox[{"t2", " ", "-", " ", "t1"}], ")"}]}], ")"}]}], ")"}], " ",
+        "x"}], " ", "+", "  ", 
+      RowBox[{"g", "[", "t1", "]"}], " ", "-", " ", 
+      RowBox[{"m", " ", "t1"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"do", " ", "secant", " ", "method", " ", 
+      StyleBox["numIterations",
+       FontSlant->"Italic"], " ", "times", " ", "on", " ", "starting", " ", 
+      "points", " ", 
+      StyleBox["L",
+       FontSlant->"Italic"], " ", "and", " ", 
+      StyleBox["R",
+       FontSlant->"Italic"]}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"x1", ",", " ", "x2"}], "}"}], " ", "=", 
+       RowBox[{"SecantMethod", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"L", ",", " ", "R"}], "}"}], ",", "numIterations"}], 
+        "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"plot", " ", "secant", " ", "line"}], ",", " ", 
+        RowBox[{"starting", " ", "x", " ", "points"}], ",", " ", 
+        RowBox[{"lines", " ", "up", " ", "to", " ", "secant", " ", "line"}]}],
+        " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"secantPlot", " ", "=", " ", 
+       RowBox[{"Plot", "[", 
+        RowBox[{
+         RowBox[{"SecantEquation", "[", 
+          RowBox[{"f", ",", " ", "x1", ",", " ", "x2"}], "]"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"x", ",", " ", "xMin", ",", " ", "xMax"}], "}"}], ",", " ", 
+         
+         RowBox[{"PlotStyle", "\[Rule]", "Red"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"pointsPlot", " ", "=", " ", 
+       RowBox[{"ListPlot", "[", 
+        RowBox[{
+         RowBox[{"{", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"{", 
+             RowBox[{"x1", ",", " ", "0"}], "}"}], "}"}], " ", ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"{", 
+             RowBox[{"x2", ",", " ", "0"}], "}"}], "}"}]}], "}"}], " ", ",", 
+         " ", 
+         RowBox[{"PlotStyle", "\[Rule]", " ", 
+          RowBox[{"{", 
+           RowBox[{"Red", ",", " ", "Blue"}], "}"}]}], ",", " ", 
+         RowBox[{"PlotMarkers", "\[Rule]", "\"\<\[FilledCircle]\>\""}]}], 
+        "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"lineList", " ", "=", " ", 
+       RowBox[{"{", " ", 
+        RowBox[{
+         RowBox[{"Line", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"x1", ",", " ", "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"x1", ",", " ", 
+              RowBox[{"f", "[", "x1", "]"}]}], "}"}]}], "}"}], "]"}], ",", 
+         " ", 
+         RowBox[{"Line", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"x2", ",", " ", "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"x2", ",", " ", 
+              RowBox[{"f", "[", "x2", "]"}]}], "}"}]}], "}"}], "]"}]}], " ", 
+        "}"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{
+        "plot", " ", "function", " ", "with", " ", "secant", " ", "line", " ",
+          "connecting", " ", "two", " ", "test", " ", "points"}], ";", " ", 
+        RowBox[{
+        "vertical", " ", "line", " ", "shows", " ", "where", " ", "next", " ",
+          "test", " ", "point", " ", "will", " ", "be"}]}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"Show", "[", 
+       RowBox[{"functionPlot", ",", "secantPlot", ",", " ", "pointsPlot", ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"{", 
+          RowBox[{"Black", ",", " ", "lineList"}], "}"}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"GridLines", "\[Rule]", 
+         RowBox[{"{", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"{", " ", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"SecantMethod", "[", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"x1", ",", " ", "x2"}], "}"}], ",", " ", "1"}], 
+                "]"}], "[", 
+               RowBox[{"[", "1", "]"}], "]"}], ",", " ", "Black"}], "}"}], 
+            " ", "}"}], ",", " ", 
+           RowBox[{"{", "}"}]}], " ", "}"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{"PlotLabel", "\[Rule]", " ", 
+         RowBox[{"StringJoin", "[", 
+          RowBox[{"\"\<Best estimate for root: \>\"", ",", " ", 
+           RowBox[{"ToString", "[", 
+            RowBox[{"N", "[", "testRoot", "]"}], "]"}]}], "]"}]}]}], 
+       "\[IndentingNewLine]", "]"}]}], ",", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{"manipulate", " ", "parameters", " ", "and", " ", "sliders"}], 
+      " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{"\"\<Secant Method\>\"", ",", "Bold", ",", "Medium"}], "]"}], 
+     ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"L", ",", " ", "1", ",", " ", "\"\<Left starting point\>\""}],
+         "}"}], ",", " ", "xMin", ",", " ", "xMax"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "R", ",", " ", "3", ",", " ", "\"\<Right starting point\>\""}], "}"}],
+        ",", " ", "xMin", ",", " ", "xMax"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "numIterations", ",", " ", "0", ",", " ", 
+         "\"\<Number of iterations\>\""}], "}"}], ",", " ", "0", ",", " ", 
+       "maxIterations", ",", " ", "1"}], "}"}]}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", "]"}]}]}]], "Input",
+ CellChangeTimes->CompressedData["
+1:eJwdyV9IGgEAx3EJGcSoPaxRoVTLbQiTQTECWbE1Yg6h/amxaQwT8xCWZvUw
+0sJiKrqsODeIISRzMGjHQN3UFQaZ24TJdGAFKovlqAihxmK5CL3tfvfw5fPw
+PavSdxFlHA7nPBOkjZlUyJtvT9dXrMFqgsjCI5u35gMUdZ+DPTO9rDe/xYXQ
+Pp5vgs9+NLXAfeeBGJaWL0hhv7qqE8qCbjl8N/x6AGqdO2ZIn7puhfmvxHPo
+/ndpFlou1s3Beffdl5DPv1aEVJhijXWENAuMvQO7rKm+VSPc//5rFMZLN6yw
+ECk44EnhbxLah57MQbqD8LC/PPAKppWjb2DshMALBY3F6kVGRWKwAW5OTB+v
+Md6TBVk/JcUSXjDfbjI7pZDW/rwF5dH5Llj5d10BJ7NXVbD79JlHcOSjyAiF
+e5QFqrm1NviFNDmg9k54CioThyScEftn4cPcigeWUS0+6LJHY7CQtMThYx2Z
+gZTkOAfDDnIHCjxtf2AquMXlM2oq9XXQp3zbCQ2HzbdhwfD0AZxovdwD/RGe
+CkY36llNV7Z1cEkq1MOagMwAXav3x6Ao+/k9fOEqD8D/n6VH+Q==
+  "]],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`L$$ = 1, $CellContext`numIterations$$ = 
+    0, $CellContext`R$$ = 3, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[
+       Style["Secant Method", Bold, Medium]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`L$$], 1, "Left starting point"}, 0, 5}, {{
+       Hold[$CellContext`R$$], 3, "Right starting point"}, 0, 5}, {{
+       Hold[$CellContext`numIterations$$], 0, "Number of iterations"}, 0, 20, 
+      1}}, Typeset`size$$ = {360., {113., 118.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    True, $CellContext`L$455969$$ = 0, $CellContext`R$455970$$ = 
+    0, $CellContext`numIterations$455971$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`L$$ = 1, $CellContext`numIterations$$ = 
+        0, $CellContext`R$$ = 3}, "ControllerVariables" :> {
+        Hold[$CellContext`L$$, $CellContext`L$455969$$, 0], 
+        Hold[$CellContext`R$$, $CellContext`R$455970$$, 0], 
+        Hold[$CellContext`numIterations$$, \
+$CellContext`numIterations$455971$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> ({$CellContext`x1, $CellContext`x2} = \
+$CellContext`SecantMethod[{$CellContext`L$$, $CellContext`R$$}, \
+$CellContext`numIterations$$]; $CellContext`secantPlot = Plot[
+          $CellContext`SecantEquation[$CellContext`f, $CellContext`x1, \
+$CellContext`x2], {$CellContext`x, $CellContext`xMin, $CellContext`xMax}, 
+          PlotStyle -> Red]; $CellContext`pointsPlot = 
+        ListPlot[{{{$CellContext`x1, 0}}, {{$CellContext`x2, 0}}}, 
+          PlotStyle -> {Red, Blue}, PlotMarkers -> 
+          "\[FilledCircle]"]; $CellContext`lineList = {
+          Line[{{$CellContext`x1, 0}, {$CellContext`x1, 
+             $CellContext`f[$CellContext`x1]}}], 
+          Line[{{$CellContext`x2, 0}, {$CellContext`x2, 
+             $CellContext`f[$CellContext`x2]}}]}; 
+       Show[$CellContext`functionPlot, $CellContext`secantPlot, \
+$CellContext`pointsPlot, 
+         Graphics[{Black, $CellContext`lineList}], GridLines -> {{{
+             Part[
+              $CellContext`SecantMethod[{$CellContext`x1, $CellContext`x2}, 
+               1], 1], Black}}, {}}, PlotLabel -> 
+         StringJoin["Best estimate for root: ", 
+           ToString[
+            N[$CellContext`testRoot]]]]), "Specifications" :> {
+        Style[
+        "Secant Method", Bold, 
+         Medium], {{$CellContext`L$$, 1, "Left starting point"}, 0, 
+         5}, {{$CellContext`R$$, 3, "Right starting point"}, 0, 
+         5}, {{$CellContext`numIterations$$, 0, "Number of iterations"}, 0, 
+         20, 1}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{405., {193., 198.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.584615122241562*^9, 3.584615185436977*^9, 3.584615218575042*^9, {
+   3.584615372290113*^9, 3.5846153740048523`*^9}, 3.584615843794773*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{928, 752},
+WindowMargins->{{Automatic, 126}, {Automatic, 0}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 639, 12, 92, "Title"],
+Cell[1221, 36, 504, 9, 89, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[1750, 49, 11457, 277, 811, "Input"],
+Cell[13210, 328, 3648, 71, 442, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

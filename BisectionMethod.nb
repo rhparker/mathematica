@@ -1,0 +1,253 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     10057,        244]
+NotebookOptionsPosition[      9608,        225]
+NotebookOutlinePosition[     10043,        242]
+CellTagsIndexPosition[     10000,        239]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Bisecton Method", "Title",
+ CellChangeTimes->{{3.5817857507962637`*^9, 3.581785760410137*^9}, {
+  3.58178581116859*^9, 3.5817863094853477`*^9}, {3.5817864025992393`*^9, 
+  3.581786402986127*^9}, {3.581786438337803*^9, 3.581786511328068*^9}, {
+  3.5817865455585413`*^9, 3.5817865755803137`*^9}, {3.581786705210936*^9, 
+  3.581786728637258*^9}, {3.5817868289596367`*^9, 3.581786997170251*^9}, {
+  3.5817871672052517`*^9, 3.581787178064452*^9}, {3.581787291181264*^9, 
+  3.5817873134687033`*^9}, {3.581787368942812*^9, 3.581787394550617*^9}, {
+  3.5817881300034313`*^9, 3.581788133335408*^9}, {3.5846156527718487`*^9, 
+  3.584615654753034*^9}, {3.584615696136458*^9, 3.584615789079019*^9}, {
+  3.584615821978421*^9, 3.58461582332479*^9}, {3.584615892505267*^9, 
+  3.584615966753689*^9}, {3.5846160324237328`*^9, 3.58461603670968*^9}, {
+  3.584616070382473*^9, 3.58461614169635*^9}, {3.584616272350624*^9, 
+  3.58461628772861*^9}}],
+
+Cell["\<\
+This interactive notebook illustrates the bisecton method for root finding.  \
+The two starting points and the number of iterations can be adjusted using \
+sliders.  The red vertical lines show the two endpoints for the current \
+bisection interval.\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.584616299202099*^9, 3.584616357358959*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "function", " ", "to", " ", "use", " ", "for", " ", "root", " ", 
+    "finding"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"f", "[", "x_", "]"}], " ", ":=", " ", 
+     RowBox[{"x", " ", 
+      RowBox[{"Cos", "[", "x", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "min", " ", "and", " ", "max", " ", "x", " ", "values", " ", "for", " ", 
+     "plot"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMin", " ", "=", " ", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xMax", " ", "=", " ", "6"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"maximum", " ", "number", " ", "of", " ", "iterations"}], " ", 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxIterations", " ", "=", "20"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"plot", " ", "of", " ", "the", " ", "function", " ", 
+     RowBox[{"f", "[", "x", "]"}], " ", "to", " ", "be", " ", "displayed"}], 
+    " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"functionPlot", " ", "=", " ", 
+     RowBox[{"Plot", "[", 
+      RowBox[{
+       RowBox[{"f", "[", "x", "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", " ", "xMin", ",", " ", "xMax"}], "}"}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"This", " ", "recursive", " ", "function", " ", "does", " ", 
+     StyleBox["num",
+      FontSlant->"Italic"], " ", "iterations", " ", "of", " ", "the", " ", 
+     "bisecton", " ", "method", " ", "with", " ", "starting", " ", "points", 
+     " ", "x1", " ", "and", " ", 
+     RowBox[{"x2", ".", " ", "Note"}], " ", "that", " ", "the", " ", "order", 
+     " ", "of", " ", "the", " ", "points", " ", "x1", " ", "and", " ", "x2", 
+     " ", "does", " ", "not", " ", "matter", " ", "for", " ", "the", " ", 
+     "bisection", " ", 
+     RowBox[{"method", ".", "  ", "x1"}], " ", "always", " ", "contains", " ",
+      "our", " ", "new", " ", "best", " ", "estimate", " ", "which", " ", 
+     "is", " ", "the", " ", "most", " ", "recently", " ", "updated", " ", 
+     "point"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"BisectionMethod", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"x1_", ",", " ", "x2_"}], "}"}], ",", "num_"}], "]"}], " ", ":=",
+      " ", 
+     RowBox[{"If", "[", " ", 
+      RowBox[{
+       RowBox[{"num", " ", "\[Equal]", " ", "0"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"x1", ",", " ", "x2"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"f", "[", "x1", "]"}], 
+           RowBox[{"f", "[", 
+            RowBox[{"testRoot", " ", "=", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"x1", "+", "x2"}], ")"}], "/", "2"}]}], "]"}]}], " ", ">=",
+           " ", "0"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"BisectionMethod", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"testRoot", ",", " ", "x2"}], "}"}], ",", " ", 
+           RowBox[{"num", " ", "-", "1"}]}], "]"}], ",", " ", 
+         RowBox[{"BisectionMethod", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"testRoot", ",", " ", "x1"}], "}"}], ",", " ", 
+           RowBox[{"num", " ", "-", " ", "1"}]}], "]"}]}], 
+        "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}]}], ";"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"do", " ", "bisecton", " ", "method", " ", 
+      StyleBox["numIterations",
+       FontSlant->"Italic"], " ", "times", " ", "on", " ", "starting", " ", 
+      "points", " ", 
+      StyleBox["L",
+       FontSlant->"Italic"], " ", "and", " ", 
+      StyleBox["R",
+       FontSlant->"Italic"]}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"x1", ",", "x2"}], "}"}], " ", "=", " ", 
+       RowBox[{"BisectionMethod", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"L", ",", " ", "R"}], "}"}], ",", " ", "numIterations"}], 
+        "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "plot", " ", "function", " ", "with", " ", "bisection", " ", 
+        "interval", " ", "in", " ", "red", " ", "vertical", " ", "lines"}], 
+       " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"Show", "[", 
+       RowBox[{"functionPlot", ",", "\[IndentingNewLine]", 
+        RowBox[{"GridLines", "\[Rule]", 
+         RowBox[{"{", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", " ", 
+              RowBox[{"x1", ",", " ", "Red"}], "}"}], ",", " ", 
+             RowBox[{"{", 
+              RowBox[{"x2", ",", " ", "Red"}], "}"}]}], " ", "}"}], ",", " ", 
+           
+           RowBox[{"{", "}"}]}], " ", "}"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "x1", " ", "is", " ", "always", " ", "new", " ", "best", " ", 
+          "estimate"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"PlotLabel", "\[Rule]", " ", 
+         RowBox[{"StringJoin", "[", 
+          RowBox[{"\"\<Best estimate for root: \>\"", ",", " ", 
+           RowBox[{"ToString", "[", 
+            RowBox[{"N", "[", "x1", "]"}], "]"}]}], "]"}]}]}], 
+       "\[IndentingNewLine]", "]"}]}], ",", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{"manipulate", " ", "parameters", " ", "and", " ", "sliders"}], 
+      " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"Style", "[", 
+      RowBox[{"\"\<Bisection Method\>\"", ",", "Bold", ",", "Medium"}], "]"}],
+      ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"L", ",", " ", "1", ",", " ", "\"\<Left starting point\>\""}],
+         "}"}], ",", " ", "xMin", ",", " ", "xMax"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "R", ",", " ", "3", ",", " ", "\"\<Right starting point\>\""}], "}"}],
+        ",", " ", "xMin", ",", " ", "xMax"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "numIterations", ",", " ", "0", ",", " ", 
+         "\"\<Number of iterations\>\""}], "}"}], ",", " ", "0", ",", " ", 
+       "maxIterations", ",", " ", "1"}], "}"}]}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.5817857507962637`*^9, 3.581785760410137*^9}, {
+  3.58178581116859*^9, 3.5817863094853477`*^9}, {3.5817864025992393`*^9, 
+  3.581786402986127*^9}, {3.581786438337803*^9, 3.581786511328068*^9}, {
+  3.5817865455585413`*^9, 3.5817865755803137`*^9}, {3.581786705210936*^9, 
+  3.581786728637258*^9}, {3.5817868289596367`*^9, 3.581786997170251*^9}, {
+  3.5817871672052517`*^9, 3.581787178064452*^9}, {3.581787291181264*^9, 
+  3.5817873134687033`*^9}, {3.581787368942812*^9, 3.581787394550617*^9}, {
+  3.5817881300034313`*^9, 3.581788133335408*^9}, {3.5846156527718487`*^9, 
+  3.584615654753034*^9}, {3.584615696136458*^9, 3.584615789079019*^9}, {
+  3.584615821978421*^9, 3.58461582332479*^9}, {3.584615892505267*^9, 
+  3.584615966753689*^9}, {3.5846160324237328`*^9, 3.58461603670968*^9}, {
+  3.584616070382473*^9, 3.58461614169635*^9}, {3.584616272350624*^9, 
+  3.5846162807960653`*^9}}]
+}, Open  ]]
+},
+WindowSize->{891, 652},
+WindowMargins->{{118, Automatic}, {Automatic, 0}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 933, 13, 92, "Title"],
+Cell[1515, 37, 346, 6, 49, "Subsubtitle"],
+Cell[1864, 45, 7728, 177, 709, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
