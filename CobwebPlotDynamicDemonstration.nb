@@ -1,0 +1,648 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     24640,        639]
+NotebookOptionsPosition[     23428,        590]
+NotebookOutlinePosition[     23784,        606]
+CellTagsIndexPosition[     23741,        603]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Cobweb Plot Demonstration", "Title",
+ CellChangeTimes->{{3.584100108875559*^9, 3.584100159592309*^9}, {
+   3.5841005357363377`*^9, 3.584100615399411*^9}, {3.5841007000552053`*^9, 
+   3.584100772307679*^9}, {3.58410101072687*^9, 3.584101013067687*^9}, {
+   3.584101693276463*^9, 3.5841017655143127`*^9}, {3.584101802079953*^9, 
+   3.584101833563628*^9}, {3.584102456781137*^9, 3.584102504190154*^9}, {
+   3.584102772113956*^9, 3.584102807159535*^9}, {3.584102900853464*^9, 
+   3.584103172509671*^9}, {3.584103267254212*^9, 3.584103268368217*^9}, {
+   3.584103335195369*^9, 3.584103390952249*^9}, {3.5841039287605743`*^9, 
+   3.5841039599482822`*^9}, {3.584103994054105*^9, 3.584104090139166*^9}, {
+   3.58410414360122*^9, 3.584104155890217*^9}, {3.584105334606783*^9, 
+   3.584105384621644*^9}, 3.584105719493417*^9, {3.5841086631579123`*^9, 
+   3.5841086695134983`*^9}, {3.5841087624165583`*^9, 3.584108763612549*^9}, {
+   3.584108939672419*^9, 3.584108949653083*^9}, {3.584112628241528*^9, 
+   3.5841126608507338`*^9}, {3.584648948946084*^9, 3.584648949310574*^9}, {
+   3.584649043845683*^9, 3.584649050272357*^9}, {3.584655367176429*^9, 
+   3.5846553719706287`*^9}, {3.58469446950206*^9, 3.584694470996695*^9}}],
+
+Cell[TextData[{
+ "A cobweb plot is a visual tool used for graphical analysis of discrete \
+dynamical systems.  Given a starting condition, the cobweb plot shows the \
+progression of the system under multiple iterations, and can be used to infer \
+the long term behavior of the system.  ",
+ StyleBox["CobWebPlot",
+  FontSlant->"Italic"],
+ " is a function which returns an interactive cobweb plot for a given \
+1-parameter family of functions.  Starting values for the initial conditions \
+as well as bounds on the parameter ",
+ StyleBox["u",
+  FontSlant->"Italic"],
+ ", ",
+ StyleBox["x",
+  FontSlant->"Italic"],
+ ", and ",
+ StyleBox["y",
+  FontSlant->"Italic"],
+ " may also be specified.  The parameter ",
+ StyleBox["u",
+  FontSlant->"Italic"],
+ " and the number of iterations both may be changed with sliders.  Initial \
+conditions are set using locator points on the x-axis, which may be moved as \
+well as added/removed with Command-click.\n\nRun the top section first to \
+define the appropriate functions.  Then try the demonstrations below."
+}], "Subsubtitle",
+ CellChangeTimes->{{3.584649056570384*^9, 3.584649260889442*^9}, {
+  3.584649443965109*^9, 3.584649497890057*^9}, {3.584655404725368*^9, 
+  3.58465547738479*^9}, {3.58469447831499*^9, 3.5846946521519423`*^9}, {
+  3.58469471676639*^9, 3.5846947323559732`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Cobweb plot code", "Section",
+ CellChangeTimes->{{3.584694670320086*^9, 3.5846946741894407`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "maximum", " ", "number", " ", "of", " ", "iterations", " ", "for", " ", 
+    "cobweb", " ", "plot"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"maxIterations", " ", "=", " ", "50"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "takes", " ", "list", " ", "of", " ", "x", " ", "values", " ", "and", " ",
+      "returns", " ", "list", " ", "of", " ", "points", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", ",", " ", "0"}], ")"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"initialPoints", "[", "xVals_", "]"}], " ", ":=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"xVals", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], ",", " ", "0"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", " ", "1", ",", " ", 
+         RowBox[{"Length", "[", "xVals", "]"}]}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"apply", " ", "1"}], "-", 
+     RowBox[{"parameter", " ", "function", " ", 
+      StyleBox[
+       RowBox[{"f", "[", 
+        RowBox[{"u", ",", " ", "x"}], "]"}],
+       FontSlant->"Italic"], " ", "recursively", " ", 
+      StyleBox["n",
+       FontSlant->"Italic"], " ", "times"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"r", "[", 
+     RowBox[{"f_", ",", " ", "u_", ",", " ", "x_", ",", " ", "n_"}], "]"}], 
+    " ", ":=", " ", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"n", " ", "\[Equal]", " ", "1"}], ",", " ", 
+      RowBox[{"f", "[", 
+       RowBox[{"u", ",", " ", "x"}], "]"}], ",", " ", 
+      RowBox[{"r", "[", 
+       RowBox[{"f", ",", " ", "u", ",", " ", 
+        RowBox[{"f", "[", 
+         RowBox[{"u", ",", " ", "x"}], "]"}], ",", " ", 
+        RowBox[{"n", "-", "1"}]}], "]"}]}], " ", "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "returns", " ", "a", " ", "table", " ", "of", " ", "the", " ", "orbit", 
+      " ", "of", " ", 
+      StyleBox["f",
+       FontSlant->"Italic"]}], ",", " ", 
+     RowBox[{
+      RowBox[{"starting", " ", "at", " ", "x"}], ";", " ", 
+      RowBox[{"n", " ", "+", " ", 
+       RowBox[{"1", " ", "items", " ", "in", " ", "orbit"}]}]}]}], " ", 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Orb", "[", 
+     RowBox[{"f_", ",", " ", "u_", ",", " ", "x_", ",", " ", "n_"}], "]"}], 
+    " ", ":=", " ", 
+    RowBox[{"Join", "[", 
+     RowBox[{
+      RowBox[{"{", "x", "}"}], ",", " ", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"r", "[", 
+         RowBox[{"f", ",", " ", "u", ",", " ", "x", ",", " ", "i"}], "]"}], 
+        ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", " ", "1", ",", " ", "n"}], "}"}]}], "]"}]}], " ", 
+     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     StyleBox["Cob",
+      FontSlant->"Italic"], " ", "returns", " ", "the", " ", "points", " ", 
+     "needed", " ", "to", " ", "draw", " ", "a", " ", "cobweb", " ", 
+     "diagram", " ", "of", " ", "first", " ", 
+     StyleBox["n",
+      FontSlant->"Italic"], " ", "iterates", " ", "of", " ", "orbit", " ", 
+     "of", " ", 
+     StyleBox["f",
+      FontSlant->"Italic"]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "start", " ", "with", " ", "the", " ", "initial", " ", "condition", " ", 
+      "on", " ", "the", " ", "x", " ", "axis", " ", "and", " ", "work", " ", 
+      "our", " ", "way", " ", "through", " ", "the", " ", "first", " ", 
+      StyleBox["n",
+       FontSlant->"Italic"], " ", "iterates"}], ";", " ", 
+     RowBox[{"the", " ", 
+      StyleBox["Riffle",
+       FontSlant->"Italic"], 
+      StyleBox[" ",
+       FontSlant->"Italic"], "function", " ", "alternates", " ", "points", 
+      " ", "in", " ", "the", " ", "orbit", " ", "with", " ", "points", " ", 
+      "on", " ", "the", " ", "diagonal"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Cob", "[", 
+      RowBox[{"f_", ",", " ", "u_", ",", " ", "x_", ",", " ", "n_"}], "]"}], 
+     " ", ":=", " ", 
+     RowBox[{"Join", "[", " ", 
+      RowBox[{
+       RowBox[{"{", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"l", " ", "=", " ", 
+             RowBox[{"Orb", "[", 
+              RowBox[{"f", ",", " ", "u", ",", " ", "x", ",", " ", "n"}], 
+              "]"}]}], ")"}], " ", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], ",", " ", "0"}], "}"}], " ", "}"}],
+        ",", "\[IndentingNewLine]", 
+       RowBox[{"Riffle", "[", " ", 
+        RowBox[{
+         RowBox[{"Table", "[", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"l", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+             RowBox[{"l", "[", 
+              RowBox[{"[", 
+               RowBox[{"i", "+", "1"}], "]"}], "]"}]}], " ", "}"}], ",", " ", 
+           
+           RowBox[{"{", 
+            RowBox[{"i", ",", " ", "1", ",", " ", 
+             RowBox[{
+              RowBox[{"Length", "[", "l", "]"}], " ", "-", " ", "1"}]}], 
+            "}"}]}], "]"}], ",", "\[IndentingNewLine]", " ", 
+         RowBox[{"Table", "[", " ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"l", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+             RowBox[{"l", "[", 
+              RowBox[{"[", "i", "]"}], "]"}]}], " ", "}"}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", " ", "2", ",", " ", 
+             RowBox[{
+              RowBox[{"Length", "[", "l", "]"}], " ", "-", " ", "1"}]}], 
+            "}"}]}], "]"}]}], " ", "]"}]}], " ", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "returns", " ", "the", " ", "line", " ", "object", " ", "for", " ", "the",
+      " ", "cobweb", " ", "diagram"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"CobLine", "[", 
+      RowBox[{"f_", ",", "u_", ",", " ", "x_", ",", " ", "n_"}], "]"}], " ", ":=",
+      " ", 
+     RowBox[{"Line", "[", 
+      RowBox[{"Cob", "[", 
+       RowBox[{"f", ",", " ", "u", ",", "x", ",", " ", "n"}], "]"}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "returns", " ", "list", " ", "of", " ", "multiple", " ", "cobweb", " ", 
+     "lines", " ", "from", " ", "starting", " ", "points", " ", "given", " ", 
+     "in", " ", "list", " ", 
+     StyleBox["l",
+      FontSlant->"Italic"]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"CobLineList", "[", 
+      RowBox[{"f_", ",", " ", "u_", ",", " ", "l_", ",", " ", "n_"}], "]"}], 
+     " ", ":=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"CobLine", "[", 
+        RowBox[{"f", ",", " ", "u", ",", " ", 
+         RowBox[{"l", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], ",", " ", "n"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", " ", "1", ",", " ", 
+         RowBox[{"Length", "[", "l", "]"}]}], "}"}]}], "]"}]}], ";"}], " ", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"CobWebPlot", "[", 
+      RowBox[{"f_", ",", " ", "xVals_", ",", "uStart_", ",", 
+       RowBox[{"{", "  ", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"uMin_", ",", " ", "uMax_"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"xMin_", ",", " ", "xMax_"}], "}"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"yMin_", ",", " ", "yMax_"}], "}"}]}], " ", "}"}]}], "]"}], 
+     " ", ":=", "\[IndentingNewLine]", 
+     RowBox[{"DynamicModule", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"pts", " ", "=", " ", 
+          RowBox[{"initialPoints", "[", "xVals", "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"u", " ", "=", " ", "uStart"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"num", " ", "=", " ", "5"}]}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Panel", "[", 
+        RowBox[{"Column", "[", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"Grid", "[", " ", 
+            RowBox[{"{", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"\"\<Parameter (u)\>\"", ",", 
+                RowBox[{"Slider", "[", 
+                 RowBox[{
+                  RowBox[{"Dynamic", "[", "u", "]"}], ",", " ", 
+                  RowBox[{"{", 
+                   RowBox[{"uMin", ",", " ", "uMax"}], "}"}], ",", " ", 
+                  RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], 
+                 "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"{", 
+               RowBox[{"\"\<Number of iterations: \>\"", ",", 
+                RowBox[{"Slider", "[", 
+                 RowBox[{
+                  RowBox[{"Dynamic", "[", "num", "]"}], ",", " ", 
+                  RowBox[{"{", 
+                   RowBox[{"0", ",", " ", "maxIterations", ",", " ", "1"}], 
+                   "}"}], ",", " ", 
+                  RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], 
+                 "]"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], "]"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"LocatorPane", "[", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Dynamic", "[", "pts", "]"}], ",", "\[IndentingNewLine]", 
+             RowBox[{"Dynamic", "[", 
+              RowBox[{"Show", "[", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Plot", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"g", "[", 
+                    RowBox[{"u", ",", " ", "x"}], "]"}], ",", "x"}], "}"}], 
+                  ",", " ", 
+                  RowBox[{"{", 
+                   RowBox[{"x", ",", " ", "xMin", ",", "xMax"}], "}"}], ",", 
+                  " ", 
+                  RowBox[{"PlotRange", "\[Rule]", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"xMin", ",", "xMax"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"yMin", ",", "yMax"}], "}"}]}], "}"}]}], ",", " ", 
+                  RowBox[{"ImageSize", "\[Rule]", "500"}]}], "]"}], ",", 
+                "\[IndentingNewLine]", 
+                RowBox[{"Graphics", "[", " ", 
+                 RowBox[{"CobLineList", "[", 
+                  RowBox[{"g", ",", " ", "u", ",", " ", 
+                   RowBox[{"pts", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"All", ",", " ", "1"}], "]"}], "]"}], ",", " ", 
+                   "num"}], " ", "]"}], "]"}]}], "\[IndentingNewLine]", "]"}],
+               "]"}], ",", "\[IndentingNewLine]", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"xMin", ",", " ", "0"}], "}"}], ",", " ", 
+               RowBox[{"{", 
+                RowBox[{"xMax", ",", " ", "0"}], "}"}]}], "}"}], ",", " ", 
+             RowBox[{"LocatorAutoCreate", "\[Rule]", "True"}]}], "]"}]}], 
+          "\[IndentingNewLine]", "}"}], "]"}], "]"}]}], "\[IndentingNewLine]",
+       "]"}]}], ";"}], "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.584100108875559*^9, 3.584100159592309*^9}, {
+   3.5841005357363377`*^9, 3.584100615399411*^9}, {3.5841007000552053`*^9, 
+   3.584100772307679*^9}, {3.58410101072687*^9, 3.584101013067687*^9}, {
+   3.584101693276463*^9, 3.5841017655143127`*^9}, {3.584101802079953*^9, 
+   3.584101833563628*^9}, {3.584102456781137*^9, 3.584102504190154*^9}, {
+   3.584102772113956*^9, 3.584102807159535*^9}, {3.584102900853464*^9, 
+   3.584103172509671*^9}, {3.584103267254212*^9, 3.584103268368217*^9}, {
+   3.584103335195369*^9, 3.584103390952249*^9}, {3.5841039287605743`*^9, 
+   3.5841039599482822`*^9}, {3.584103994054105*^9, 3.584104090139166*^9}, {
+   3.58410414360122*^9, 3.584104155890217*^9}, {3.584105334606783*^9, 
+   3.584105384621644*^9}, 3.584105719493417*^9, {3.5841086631579123`*^9, 
+   3.5841086695134983`*^9}, {3.5841087624165583`*^9, 3.584108763612549*^9}, {
+   3.584108939672419*^9, 3.584108949653083*^9}, {3.584112628241528*^9, 
+   3.5841126608507338`*^9}, {3.584648948946084*^9, 3.584648949310574*^9}, 
+   3.584649043845683*^9, {3.584649193503193*^9, 3.584649197492939*^9}, {
+   3.5846493299396973`*^9, 3.5846494310276127`*^9}, {3.58464975943609*^9, 
+   3.584649799569051*^9}, {3.584649835952606*^9, 3.5846499255934877`*^9}, {
+   3.584649958269877*^9, 3.5846500507141647`*^9}, {3.584650918179*^9, 
+   3.584651037815696*^9}, {3.584651104347144*^9, 3.584651196865221*^9}, {
+   3.584651347237172*^9, 3.58465135217586*^9}, {3.5846515310487347`*^9, 
+   3.584651557627799*^9}, {3.584652222355899*^9, 3.584652294387066*^9}, {
+   3.584652417784836*^9, 3.5846524694047956`*^9}, {3.584652622932035*^9, 
+   3.584652642031872*^9}, {3.5846530753721857`*^9, 3.584653093699123*^9}, {
+   3.5846532157142773`*^9, 3.584653226273116*^9}, {3.584653388230592*^9, 
+   3.584653457122263*^9}, {3.584653525433866*^9, 3.584653739117347*^9}, {
+   3.584654040341662*^9, 3.584654045181769*^9}, {3.584654097355006*^9, 
+   3.584654098079309*^9}, {3.584654285319133*^9, 3.584654288564355*^9}, {
+   3.584654537859702*^9, 3.584654620428068*^9}, {3.584654736794496*^9, 
+   3.5846547848164*^9}, {3.58465483234613*^9, 3.584654867876072*^9}, {
+   3.584654981510558*^9, 3.584655067768174*^9}, {3.584655180654714*^9, 
+   3.584655190439883*^9}, {3.584655345460113*^9, 3.584655346038374*^9}, {
+   3.58465598692432*^9, 3.5846560339546013`*^9}, {3.584656097843739*^9, 
+   3.584656106491661*^9}, {3.584656149093305*^9, 3.584656202212019*^9}, {
+   3.584693681854385*^9, 3.584693796666511*^9}, {3.5846938623570013`*^9, 
+   3.584693986761311*^9}, {3.584694154396173*^9, 3.584694265724134*^9}, {
+   3.584694336323485*^9, 3.584694368350252*^9}, {3.584695238640408*^9, 
+   3.584695245344552*^9}, {3.584696400352648*^9, 3.584696403928608*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Logistic map", "Section",
+ CellChangeTimes->{
+  3.5846939942437572`*^9, {3.58469403829053*^9, 3.58469407008034*^9}, {
+   3.58469431378797*^9, 3.584694323456153*^9}, {3.5846943828693237`*^9, 
+   3.5846943863205023`*^9}, {3.584694738201408*^9, 3.58469474035478*^9}, {
+   3.584695026673265*^9, 3.584695038825968*^9}, {3.584696030055786*^9, 
+   3.584696030907297*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"g", "(", 
+    RowBox[{"u", ",", " ", "x"}], ")"}], " ", "=", " ", 
+   RowBox[{"u", " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{"1", " ", "-", " ", "x"}], ")"}]}]}], TraditionalForm]],
+ FormatType->"TraditionalForm"]], "Subsection",
+ CellChangeTimes->{{3.584695053421558*^9, 3.5846950774004927`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"g", "[", 
+    RowBox[{"u_", ",", " ", "x_"}], "]"}], " ", ":=", " ", 
+   RowBox[{"u", " ", "x", 
+    RowBox[{"(", 
+     RowBox[{"1", " ", "-", " ", "x"}], ")"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"CobWebPlot", "[", 
+  RowBox[{"g", ",", " ", 
+   RowBox[{"{", "0.2", "}"}], ",", "2", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "4"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "1"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "1"}], "}"}]}], "}"}]}], " ", "]"}]}], "Input",
+ CellChangeTimes->{{3.584695090772869*^9, 3.584695135124373*^9}, {
+  3.584695198391259*^9, 3.5846952013235817`*^9}, {3.584695250784547*^9, 
+  3.584695251039844*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Quadratic map", "Section",
+ CellChangeTimes->{{3.584696052272851*^9, 3.584696054429384*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"g", "(", 
+    RowBox[{"u", ",", " ", "x"}], ")"}], " ", "=", " ", 
+   RowBox[{
+    SuperscriptBox["x", "2"], "+", " ", "u"}]}], TraditionalForm]],
+ FormatType->"TraditionalForm"]], "Subsection",
+ CellChangeTimes->{{3.584696065969962*^9, 3.58469608031744*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"g", "[", 
+    RowBox[{"u_", ",", " ", "x_"}], "]"}], " ", ":=", " ", 
+   RowBox[{
+    RowBox[{"x", "^", "2"}], " ", "+", " ", "u"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"CobWebPlot", "[", 
+  RowBox[{"g", ",", " ", 
+   RowBox[{"{", "0.2", "}"}], ",", "0.5", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "1"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "1.5"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "2"}], "}"}]}], "}"}]}], " ", "]"}]}], "Input",
+ CellChangeTimes->{{3.584696116362727*^9, 3.58469617944529*^9}, {
+  3.584696218846938*^9, 3.584696238761898*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Cubic map", "Section",
+ CellChangeTimes->{{3.584695450514934*^9, 3.58469545167929*^9}, {
+  3.584695892389176*^9, 3.584695909084609*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"g", "(", 
+    RowBox[{"u", ",", " ", "x"}], ")"}], " ", "=", " ", 
+   RowBox[{
+    RowBox[{"u", " ", "x"}], " ", "-", " ", 
+    SuperscriptBox["x", "3"]}]}], TraditionalForm]],
+ FormatType->"TraditionalForm"]], "Subsection",
+ CellChangeTimes->{{3.584695585585142*^9, 3.5846956249172287`*^9}, {
+  3.584695891453722*^9, 3.584695911725172*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"g", "[", 
+    RowBox[{"u_", ",", "x_"}], "]"}], " ", ":=", " ", 
+   RowBox[{
+    RowBox[{"u", " ", "x"}], " ", "-", " ", 
+    RowBox[{"x", "^", "3"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"CobWebPlot", "[", 
+  RowBox[{"g", ",", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "0.5"}], ",", " ", "0.5"}], "}"}], ",", "2", ",", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "4"}], ",", " ", "4"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1.5"}], ",", " ", "1.5"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1.5"}], ",", " ", "1.5"}], "}"}]}], "}"}]}], " ", 
+  "]"}]}], "Input",
+ CellChangeTimes->{
+  3.5846939942437572`*^9, {3.58469403829053*^9, 3.58469407008034*^9}, {
+   3.58469431378797*^9, 3.584694323456153*^9}, {3.5846943828693237`*^9, 
+   3.5846943863205023`*^9}, {3.584694738201408*^9, 3.58469474035478*^9}, 
+   3.584695026673265*^9, {3.584695635213113*^9, 3.584695635784528*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Exponential map", "Section",
+ CellChangeTimes->{{3.584695659796801*^9, 3.584695676401496*^9}, 
+   3.584695916004362*^9}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"g", "(", 
+    RowBox[{"u", ",", " ", "x"}], ")"}], " ", "=", 
+   RowBox[{"u", " ", 
+    SuperscriptBox["e", "x"]}]}], TraditionalForm]],
+ FormatType->"TraditionalForm"]], "Subsection",
+ CellChangeTimes->{{3.5846959270318003`*^9, 3.5846959905412493`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"g", "[", 
+   RowBox[{"u_", ",", "x_"}], "]"}], " ", ":=", " ", 
+  RowBox[{"u", " ", 
+   RowBox[{"Exp", "[", "x", "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"CobWebPlot", "[", 
+  RowBox[{"g", ",", " ", 
+   RowBox[{"{", "0.5", "}"}], ",", "0.5", ",", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "4"}], ",", " ", "1"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "2"}], ",", " ", "2"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "3"}], ",", " ", "3"}], "}"}]}], "}"}]}], " ", 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.584696002876544*^9, 3.584696008000622*^9}, {
+  3.58469625768712*^9, 3.584696271410804*^9}, {3.5846963105160503`*^9, 
+  3.584696389183531*^9}, {3.584696427847651*^9, 3.5846964323342247`*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{897, 670},
+WindowMargins->{{54, Automatic}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 1219, 16, 92, "Title"],
+Cell[1801, 40, 1325, 29, 169, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[3151, 73, 103, 1, 80, "Section"],
+Cell[3257, 76, 14303, 322, 811, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17597, 403, 370, 6, 80, "Section"],
+Cell[CellGroupData[{
+Cell[17992, 413, 363, 9, 45, "Subsection"],
+Cell[18358, 424, 786, 22, 46, "Input"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19193, 452, 98, 1, 80, "Section"],
+Cell[CellGroupData[{
+Cell[19316, 457, 320, 8, 45, "Subsection"],
+Cell[19639, 467, 707, 20, 46, "Input"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20395, 493, 142, 2, 80, "Section"],
+Cell[CellGroupData[{
+Cell[20562, 499, 402, 10, 45, "Subsection"],
+Cell[20967, 511, 1055, 29, 46, "Input"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22071, 546, 126, 2, 80, "Section"],
+Cell[CellGroupData[{
+Cell[22222, 552, 315, 8, 45, "Subsection"],
+Cell[22540, 562, 848, 23, 46, "Input"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

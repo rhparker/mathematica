@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     19067,        424]
-NotebookOptionsPosition[     18157,        391]
-NotebookOutlinePosition[     18591,        408]
-CellTagsIndexPosition[     18548,        405]
+NotebookDataLength[     19122,        425]
+NotebookOptionsPosition[     18212,        392]
+NotebookOutlinePosition[     18646,        409]
+CellTagsIndexPosition[     18603,        406]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -57,14 +57,15 @@ the current best estimate for the root.  The red line is the tangent line to \
 the curve at that x value.  The black vertical line is located at the next \
 estimate for the root.
 
-Run the section first to define the functions used for the demonstrations.  \
-Then run the examples below.\
+Run the top section first to define the functions used for the \
+demonstrations.  Then run the examples below.\
 \>", "Subsubtitle",
  CellChangeTimes->{{3.5846112341272182`*^9, 3.5846112496057873`*^9}, {
   3.584611430491734*^9, 3.5846115165509663`*^9}, {3.5846115493044567`*^9, 
   3.584611581509307*^9}, {3.58461194732493*^9, 3.584612021040401*^9}, {
   3.5846120696152143`*^9, 3.58461212054318*^9}, {3.584612206580634*^9, 
-  3.58461220673315*^9}, {3.584615544223833*^9, 3.584615545075809*^9}}],
+  3.58461220673315*^9}, {3.584615544223833*^9, 3.584615545075809*^9}, {
+  3.5846946964886217`*^9, 3.584694699643674*^9}}],
 
 Cell[CellGroupData[{
 
@@ -409,21 +410,21 @@ CellTagsIndex->{}
 Notebook[{
 Cell[CellGroupData[{
 Cell[579, 22, 1733, 23, 92, "Title"],
-Cell[2315, 47, 1216, 19, 169, "Subsubtitle"],
+Cell[2315, 47, 1271, 20, 169, "Subsubtitle"],
 Cell[CellGroupData[{
-Cell[3556, 70, 1988, 28, 80, "Section"],
-Cell[5547, 100, 10230, 229, 675, "Input"]
+Cell[3611, 71, 1988, 28, 80, "Section"],
+Cell[5602, 101, 10230, 229, 675, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[15814, 334, 402, 5, 80, "Section"],
-Cell[16219, 341, 216, 4, 30, "Text"],
-Cell[16438, 347, 364, 5, 28, "Input"],
-Cell[16805, 354, 486, 8, 49, "Text"],
-Cell[17294, 364, 138, 2, 28, "Input"],
-Cell[17435, 368, 223, 5, 30, "Text"],
-Cell[17661, 375, 139, 2, 28, "Input"],
-Cell[17803, 379, 178, 4, 30, "Text"],
-Cell[17984, 385, 145, 2, 28, "Input"]
+Cell[15869, 335, 402, 5, 80, "Section"],
+Cell[16274, 342, 216, 4, 30, "Text"],
+Cell[16493, 348, 364, 5, 28, "Input"],
+Cell[16860, 355, 486, 8, 49, "Text"],
+Cell[17349, 365, 138, 2, 28, "Input"],
+Cell[17490, 369, 223, 5, 30, "Text"],
+Cell[17716, 376, 139, 2, 28, "Input"],
+Cell[17858, 380, 178, 4, 30, "Text"],
+Cell[18039, 386, 145, 2, 28, "Input"]
 }, Open  ]]
 }, Open  ]]
 }
