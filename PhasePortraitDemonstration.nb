@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[     22449,        526]
-NotebookOptionsPosition[     21705,        497]
-NotebookOutlinePosition[     22193,        516]
-CellTagsIndexPosition[     22150,        513]
+NotebookDataLength[     32927,        811]
+NotebookOptionsPosition[     31949,        774]
+NotebookOutlinePosition[     32438,        793]
+CellTagsIndexPosition[     32395,        790]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -397,10 +397,11 @@ Cell["Supercritical Hopf Bifurcation", "Section",
  CellChangeTimes->{{3.5847225002115917`*^9, 3.584722505777029*^9}}],
 
 Cell[TextData[{
- "The two-dimensional system (Steven Strogatz, ",
+ " (From Steven Strogatz, ",
  StyleBox["Nonlinear Dynamics and Chaos",
   FontSlant->"Italic"],
- ", problem 8.2.5):\n\t",
+ ", problem 8.2.5)",
+ "\nThe two-dimensional system:\n\t",
  Cell[BoxData[
   FormBox[
    RowBox[{
@@ -440,7 +441,8 @@ stable spiral."
 }], "Text",
  CellChangeTimes->{{3.5847227154942417`*^9, 3.584722896432487*^9}, {
   3.584722947281291*^9, 3.5847229728701963`*^9}, {3.5847241463448687`*^9, 
-  3.58472419789579*^9}, {3.58472429547248*^9, 3.5847242983915997`*^9}}],
+  3.58472419789579*^9}, {3.58472429547248*^9, 3.5847242983915997`*^9}, {
+  3.584748467097978*^9, 3.584748472552313*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -492,11 +494,286 @@ Cell[BoxData[{
    3.584721663488258*^9, 3.584721665651721*^9}, {3.584722062619722*^9, 
    3.584722131909993*^9}, {3.584722199016365*^9, 3.584722211221719*^9}, 
    3.584722978778804*^9, {3.5847242719449263`*^9, 3.584724304007763*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Glycolytic Oscillator", "Section",
+ CellChangeTimes->{{3.584750468064148*^9, 3.584750472958284*^9}}],
+
+Cell[TextData[{
+ " (From Steven Strogatz, ",
+ StyleBox["Nonlinear Dynamics and Chaos",
+  FontSlant->"Italic"],
+ ", p. 205)\nThe process of glycolysis is used in all living cells to break \
+down glucose into two 3-carbon sugars.  In some cases, this process proceeds \
+in an oscillatory fashion.  The following is the Selkov model of glycolysis, \
+presented in dimensionless form:\n\t",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[DifferentialD]", "x"}], 
+     RowBox[{"\[DifferentialD]", "t"}]], "=", " ", 
+    RowBox[{
+     RowBox[{"-", "x"}], " ", "+", " ", 
+     RowBox[{"a", " ", "y"}], " ", "+", " ", 
+     RowBox[{
+      SuperscriptBox["x", "2"], "y"}]}]}], TraditionalForm]]],
+ "\n\t",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[DifferentialD]", "y"}], 
+     RowBox[{"\[DifferentialD]", "t"}]], "=", " ", 
+    RowBox[{"b", " ", "-", " ", 
+     RowBox[{"a", " ", "y"}], " ", "-", " ", 
+     RowBox[{
+      SuperscriptBox["x", "2"], "y"}]}]}], TraditionalForm]]],
+ "\nwhere ",
+ StyleBox["a",
+  FontSlant->"Italic"],
+ ", ",
+ StyleBox["b",
+  FontSlant->"Italic"],
+ " > 0.\n\nHere, we let ",
+ StyleBox["a",
+  FontSlant->"Italic"],
+ " = 0.1, and ",
+ StyleBox["u",
+  FontSlant->"Italic"],
+ " be the parameter ",
+ StyleBox["b",
+  FontSlant->"Italic"],
+ ".  As we vary ",
+ StyleBox["u ",
+  FontSlant->"Italic"],
+ "from 0.1 to 1, a stable fixed point changes to a stable limit cycle around ",
+ StyleBox["u",
+  FontSlant->"Italic"],
+ " = 0.4, and then back into a stable fixed point around ",
+ StyleBox["u",
+  FontSlant->"Italic"],
+ " = 0.8."
+}], "Text",
+ CellChangeTimes->{{3.584750478746174*^9, 3.584750489499692*^9}, {
+  3.584750604035335*^9, 3.584750873067795*^9}, {3.584750949856862*^9, 
+  3.584750950681444*^9}, {3.584751201276019*^9, 3.584751236664834*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"f", "[", 
+    RowBox[{"u_", ",", " ", "x_", ",", " ", "y_"}], "]"}], " ", ":=", " ", 
+   RowBox[{
+    RowBox[{"-", "x"}], " ", "+", " ", 
+    RowBox[{"0.1", " ", "y"}], " ", "+", " ", 
+    RowBox[{
+     RowBox[{"x", "^", "2"}], " ", "y"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"g", "[", 
+    RowBox[{"u_", ",", " ", "x_", ",", " ", "y_"}], "]"}], " ", ":=", " ", 
+   RowBox[{"u", " ", "-", " ", 
+    RowBox[{"0.1", " ", "y"}], " ", "-", " ", 
+    RowBox[{
+     RowBox[{"x", "^", "2"}], " ", "y"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"initialPts", " ", "=", " ", 
+   RowBox[{"{", " ", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0.5", ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"1.5", ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", " ", "2"}], "}"}], " ", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0.75", ",", " ", "2.5"}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"PhasePortait", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"f", ",", " ", "g"}], "}"}], ",", " ", "initialPts", ",", " ", 
+   "0.1", ",", " ", 
+   RowBox[{"{", " ", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0.1", ",", " ", "1"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "3"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "3"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "50"}], "}"}]}], " ", "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.584750880707965*^9, 3.584750939263522*^9}, {
+  3.584750975362792*^9, 3.584750975602913*^9}, {3.584751112919738*^9, 
+  3.584751157123109*^9}}],
+
+Cell[BoxData[
+ DynamicModuleBox[{$CellContext`pts$$ = {{0.668, 0.805}, {1.5, 0}, {2, 2}, {
+   0.75, 2.5}, {1.476, 2.545}}, $CellContext`u$$ = 
+  0.799, $CellContext`tMin$$ = 0, $CellContext`tMax$$ = 50}, 
+  PanelBox[
+   TagBox[GridBox[{
+      {
+       TagBox[GridBox[{
+          {"\<\"Parameter (u)\"\>", 
+           InterpretationBox[
+            StyleBox[GridBox[{
+               {
+                SliderBox[Dynamic[$CellContext`u$$], {0.1, 1},
+                 Appearance->Automatic,
+                 DefaultBaseStyle->"LabeledSlider"], 
+                InputFieldBox[Dynamic[$CellContext`u$$],
+                 Appearance->"Frameless",
+                 ContinuousAction->True,
+                 DefaultBaseStyle->"LabeledSlider",
+                 FieldSize->{{5, 10}, {1, 2}},
+                 ImageMargins->0]}
+              },
+              AutoDelete->False,
+              BaselinePosition->{{1, 1}, Axis},
+              
+              GridBoxItemSize->{
+               "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+              GridBoxSpacings->{"Columns" -> {
+                  Offset[0.27999999999999997`], {
+                   Offset[0.7]}, 
+                  Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, 
+                "Rows" -> {
+                  Offset[0.2], {
+                   Offset[0.4]}, 
+                  Offset[0.2]}, "RowsIndexed" -> {}}],
+             Deployed->True,
+             StripOnInput->False,
+             FontFamily:>CurrentValue["ControlsFontFamily"]],
+            LabeledSlider[
+             Dynamic[$CellContext`u$$], {0.1, 1}]]},
+          {"\<\"Starting time (tMin)\"\>", 
+           InterpretationBox[
+            StyleBox[GridBox[{
+               {
+                SliderBox[Dynamic[$CellContext`tMin$$], {-100, 100},
+                 Appearance->Automatic,
+                 DefaultBaseStyle->"LabeledSlider"], 
+                InputFieldBox[Dynamic[$CellContext`tMin$$],
+                 Appearance->"Frameless",
+                 ContinuousAction->True,
+                 DefaultBaseStyle->"LabeledSlider",
+                 FieldSize->{{5, 10}, {1, 2}},
+                 ImageMargins->0]}
+              },
+              AutoDelete->False,
+              BaselinePosition->{{1, 1}, Axis},
+              
+              GridBoxItemSize->{
+               "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+              GridBoxSpacings->{"Columns" -> {
+                  Offset[0.27999999999999997`], {
+                   Offset[0.7]}, 
+                  Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, 
+                "Rows" -> {
+                  Offset[0.2], {
+                   Offset[0.4]}, 
+                  Offset[0.2]}, "RowsIndexed" -> {}}],
+             Deployed->True,
+             StripOnInput->False,
+             FontFamily:>CurrentValue["ControlsFontFamily"]],
+            LabeledSlider[
+             Dynamic[$CellContext`tMin$$], {-100, 100}]]},
+          {"\<\"Ending time (tMax)\"\>", 
+           InterpretationBox[
+            StyleBox[GridBox[{
+               {
+                SliderBox[Dynamic[
+                  
+                  BoxForm`RemapVariable[$CellContext`tMax$$, \
+{$CellContext`tMin$$, 100}], 
+                  BoxForm`RemapValue[#, $CellContext`tMax$$, \
+{$CellContext`tMin$$, 100}]& ], {0, 1},
+                 Appearance->Automatic,
+                 DefaultBaseStyle->"LabeledSlider"], 
+                InputFieldBox[Dynamic[$CellContext`tMax$$],
+                 Appearance->"Frameless",
+                 ContinuousAction->True,
+                 DefaultBaseStyle->"LabeledSlider",
+                 FieldSize->{{5, 10}, {1, 2}},
+                 ImageMargins->0]}
+              },
+              AutoDelete->False,
+              BaselinePosition->{{1, 1}, Axis},
+              
+              GridBoxItemSize->{
+               "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+              GridBoxSpacings->{"Columns" -> {
+                  Offset[0.27999999999999997`], {
+                   Offset[0.7]}, 
+                  Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, 
+                "Rows" -> {
+                  Offset[0.2], {
+                   Offset[0.4]}, 
+                  Offset[0.2]}, "RowsIndexed" -> {}}],
+             Deployed->True,
+             StripOnInput->False,
+             FontFamily:>CurrentValue["ControlsFontFamily"]],
+            LabeledSlider[
+             Dynamic[
+              
+              BoxForm`RemapVariable[$CellContext`tMax$$, {$CellContext`tMin$$,
+                 100}], 
+              BoxForm`RemapValue[#, $CellContext`tMax$$, {$CellContext`tMin$$,
+                 100}]& ], {0, 1}]]}
+         },
+         AutoDelete->False,
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Grid"]},
+      {
+       LocatorPaneBox[Dynamic[$CellContext`pts$$], 
+        DynamicBox[ToBoxes[
+          Show[
+           VectorPlot[{
+             $CellContext`f[$CellContext`u$$, $CellContext`x, $CellContext`y], 
+             $CellContext`g[$CellContext`u$$, $CellContext`x, \
+$CellContext`y]}, {$CellContext`x, -3, 3}, {$CellContext`y, -3, 3}, 
+            VectorScale -> {Tiny, Automatic, None}, VectorStyle -> 
+            Arrowheads[0.015], VectorPoints -> {20, 20}], 
+           ParametricPlot[
+            Evaluate[
+             Table[
+              ReplaceAll[{
+                $CellContext`x[$CellContext`t], 
+                $CellContext`y[$CellContext`t]}, 
+               
+               Part[$CellContext`sol = \
+$CellContext`SolutionList[$CellContext`f, $CellContext`g, $CellContext`u$$, \
+$CellContext`pts$$, $CellContext`tMin$$, $CellContext`tMax$$], \
+$CellContext`i]], {$CellContext`i, 
+               
+               Length[$CellContext`pts$$]}]], {$CellContext`t, \
+$CellContext`tMin$$, $CellContext`tMax$$}, PlotRange -> {{0, 3}, {0, 3}}, 
+            PlotPoints -> 100, PlotStyle -> Thick, AxesLabel -> {"x", "y"}], 
+           ImageSize -> 500, PlotRange -> {{0, 3}, {0, 3}}], StandardForm],
+         ImageSizeCache->{500., {246., 251.}}], {{0, 0}, {3, 3}},
+        LocatorAutoCreate->True]}
+     },
+     DefaultBaseStyle->"Column",
+     GridBoxAlignment->{"Columns" -> {{Left}}},
+     GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+    "Column"]],
+  DynamicModuleValues:>{}]], "Output",
+ CellChangeTimes->{{3.584750952548934*^9, 3.5847509759715033`*^9}, {
+   3.584751093151066*^9, 3.584751157450083*^9}, 3.584751247208146*^9}]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{870, 725},
-WindowMargins->{{77, Automatic}, {Automatic, 0}},
+WindowMargins->{{128, Automatic}, {Automatic, 0}},
 PrintingCopies->1,
 PrintingPageRange->{1, Automatic},
 PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
@@ -524,8 +801,16 @@ Cell[2657, 77, 15561, 313, 760, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[18255, 395, 117, 1, 80, "Section"],
-Cell[18375, 398, 1469, 44, 142, "Text"],
-Cell[19847, 444, 1830, 49, 80, "Input"]
+Cell[18375, 398, 1530, 46, 161, "Text"],
+Cell[19908, 446, 1830, 49, 80, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21775, 500, 106, 1, 80, "Section"],
+Cell[21884, 503, 1815, 58, 219, "Text"],
+Cell[CellGroupData[{
+Cell[23724, 565, 1708, 48, 80, "Input"],
+Cell[25435, 615, 6474, 154, 658, "Output"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]]
 }
