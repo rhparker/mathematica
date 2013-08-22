@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     29740,        664]
-NotebookOptionsPosition[     29212,        642]
-NotebookOutlinePosition[     29646,        659]
-CellTagsIndexPosition[     29603,        656]
+NotebookDataLength[     24958,        561]
+NotebookOptionsPosition[     24506,        542]
+NotebookOutlinePosition[     24940,        559]
+CellTagsIndexPosition[     24897,        556]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -61,8 +61,6 @@ lines (left and right error bounds), which may be adjusted by sliders.\
   3.584477825106996*^9, 3.584477869847082*^9}, {3.5845489230648813`*^9, 
   3.584548975357451*^9}, {3.584551666975266*^9, 3.5845516670928497`*^9}, {
   3.584725448688493*^9, 3.584725465814082*^9}}],
-
-Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{
@@ -450,7 +448,8 @@ Cell[BoxData[
               RowBox[{"L", ",", " ", "Red"}], "}"}], ",", " ", 
              RowBox[{"{", 
               RowBox[{"R", ",", " ", "Red"}], "}"}]}], " ", "}"}], ",", " ", 
-           RowBox[{"{", "}"}]}], " ", "}"}]}]}], "\[IndentingNewLine]", 
+           RowBox[{"{", "}"}]}], " ", "}"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{"ImageSize", "\[Rule]", "500"}]}], "\[IndentingNewLine]", 
        "]"}]}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
      RowBox[{"(*", " ", 
       RowBox[{"sliders", " ", "and", " ", "dividers"}], " ", "*)"}], 
@@ -537,107 +536,8 @@ Cell[BoxData[
    3.584547106605261*^9}, {3.5845472069905863`*^9, 3.5845472137074966`*^9}, {
    3.584548192828349*^9, 3.584548200615129*^9}, {3.584548326157833*^9, 
    3.5845483560295143`*^9}, {3.5845487885213823`*^9, 
-   3.5845488504367723`*^9}, {3.584551554779911*^9, 3.5845515591380167`*^9}}],
-
-Cell[BoxData[
- TagBox[
-  StyleBox[
-   DynamicModuleBox[{$CellContext`degree$$ = 
-    2, $CellContext`L$$ = -4., $CellContext`numIntervals$$ = 
-    1, $CellContext`R$$ = 4, Typeset`show$$ = True, 
-    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
-    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
-    "\"untitled\"", Typeset`specs$$ = {{
-      Hold[
-       Style["Piecewise polynomial interpolation", Bold, Medium]], 
-      Manipulate`Dump`ThisIsNotAControl}, {{
-       Hold[$CellContext`numIntervals$$], 1, "number of intervals"}, 1, 20, 
-      1}, {{
-       Hold[$CellContext`degree$$], 2, "degree"}, 1, 5, 1}, {
-      Hold[
-       Style["Bounds for mean norm error", Bold, Medium]], 
-      Manipulate`Dump`ThisIsNotAControl}, {{
-       Hold[$CellContext`L$$], -4, "Left error bound"}, -4, 4}, {{
-       Hold[$CellContext`R$$], 4, "Right error bound"}, -4, 4}}, 
-    Typeset`size$$ = {360., {119., 124.}}, Typeset`update$$ = 0, 
-    Typeset`initDone$$, Typeset`skipInitDone$$ = 
-    True, $CellContext`numIntervals$85566$$ = 0, $CellContext`degree$85567$$ =
-     0, $CellContext`L$85568$$ = 0, $CellContext`R$85569$$ = 0}, 
-    DynamicBox[Manipulate`ManipulateBoxes[
-     1, StandardForm, 
-      "Variables" :> {$CellContext`degree$$ = 
-        2, $CellContext`L$$ = -4, $CellContext`numIntervals$$ = 
-        1, $CellContext`R$$ = 4}, "ControllerVariables" :> {
-        Hold[$CellContext`numIntervals$$, $CellContext`numIntervals$85566$$, 
-         0], 
-        Hold[$CellContext`degree$$, $CellContext`degree$85567$$, 0], 
-        Hold[$CellContext`L$$, $CellContext`L$85568$$, 0], 
-        Hold[$CellContext`R$$, $CellContext`R$85569$$, 0]}, 
-      "OtherVariables" :> {
-       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
-        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
-        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
-         Typeset`skipInitDone$$}, 
-      "Body" :> ($CellContext`boundaryxVals = $CellContext`PartitionInterval[
-          
-          N[$CellContext`xMin], $CellContext`xMax, \
-$CellContext`numIntervals$$]; $CellContext`polynomialList = Table[
-          $CellContext`MakePolynomial[
-           $CellContext`PartitionInterval[
-            Part[$CellContext`boundaryxVals, $CellContext`i], 
-            
-            Part[$CellContext`boundaryxVals, $CellContext`i + 
-             1], $CellContext`degree$$], $CellContext`x], {$CellContext`i, 
-           1, $CellContext`numIntervals$$}]; $CellContext`pwInterp[
-          Pattern[$CellContext`t$, 
-           Blank[]]] := Sum[ReplaceRepeated[
-            
-            Part[$CellContext`polynomialList, $CellContext`i], $CellContext`x -> \
-$CellContext`t$] $CellContext`Pulse[
-            Part[$CellContext`boundaryxVals, $CellContext`i], 
-            
-            Part[$CellContext`boundaryxVals, $CellContext`i + 
-             1], $CellContext`t$], {$CellContext`i, 
-           1, $CellContext`numIntervals$$}]; $CellContext`functionPlot = Plot[{
-           $CellContext`f[$CellContext`x], 
-           $CellContext`pwInterp[$CellContext`x]}, {$CellContext`x, \
-$CellContext`xMin, $CellContext`xMax}]; $CellContext`pointsPlot = ListPlot[
-          Transpose[{$CellContext`boundaryxVals, 
-            $CellContext`f[$CellContext`boundaryxVals]}], PlotMarkers -> 
-          Automatic]; 
-       Show[$CellContext`functionPlot, $CellContext`pointsPlot, 
-         PlotRange -> {{$CellContext`xMin, $CellContext`xMax}, \
-{$CellContext`yMin, $CellContext`yMax}}, PlotLabel -> 
-         StringJoin["Mean norm error: ", 
-           ToString[
-            $CellContext`meanNormError[
-             $CellContext`f[$CellContext`x], 
-             $CellContext`pwInterp[$CellContext`x], $CellContext`x, \
-$CellContext`L$$, $CellContext`R$$]]], 
-         GridLines -> {{{$CellContext`L$$, Red}, {$CellContext`R$$, 
-             Red}}, {}}]), "Specifications" :> {
-        Style[
-        "Piecewise polynomial interpolation", Bold, 
-         Medium], {{$CellContext`numIntervals$$, 1, "number of intervals"}, 1,
-          20, 1}, {{$CellContext`degree$$, 2, "degree"}, 1, 5, 1}, Delimiter, 
-        
-        Style[
-        "Bounds for mean norm error", Bold, 
-         Medium], {{$CellContext`L$$, -4, "Left error bound"}, -4, 
-         4}, {{$CellContext`R$$, 4, "Right error bound"}, -4, 4}}, 
-      "Options" :> {}, "DefaultOptions" :> {}],
-     ImageSizeCache->{405., {228., 233.}},
-     SingleEvaluation->True],
-    Deinitialization:>None,
-    DynamicModuleValues:>{},
-    SynchronousInitialization->True,
-    UnsavedVariables:>{Typeset`initDone$$},
-    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
-   Deployed->True,
-   StripOnInput->False],
-  Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{3.584725425930292*^9}]
-}, Open  ]]
+   3.5845488504367723`*^9}, {3.584551554779911*^9, 3.5845515591380167`*^9}, {
+   3.584784391485689*^9, 3.584784394790091*^9}}]
 }, Open  ]]
 },
 WindowSize->{1198, 736},
@@ -661,10 +561,7 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[579, 22, 1925, 26, 92, "Title"],
 Cell[2507, 50, 832, 12, 89, "Subsubtitle"],
-Cell[CellGroupData[{
-Cell[3364, 66, 21020, 473, 1287, "Input"],
-Cell[24387, 541, 4797, 97, 478, "Output"]
-}, Open  ]]
+Cell[3342, 64, 21148, 475, 1304, "Input"]
 }, Open  ]]
 }
 ]
